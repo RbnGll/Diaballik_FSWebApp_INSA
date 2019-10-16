@@ -20,16 +20,16 @@ public class Board {
         return board;
     }
 
-    public void addPiece(final int x, final int y, final Piece p) {
-        final int i = x * BOARDSIZE + y;
+    public void addPiece(int x, int y, Piece p) {
+        int i = x * BOARDSIZE + y;
 
         board.get(i).setPiece(Optional.of(p));
     }
 
-    public void move(final int x1, final int x2, final int y1, final int y2) {
-        final int from = x1 * BOARDSIZE + y1;
-        final int to = x2 * BOARDSIZE + y2;
-        final Optional<Piece> p = board.get(from).getPiece();
+    public void move(int x1, int x2, int y1, int y2) {
+        int from = x1 * BOARDSIZE + y1;
+        int to = x2 * BOARDSIZE + y2;
+        Optional<Piece> p = board.get(from).getPiece();
         board.get(from).setPiece(Optional.empty());
         board.get(to).setPiece(p);
     }
