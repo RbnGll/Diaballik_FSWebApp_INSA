@@ -8,19 +8,22 @@ public class PassBall extends Command {
 
     private Piece fromPiece;
 
-    private Command command;
-
-    private Piece piece;
-
     private Piece toPiece;
 
-    public PassBall(final Board b, final Piece from, final Piece to, final Game game) {
+    private Board board;
 
+    private Game game;
+
+    public PassBall(final Board b, final Piece from, final Piece to, final Game g) {
+        fromPiece = from;
+        toPiece = to;
+        game = g;
+        board = b;
     }
 
     @Override
     public boolean exe() {
-        return false;
+        return game.getCurrentPlayer().getBall().move(toPiece);
     }
 
     @Override

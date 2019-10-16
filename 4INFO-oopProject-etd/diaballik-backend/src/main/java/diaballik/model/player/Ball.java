@@ -9,11 +9,12 @@ public class Ball {
     private Piece piece;
 
     public Ball(final Piece p) {
-
+        piece = p;
     }
 
-    public void move(final Piece newPiece) {
-
+    public boolean move(final Piece newPiece) {
+        piece = newPiece;
+        return true;
     }
 
 }
