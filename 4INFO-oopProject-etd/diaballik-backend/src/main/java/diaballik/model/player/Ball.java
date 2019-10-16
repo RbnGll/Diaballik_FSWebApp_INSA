@@ -12,8 +12,8 @@ public class Ball {
 
     }
 
-    public void move(Piece newPiece) {
-
+    public boolean move(Piece newPiece) {
+        return false;
     }
 
 }

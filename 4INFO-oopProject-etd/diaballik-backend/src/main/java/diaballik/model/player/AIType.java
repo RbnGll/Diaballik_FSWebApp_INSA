@@ -6,6 +6,6 @@ public enum AIType {
 
     STARTING,
 
-    PROGRESSIVE;
+    PROGRESSIVE
 
 }
