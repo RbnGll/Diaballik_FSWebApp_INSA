@@ -4,15 +4,15 @@ import java.awt.Color;
 
 public abstract class Player {
 
-    private String name;
+    protected String name;
 
-    private java.awt.Color color;
+    protected java.awt.Color color;
 
-    private boolean victory;
+    protected boolean victory;
 
-    private Piece[] pieces;
+    protected Piece[] pieces;
 
-    public Player(String name, Color color) {
+    public Player(final String name, final Color color) {
         this.name = name;
         this.color = color;
         this.victory = false;
@@ -30,7 +30,7 @@ public abstract class Player {
         return color;
     }
 
-    public void setVictory(boolean victory) {
+    public void setVictory(final boolean victory) {
         this.victory = victory;
     }
 
@@ -38,7 +38,7 @@ public abstract class Player {
         return pieces;
     }
 
-    public void setPieces(Piece[] pieces) {
+    public void setPieces(final Piece[] pieces) {
         this.pieces = pieces;
     }
 
@@ -46,7 +46,7 @@ public abstract class Player {
         return ball;
     }
 
-    public void setBall(Ball ball) {
+    public void setBall(final Ball ball) {
         this.ball = ball;
     }
 

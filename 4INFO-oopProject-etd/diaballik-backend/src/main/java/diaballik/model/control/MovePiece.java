@@ -19,7 +19,7 @@ public class MovePiece extends Command {
 
     private Command command;
 
-    public MovePiece(Piece p, int x1, int y1, int x2, int y2, Game game) {
+    public MovePiece(final Piece p, final int x1, final int y1, final int x2, final int y2, final Game game) {
 
     }
 

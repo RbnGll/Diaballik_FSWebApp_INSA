@@ -19,7 +19,7 @@ public class Turn {
 
     }
 
-    public boolean invokeCommand(Command c) {
+    public boolean invokeCommand(final Command c) {
         return false;
     }
 
