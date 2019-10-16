@@ -1,14 +1,12 @@
 package diaballik.model.player;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import java.awt.Color;
 
 public class AIPlayer extends Player {
 
     private AIStrategy strategy;
 
-    public AIPlayer(String name, Color color, AIType strategy) {
+    public AIPlayer(final String name, final Color color, final AIType strategy) {
         super(name, color);
         switch (strategy) {
             case NOOB:

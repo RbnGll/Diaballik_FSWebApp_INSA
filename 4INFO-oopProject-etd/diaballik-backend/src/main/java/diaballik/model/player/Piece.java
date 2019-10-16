@@ -10,7 +10,7 @@ public class Piece {
 
     private Tile tile;
 
-    public Piece(Tile tile) {
+    public Piece(final Tile tile) {
 
     }
 

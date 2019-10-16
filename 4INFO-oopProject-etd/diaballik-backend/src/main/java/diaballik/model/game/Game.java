@@ -22,11 +22,11 @@ public class Game {
 
     private Player currentPlayer;
 
-    public Game(Color c1, String name1, Color c2, String name2) {
+    public Game(final Color c1, final String name1, final Color c2, final String name2) {
 
     }
 
-    public Game(Color c1, String name1, AIType aiLevel) {
+    public Game(final Color c1, final String name1, final AIType aiLevel) {
 
     }
 
@@ -35,18 +35,18 @@ public class Game {
     }
 
     public Optional<Player> checkVictory() {
-        return null;
+        return Optional.empty();
     }
 
     public void exit() {
 
     }
 
-    public void movePiece(Piece p, int x, int y) {
+    public void movePiece(final Piece p, final int x, final int y) {
 
     }
 
-    public void passBall(Piece p1, Piece p2) {
+    public void passBall(final Piece p1, final Piece p2) {
 
     }
 

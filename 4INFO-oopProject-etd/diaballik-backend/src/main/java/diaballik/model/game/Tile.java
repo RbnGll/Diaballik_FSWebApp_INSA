@@ -12,7 +12,7 @@ public class Tile {
 
     private Optional<Piece> piece;
 
-    public void Tile(int x, int y) {
+    public void Tile(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -21,7 +21,7 @@ public class Tile {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(final int x) {
         this.x = x;
     }
 
@@ -29,7 +29,7 @@ public class Tile {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(final int y) {
         this.y = y;
     }
 
@@ -37,7 +37,7 @@ public class Tile {
         return piece;
     }
 
-    public void setPiece(Optional<Piece> piece) {
+    public void setPiece(final Optional<Piece> piece) {
         this.piece = piece;
     }
 }

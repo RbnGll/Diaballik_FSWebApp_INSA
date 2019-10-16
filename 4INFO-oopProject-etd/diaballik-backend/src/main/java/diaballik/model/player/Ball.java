@@ -8,11 +8,11 @@ public class Ball {
 
     private Piece piece;
 
-    public Ball(Piece p) {
+    public Ball(final Piece p) {
 
     }
 
-    public void move(Piece newPiece) {
+    public void move(final Piece newPiece) {
 
     }
 

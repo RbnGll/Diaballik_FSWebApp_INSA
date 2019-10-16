@@ -14,7 +14,7 @@ public class PassBall extends Command {
 
     private Piece toPiece;
 
-    public PassBall(Board b, Piece from, Piece to, Game game) {
+    public PassBall(final Board b, final Piece from, final Piece to, final Game game) {
 
     }
 
