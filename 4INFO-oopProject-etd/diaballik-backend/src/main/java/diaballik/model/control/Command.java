@@ -1,10 +1,8 @@
 package diaballik.model.control;
 
-import diaballik.model.game.Game;
-
 public class Command implements Undoable, Action {
 
-    private Game game;
+    // private Game game;
 
     @Override
     public boolean exe() {

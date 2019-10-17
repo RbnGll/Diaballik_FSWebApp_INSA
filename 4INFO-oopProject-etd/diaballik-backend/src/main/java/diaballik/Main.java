@@ -2,16 +2,15 @@ package diaballik;
 
 import diaballik.resource.GameResource;
 import diaballik.resource.MyExceptionMapper;
-
-import java.io.IOException;
-import java.net.URI;
-import javax.ws.rs.client.ClientBuilder;
-
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+
+import javax.ws.rs.client.ClientBuilder;
+import java.io.IOException;
+import java.net.URI;
 
 public final class Main {
     // Base URI the Grizzly HTTP server will listen on

@@ -1,6 +1,7 @@
 package diaballik.model.player;
 
 import java.awt.Color;
+import java.util.List;
 
 public abstract class Player {
 
@@ -10,7 +11,7 @@ public abstract class Player {
 
     protected boolean victory;
 
-    protected Piece[] pieces;
+    protected List<Piece> pieces;
 
     public Player(final String name, final Color color) {
         this.name = name;
@@ -34,12 +35,12 @@ public abstract class Player {
         this.victory = victory;
     }
 
-    public Piece[] getPieces() {
+    public List<Piece> getPieces() {
         return pieces;
     }
 
-    public void setPieces(final Piece[] pieces) {
-        this.pieces = pieces;
+    public void setPieces(final List<Piece> p) {
+        pieces = p;
     }
 
     public Ball getBall() {

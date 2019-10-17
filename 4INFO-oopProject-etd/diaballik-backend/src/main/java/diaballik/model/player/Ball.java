@@ -10,6 +10,7 @@ public class Ball {
 
     public Ball(final Piece p) {
         piece = p;
+        color = piece.getColor();
     }
 
     public boolean move(final Piece newPiece) {
@@ -17,4 +18,7 @@ public class Ball {
         return true;
     }
 
+    public Piece getPiece() {
+        return piece;
+    }
 }

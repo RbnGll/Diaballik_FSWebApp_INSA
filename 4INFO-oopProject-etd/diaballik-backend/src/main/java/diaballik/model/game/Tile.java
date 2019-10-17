@@ -12,7 +12,7 @@ public class Tile {
 
     private Optional<Piece> piece;
 
-    public void Tile(final int x, final int y) {
+    public Tile(final int x, final int y) {
         this.x = x;
         this.y = y;
     }

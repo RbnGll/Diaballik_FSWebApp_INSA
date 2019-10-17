@@ -1,25 +1,18 @@
 package diaballik.resource;
 
 import com.github.hanleyt.JerseyExtension;
-
-import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response;
-
 import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestGameResource {
     static final Logger log = Logger.getLogger(TestGameResource.class.getSimpleName());
