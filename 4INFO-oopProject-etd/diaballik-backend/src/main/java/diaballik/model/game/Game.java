@@ -28,38 +28,50 @@ public class Game {
 
     public Game(final Color c1, final String name1, final Color c2, final String name2) {
         gameboard = new Board();
+
+        // Création des joueurs
         player1 = new HumanPlayer(name1, c1);
         player2 = new HumanPlayer(name2, c2);
-        currentPlayer = player1;
+
+        // Créations des pièces des joueurs
         player1.setPieces(IntStream
                 .range(0, 7)
                 .mapToObj(i -> new Piece(c1, gameboard.getTile(i % 7, i / 7)))
                 .collect(Collectors.toList()));
+
         player2.setPieces(IntStream
                 .range(42, 49)
                 .mapToObj(i -> new Piece(c2, gameboard.getTile(i % 7, i / 7)))
                 .collect(Collectors.toList()));
+
+        // Création des balles des joueurs
         player1.setBall(new Ball(player1.getPieces().get(Board.BOARDSIZE / 2)));
         player2.setBall(new Ball(player2.getPieces().get(Board.BOARDSIZE / 2)));
     }
 
     public Game(final Color c1, final String name1, final AIType aiLevel) {
-
+        // TODO
     }
 
     public void start() {
-        currentTurn = new Turn(currentPlayer);
+        currentPlayer = player1;
+        currentTurn = new Turn();
     }
 
     public Optional<Player> checkVictory() {
+
+        // Si la balle du joueur 1 est sur la dernière rangée
         final Tile t1 = player1.getBall().getPiece().getTile();
         if (t1.getY() == Board.BOARDSIZE - 1) {
             return Optional.of(player1);
         }
+
+        // Si la balle du joueur 2 est sur la 1ère rangée
         final Tile t2 = player2.getBall().getPiece().getTile();
         if (t2.getY() == 0) {
             return Optional.of(player2);
         }
+
         return Optional.empty();
     }
 
@@ -73,7 +85,7 @@ public class Game {
     }
 
     public void passBall(final Piece p1, final Piece p2) {
-        final Command c = new PassBall(p1, p2, this);
+        final Command c = new PassBall(Optional.of(p1), Optional.of(p2), this);
         if (currentTurn.invokeCommand(c)) {
             if (checkVictory().isPresent()) {
                 victory(currentPlayer);
@@ -84,12 +96,8 @@ public class Game {
     public void endTurn() {
         if (currentTurn.checkEndTurn()) {
             swapCurrentPlayer();
-            currentTurn = new Turn(currentPlayer);
+            currentTurn = new Turn();
         }
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
     }
 
     public void swapCurrentPlayer() {
@@ -100,4 +108,23 @@ public class Game {
         }
     }
 
+    public Player getPlayer2() {
+        return player2;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public Turn getCurrentTurn() {
+        return currentTurn;
+    }
+
+    public Board getGameboard() {
+        return gameboard;
+    }
 }

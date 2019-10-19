@@ -11,11 +11,13 @@ public class Piece {
 
     private Tile tile;
 
+    private Optional<Ball> ball;
+
     public Piece(final Color c, final Tile tile) {
         color = c;
         this.tile = tile;
+        ball = Optional.empty();
         tile.setPiece(Optional.of(this));
-
     }
 
     public Tile getTile() {
@@ -27,7 +29,18 @@ public class Piece {
     }
 
     public boolean hasBall() {
-        return false;
+        return ball.isPresent();
     }
 
+    public Optional<Ball> getBall() {
+        return ball;
+    }
+
+    public void setBall(final Optional<Ball> ball) {
+        this.ball = ball;
+    }
+
+    public void setTile(final Tile tile) {
+        this.tile = tile;
+    }
 }

@@ -15,6 +15,7 @@ public class Tile {
     public Tile(final int x, final int y) {
         this.x = x;
         this.y = y;
+        this.piece = Optional.empty();
     }
 
     public int getX() {
@@ -39,5 +40,13 @@ public class Tile {
 
     public void setPiece(final Optional<Piece> piece) {
         this.piece = piece;
+        if (piece.isPresent()) {
+            piece.get().setTile(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Tile : (" + this.x + ", " + this.y + ')';
     }
 }

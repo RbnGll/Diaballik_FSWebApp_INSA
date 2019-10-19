@@ -13,6 +13,8 @@ public abstract class Player {
 
     protected List<Piece> pieces;
 
+    private Ball ball;
+
     public Player(final String name, final Color color) {
         this.name = name;
         this.color = color;
@@ -50,7 +52,5 @@ public abstract class Player {
     public void setBall(final Ball ball) {
         this.ball = ball;
     }
-
-    private Ball ball;
 
 }

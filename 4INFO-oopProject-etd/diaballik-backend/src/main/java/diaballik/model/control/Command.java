@@ -1,26 +1,18 @@
 package diaballik.model.control;
 
-public class Command implements Undoable, Action {
+public abstract class Command implements Undoable, Action {
 
     // private Game game;
 
     @Override
-    public boolean exe() {
-        return false;
-    }
+    public abstract boolean exe();
 
     @Override
-    public boolean canDo() {
-        return false;
-    }
+    public abstract boolean canDo();
 
     @Override
-    public void redo() {
-
-    }
+    public abstract void redo();
 
     @Override
-    public void undo() {
-
-    }
+    public abstract void undo();
 }

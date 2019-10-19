@@ -1,6 +1,7 @@
 package diaballik.model.player;
 
 import java.awt.Color;
+import java.util.Optional;
 
 public class Ball {
 
@@ -11,6 +12,7 @@ public class Ball {
     public Ball(final Piece p) {
         piece = p;
         color = piece.getColor();
+        p.setBall(Optional.of(this));
     }
 
     public boolean move(final Piece newPiece) {

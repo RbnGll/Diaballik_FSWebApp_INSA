@@ -1,7 +1,6 @@
 package diaballik.model.game;
 
 import diaballik.model.control.Command;
-import diaballik.model.player.Player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -14,13 +13,14 @@ public class Turn {
 
     private boolean turnEnd;
 
-    public Turn(final Player p) {
+    public Turn() {
         undoDeque = new ArrayDeque<>();
         redoDeque = new ArrayDeque<>();
         turnEnd = false;
     }
 
     public boolean invokeCommand(final Command c) {
+
         if (c.canDo() && !turnEnd) {
             if (c.exe()) {
                 undoDeque.add(c);
@@ -48,4 +48,27 @@ public class Turn {
         return undoDeque.size() == 3;
     }
 
+    public Deque<Command> getUndoDeque() {
+        return undoDeque;
+    }
+
+    public void setUndoDeque(final Deque<Command> undoDeque) {
+        this.undoDeque = undoDeque;
+    }
+
+    public Deque<Command> getRedoDeque() {
+        return redoDeque;
+    }
+
+    public void setRedoDeque(final Deque<Command> redoDeque) {
+        this.redoDeque = redoDeque;
+    }
+
+    public boolean isTurnEnd() {
+        return turnEnd;
+    }
+
+    public void setTurnEnd(final boolean turnEnd) {
+        this.turnEnd = turnEnd;
+    }
 }

@@ -35,12 +35,13 @@ public class Board {
         board.get(i).setPiece(Optional.of(p));
     }
 
-    public void move(final int x1, final int x2, final int y1, final int y2) {
-        final int from = x1 * BOARDSIZE + y1;
-        final int to = x2 * BOARDSIZE + y2;
+    public void movePiece(final int x1, final int y1, final int x2, final int y2) {
+        final int from = y1 * BOARDSIZE + x1;
+        final int to = y2 * BOARDSIZE + x2;
+
         final Optional<Piece> p = board.get(from).getPiece();
+
         board.get(from).setPiece(Optional.empty());
         board.get(to).setPiece(p);
     }
-
 }
