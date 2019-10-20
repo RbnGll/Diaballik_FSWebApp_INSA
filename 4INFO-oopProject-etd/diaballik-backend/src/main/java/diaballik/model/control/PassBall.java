@@ -18,10 +18,13 @@ public class PassBall extends Command {
 
     private Game game;
 
-    public PassBall(final Optional<Piece> from, final Optional<Piece> to, final Game g) {
-        fromPiece = from;
-        toPiece = to;
+    public PassBall(final int x1, final int y1, final int x2, final int y2, final Game g) {
         game = g;
+
+        // TODO : Vérifier avant si x1 et y1 sont dans le plateau ou sinon dans la fonction getTile()
+        // Pareil pour x2 et y2
+        fromPiece = game.getGameboard().getTile(x1, y1).getPiece();
+        toPiece = game.getGameboard().getTile(x2, y2).getPiece();
     }
 
     @Override
@@ -31,7 +34,8 @@ public class PassBall extends Command {
 
     @Override
     public boolean canDo() {
-        return ifPiecesExists() && ifBelongToCurrentPlayer() && ifCorrectPath() && ifNoOpponentOnPath();
+        // Vérifier également si les coordonnées "from" et "to" sont dans le plateau ??
+        return ifPiecesExists() && ifBelongToCurrentPlayer() && ifPieceHasBall() && ifCorrectPath() && ifNoOpponentOnPath();
     }
 
     @Override
@@ -74,27 +78,40 @@ public class PassBall extends Command {
         return path;
     }
 
-    private boolean ifPiecesExists() {
-        return (fromPiece.isPresent() || toPiece.isPresent());
+    // TODO : Méthode ifWithinbounds ??
+
+    public boolean ifPiecesExists() {
+        return fromPiece.isPresent() && toPiece.isPresent();
     }
 
-    private boolean ifBelongToCurrentPlayer() {
+    public boolean ifBelongToCurrentPlayer() {
         final List<Piece> currentPlayerPieces = game.getCurrentPlayer().getPieces();
         return currentPlayerPieces.contains(fromPiece.get()) && currentPlayerPieces.contains(toPiece.get());
     }
 
-    private boolean ifCorrectPath() {
+    public boolean ifPieceHasBall() {
+        return fromPiece.get().hasBall();
+    }
+
+    public boolean ifCorrectPath() {
         final int dx = toPiece.get().getTile().getX() - fromPiece.get().getTile().getX();
         final int dy = toPiece.get().getTile().getY() - fromPiece.get().getTile().getY();
 
-        return (dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (dx == dy && dx != 0);
+        return (dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy) && dx != 0);
     }
 
-    private boolean ifNoOpponentOnPath() {
+    public boolean ifNoOpponentOnPath() {
         final List<Tile> path = getPathTiles(fromPiece.get(), toPiece.get());
-        final Player opponent = game.getCurrentPlayer() == game.getPlayer1() ? game.getPlayer1() : game.getPlayer2();
+        final Player opponent = game.getCurrentPlayer() == game.getPlayer1() ? game.getPlayer2() : game.getPlayer1();
 
-        return path.stream().anyMatch(tile -> tile.getPiece().isPresent() && opponent.getPieces().contains(tile.getPiece().get()));
+        return !path.stream().anyMatch(tile -> tile.getPiece().isPresent() && opponent.getPieces().contains(tile.getPiece().get()));
     }
 
+    public Optional<Piece> getFromPiece() {
+        return fromPiece;
+    }
+
+    public Optional<Piece> getToPiece() {
+        return toPiece;
+    }
 }

@@ -16,6 +16,8 @@ public class Ball {
     }
 
     public boolean move(final Piece newPiece) {
+        piece.setBall(Optional.empty());
+        newPiece.setBall(Optional.of(this));
         piece = newPiece;
         return true;
     }

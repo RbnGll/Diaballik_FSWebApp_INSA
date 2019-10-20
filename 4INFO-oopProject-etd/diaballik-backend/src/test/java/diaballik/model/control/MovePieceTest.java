@@ -82,7 +82,7 @@ public class MovePieceTest {
     }
 
     @Test
-    void ContainsBall() {
+    void containsBall() {
         MovePiece command = new MovePiece(Board.BOARDSIZE / 2, 0, Board.BOARDSIZE / 2, 1, game);
         assertFalse(command.ifNotContainsBall());
     }

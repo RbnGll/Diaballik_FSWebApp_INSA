@@ -84,8 +84,8 @@ public class Game {
         currentTurn.invokeCommand(c);
     }
 
-    public void passBall(final Piece p1, final Piece p2) {
-        final Command c = new PassBall(Optional.of(p1), Optional.of(p2), this);
+    public void passBall(final int x1, final int y1, final int x2, final int y2) {
+        final Command c = new PassBall(x1, y1, x2, y2, this);
         if (currentTurn.invokeCommand(c)) {
             if (checkVictory().isPresent()) {
                 victory(currentPlayer);

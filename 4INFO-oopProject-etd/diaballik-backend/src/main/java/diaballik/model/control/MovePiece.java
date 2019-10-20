@@ -28,6 +28,8 @@ public class MovePiece extends Command {
         this.game = game;
 
         // Détermination de la pièce à bouger
+        // TODO : Vérifier avant si x et y sont dans l'intervalle !!
+        // Sinon le vérifier dans la fonction !
         this.pieceToMove = game.getGameboard().getTile(x1, y1).getPiece();
     }
 
