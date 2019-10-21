@@ -33,6 +33,8 @@ public class MovePieceTest {
         assertTrue(command.getPieceToMove().isPresent());
     }
 
+    /*
+    // Méthodes à tester dans board maintenant
     @Test
     void outOfBounds() {
         MovePiece command = new MovePiece(0, 0, 5, 9, game);
@@ -43,7 +45,7 @@ public class MovePieceTest {
     void withinBounds() {
         MovePiece command = new MovePiece(0, 0, 5, 3, game);
         assertTrue(command.ifWithinBounds());
-    }
+    }*/
 
     @Test
     void presentPiece() {

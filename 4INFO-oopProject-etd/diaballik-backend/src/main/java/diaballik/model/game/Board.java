@@ -1,6 +1,7 @@
 package diaballik.model.game;
 
 import diaballik.model.player.Piece;
+import org.apache.commons.lang3.Range;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,5 +44,10 @@ public class Board {
 
         board.get(from).setPiece(Optional.empty());
         board.get(to).setPiece(p);
+    }
+
+    public boolean ifWithinBounds(final int x, final int y) {
+        final Range<Integer> myRange = Range.between(0, 6);
+        return myRange.contains(x) && myRange.contains(y);
     }
 }

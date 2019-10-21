@@ -2,7 +2,6 @@ package diaballik.model.control;
 
 import diaballik.model.game.Game;
 import diaballik.model.player.Piece;
-import org.apache.commons.lang3.Range;
 
 import java.util.Optional;
 
@@ -28,9 +27,11 @@ public class MovePiece extends Command {
         this.game = game;
 
         // Détermination de la pièce à bouger
-        // TODO : Vérifier avant si x et y sont dans l'intervalle !!
-        // Sinon le vérifier dans la fonction !
-        this.pieceToMove = game.getGameboard().getTile(x1, y1).getPiece();
+        if (game.getGameboard().ifWithinBounds(x1, y1)) {
+            this.pieceToMove = game.getGameboard().getTile(x1, y1).getPiece();
+        } else {
+            this.pieceToMove = Optional.empty();
+        }
     }
 
     @Override
@@ -41,7 +42,8 @@ public class MovePiece extends Command {
 
     @Override
     public boolean canDo() {
-        return ifWithinBounds()
+        return game.getGameboard().ifWithinBounds(x1, y1)
+                && game.getGameboard().ifWithinBounds(x2, y2)
                 && ifPresentPiece()
                 && ifBelongstoCurrentPlayer()
                 && ifFreePosition()
@@ -57,11 +59,6 @@ public class MovePiece extends Command {
     @Override
     public void undo() {
         game.getGameboard().movePiece(x2, y2, x1, y1);
-    }
-
-    public boolean ifWithinBounds() {
-        final Range<Integer> myRange = Range.between(0, 6);
-        return myRange.contains(x1) && myRange.contains(y1) && myRange.contains(x2) && myRange.contains(y2);
     }
 
     public boolean ifPresentPiece() {

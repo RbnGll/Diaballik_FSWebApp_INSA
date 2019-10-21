@@ -21,10 +21,14 @@ public class PassBall extends Command {
     public PassBall(final int x1, final int y1, final int x2, final int y2, final Game g) {
         game = g;
 
-        // TODO : Vérifier avant si x1 et y1 sont dans le plateau ou sinon dans la fonction getTile()
-        // Pareil pour x2 et y2
-        fromPiece = game.getGameboard().getTile(x1, y1).getPiece();
-        toPiece = game.getGameboard().getTile(x2, y2).getPiece();
+        if (game.getGameboard().ifWithinBounds(x1, y1) && game.getGameboard().ifWithinBounds(x2, y2)) {
+            fromPiece = game.getGameboard().getTile(x1, y1).getPiece();
+            toPiece = game.getGameboard().getTile(x2, y2).getPiece();
+        } else {
+            fromPiece = Optional.empty();
+            toPiece = Optional.empty();
+        }
+
     }
 
     @Override
