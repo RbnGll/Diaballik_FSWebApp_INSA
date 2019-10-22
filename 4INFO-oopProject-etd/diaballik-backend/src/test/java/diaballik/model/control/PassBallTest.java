@@ -28,6 +28,7 @@ public class PassBallTest {
     @Test
     void construction() {
         PassBall command = new PassBall(0, 0, 6, 0, game);
+        command.setCurrentState();
 
         assertTrue(command.getFromPiece().isPresent());
         assertTrue(command.getToPiece().isPresent());
@@ -41,36 +42,42 @@ public class PassBallTest {
     @Test
     void piecesNotExists() {
         PassBall command = new PassBall(0, 0, 6, 1, game);
+        command.setCurrentState();
         assertFalse(command.ifPiecesExists());
     }
 
     @Test
     void piecesExists() {
         PassBall command = new PassBall(0, 0, 6, 0, game);
+        command.setCurrentState();
         assertTrue(command.ifPiecesExists());
     }
 
     @Test
     void notBelongToCurrentPlayer() {
         PassBall command = new PassBall(0, 6, 6, 0, game);
+        command.setCurrentState();
         assertFalse(command.ifBelongToCurrentPlayer());
     }
 
     @Test
     void belongToCurrentPlayer() {
         PassBall command = new PassBall(0, 0, 6, 0, game);
+        command.setCurrentState();
         assertTrue(command.ifBelongToCurrentPlayer());
     }
 
     @Test
     void notContainsBall() {
         PassBall command = new PassBall(0, 0, 6, 0, game);
+        command.setCurrentState();
         assertFalse(command.ifPieceHasBall());
     }
 
     @Test
     void containsBall() {
         PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, 6, 0, game);
+        command.setCurrentState();
         assertTrue(command.ifPieceHasBall());
     }
 
@@ -79,12 +86,14 @@ public class PassBallTest {
         game.getGameboard().movePiece(6, 0, 3, 4);
 
         PassBall command = new PassBall(0, 0, 3, 4, game);
+        command.setCurrentState();
         assertFalse(command.ifCorrectPath());
     }
 
     @Test
     void correcPathDx() {
         PassBall command = new PassBall(0, 0, 3, 0, game);
+        command.setCurrentState();
         assertTrue(command.ifCorrectPath());
     }
 
@@ -93,6 +102,7 @@ public class PassBallTest {
         game.getGameboard().movePiece(6, 0, 0, 3);
 
         PassBall command = new PassBall(0, 0, 0, 3, game);
+        command.setCurrentState();
         assertTrue(command.ifCorrectPath());
     }
 
@@ -101,6 +111,7 @@ public class PassBallTest {
         game.getGameboard().movePiece(6, 0, 3, 3);
 
         PassBall command = new PassBall(0, 0, 3, 3, game);
+        command.setCurrentState();
         assertTrue(command.ifCorrectPath());
     }
 
@@ -109,12 +120,14 @@ public class PassBallTest {
         game.getGameboard().movePiece(0, 0, 0, 3);
 
         PassBall command = new PassBall(3, 0, 0, 3, game);
+        command.setCurrentState();
         assertTrue(command.ifCorrectPath());
     }
 
     @Test
     void getPathTilesDx() {
         PassBall command = new PassBall(0, 0, 6, 0, game);
+        command.setCurrentState();
         List<Tile> path = command.getPathTiles(command.getFromPiece().get(), command.getToPiece().get());
 
         assertTrue(
@@ -127,6 +140,7 @@ public class PassBallTest {
     @Test
     void getPathTileDy() {
         PassBall command = new PassBall(0, 0, 0, 6, game);
+        command.setCurrentState();
 
         List<Tile> path = command.getPathTiles(command.getFromPiece().get(), command.getToPiece().get());
 
@@ -140,6 +154,7 @@ public class PassBallTest {
     @Test
     void getPathTileDiagonal() {
         PassBall command = new PassBall(0, 0, 6, 6, game);
+        command.setCurrentState();
 
         List<Tile> path = command.getPathTiles(command.getFromPiece().get(), command.getToPiece().get());
 
@@ -155,18 +170,21 @@ public class PassBallTest {
         game.getGameboard().movePiece(0, 6, 3, 3);
 
         PassBall command = new PassBall(0, 0, 6, 6, game);
+        command.setCurrentState();
         assertFalse(command.ifNoOpponentOnPath());
     }
 
     @Test
     void noOpponentOnPath() {
         PassBall command = new PassBall(0, 0, 6, 0, game);
+        command.setCurrentState();
         assertTrue(command.ifNoOpponentOnPath());
     }
 
     @Test
     void candDoDx() {
         PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, 6, 0, game);
+        command.setCurrentState();
         assertTrue(command.canDo());
     }
 
@@ -175,6 +193,7 @@ public class PassBallTest {
         game.getGameboard().movePiece(0, 0, Board.BOARDSIZE / 2, 5);
 
         PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, Board.BOARDSIZE / 2, 5, game);
+        command.setCurrentState();
         assertTrue(command.canDo());
     }
 
@@ -183,12 +202,14 @@ public class PassBallTest {
         game.getGameboard().movePiece(0, 0, 0, 3);
 
         PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, 0, 3, game);
+        command.setCurrentState();
         assertTrue(command.canDo());
     }
 
     @Test
     void execution() {
         PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, 6, 0, game);
+        command.setCurrentState();
 
         Ball ball = game.getPlayer1().getBall();
 
@@ -207,6 +228,7 @@ public class PassBallTest {
     @Test
     void undo() {
         PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, 6, 0, game);
+        command.setCurrentState();
 
         Ball ball = game.getPlayer1().getBall();
 
@@ -222,6 +244,7 @@ public class PassBallTest {
     @Test
     void redo() {
         PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, 6, 0, game);
+        command.setCurrentState();
 
         Ball ball = game.getPlayer1().getBall();
 

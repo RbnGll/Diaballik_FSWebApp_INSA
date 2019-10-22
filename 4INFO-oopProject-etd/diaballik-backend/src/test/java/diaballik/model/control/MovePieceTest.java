@@ -23,6 +23,7 @@ public class MovePieceTest {
     @Test
     void construction() {
         MovePiece command = new MovePiece(0, 0, 0, 1, game);
+        command.setCurrentState();
 
         assertEquals(0, command.getX1());
         assertEquals(0, command.getY1());
@@ -50,48 +51,56 @@ public class MovePieceTest {
     @Test
     void presentPiece() {
         MovePiece command = new MovePiece(3, 3, 3, 4, game);
+        command.setCurrentState();
         assertFalse(command.ifPresentPiece());
     }
 
     @Test
     void absentPiece() {
         MovePiece command = new MovePiece(0, 0, 3, 4, game);
+        command.setCurrentState();
         assertTrue(command.ifPresentPiece());
     }
 
     @Test
     void freePosition() {
         MovePiece command = new MovePiece(0, 0, 1, 0, game);
+        command.setCurrentState();
         assertFalse(command.ifFreePosition());
     }
 
     @Test
     void occupiedPosition() {
         MovePiece command = new MovePiece(0, 0, 0, 1, game);
+        command.setCurrentState();
         assertTrue(command.ifFreePosition());
     }
 
     @Test
     void notBelongstoCurrentPlayer() {
         MovePiece command = new MovePiece(0, 6, 0, 5, game);
+        command.setCurrentState();
         assertFalse(command.ifBelongstoCurrentPlayer());
     }
 
     @Test
     void belongstoCurrentPlayer() {
         MovePiece command = new MovePiece(0, 0, 0, 5, game);
+        command.setCurrentState();
         assertTrue(command.ifBelongstoCurrentPlayer());
     }
 
     @Test
     void containsBall() {
         MovePiece command = new MovePiece(Board.BOARDSIZE / 2, 0, Board.BOARDSIZE / 2, 1, game);
+        command.setCurrentState();
         assertFalse(command.ifNotContainsBall());
     }
 
     @Test
     void notContainsBall() {
         MovePiece command = new MovePiece(2, 0, 0, 1, game);
+        command.setCurrentState();
         assertTrue(command.ifNotContainsBall());
     }
 
@@ -99,6 +108,7 @@ public class MovePieceTest {
     void notCorrectPathDx() {
         game.getGameboard().movePiece(0, 0, 0, 1);
         MovePiece command = new MovePiece(0, 1, 2, 1, game);
+        command.setCurrentState();
         assertFalse(command.ifCorrectPath());
     }
 
@@ -106,24 +116,28 @@ public class MovePieceTest {
     void correctPathDx() {
         game.getGameboard().movePiece(0, 0, 0, 1);
         MovePiece command = new MovePiece(0, 1, 1, 1, game);
+        command.setCurrentState();
         assertTrue(command.ifCorrectPath());
     }
 
     @Test
     void notCorrectPathDy() {
         MovePiece command = new MovePiece(0, 0, 0, 2, game);
+        command.setCurrentState();
         assertFalse(command.ifCorrectPath());
     }
 
     @Test
     void correctPathDy() {
         MovePiece command = new MovePiece(0, 0, 0, 1, game);
+        command.setCurrentState();
         assertTrue(command.ifCorrectPath());
     }
 
     @Test
     void pieceNotMoved() {
         MovePiece command = new MovePiece(0, 0, 0, 0, game);
+        command.setCurrentState();
         assertFalse(command.ifCorrectPath());
     }
 
@@ -131,18 +145,21 @@ public class MovePieceTest {
     void canDoDx() {
         game.getGameboard().movePiece(0, 0, 0, 1);
         MovePiece command = new MovePiece(0, 1, 1, 1, game);
+        command.setCurrentState();
         assertTrue(command.canDo());
     }
 
     @Test
     void canDoDy() {
         MovePiece command = new MovePiece(0, 0, 0, 1, game);
+        command.setCurrentState();
         assertTrue(command.canDo());
     }
 
     @Test
     void execution() {
         MovePiece command = new MovePiece(0, 0, 0, 1, game);
+        command.setCurrentState();
 
         assertTrue(command.getPieceToMove().isPresent());
         Tile from = command.getPieceToMove().get().getTile();
@@ -162,6 +179,7 @@ public class MovePieceTest {
     @Test
     void undo() {
         MovePiece command = new MovePiece(0, 0, 0, 1, game);
+        command.setCurrentState();
 
         Tile from = command.getPieceToMove().get().getTile();
 
@@ -188,6 +206,7 @@ public class MovePieceTest {
     @Test
     void redo() {
         MovePiece command = new MovePiece(0, 0, 0, 1, game);
+        command.setCurrentState();
 
         Tile from = command.getPieceToMove().get().getTile();
 

@@ -21,9 +21,10 @@ public class Turn {
 
     public boolean invokeCommand(final Command c) {
 
-        // TODO : On set l'état des commandes à leur création et non à leur invocation
+        // TODO : On set l'état des commandes (les pièces qu'elles concernent) auparavant à leur création et non à leur invocation
         // Ici il faudrait lancer un commande.setState avant exécution pour que la commande recherche ensuite la pièce qui correspond etc
         // Et qu'elle ne fasse pas cela à sa création
+        c.setCurrentState();
 
         if (c.canDo() && !turnEnd) {
             if (c.exe()) {

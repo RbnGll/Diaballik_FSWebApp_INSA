@@ -16,19 +16,8 @@ public class PassBall extends Command {
 
     private Optional<Piece> toPiece;
 
-    private Game game;
-
     public PassBall(final int x1, final int y1, final int x2, final int y2, final Game g) {
-        game = g;
-
-        if (game.getGameboard().ifWithinBounds(x1, y1) && game.getGameboard().ifWithinBounds(x2, y2)) {
-            fromPiece = game.getGameboard().getTile(x1, y1).getPiece();
-            toPiece = game.getGameboard().getTile(x2, y2).getPiece();
-        } else {
-            fromPiece = Optional.empty();
-            toPiece = Optional.empty();
-        }
-
+        super(x1, y1, x2, y2, g);
     }
 
     @Override
@@ -109,6 +98,17 @@ public class PassBall extends Command {
         final Player opponent = game.getCurrentPlayer() == game.getPlayer1() ? game.getPlayer2() : game.getPlayer1();
 
         return !path.stream().anyMatch(tile -> tile.getPiece().isPresent() && opponent.getPieces().contains(tile.getPiece().get()));
+    }
+
+    @Override
+    public void setCurrentState() {
+        if (game.getGameboard().ifWithinBounds(x1, y1) && game.getGameboard().ifWithinBounds(x2, y2)) {
+            fromPiece = game.getGameboard().getTile(x1, y1).getPiece();
+            toPiece = game.getGameboard().getTile(x2, y2).getPiece();
+        } else {
+            fromPiece = Optional.empty();
+            toPiece = Optional.empty();
+        }
     }
 
     public Optional<Piece> getFromPiece() {

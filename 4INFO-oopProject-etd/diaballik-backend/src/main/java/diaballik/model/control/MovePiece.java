@@ -7,31 +7,10 @@ import java.util.Optional;
 
 public class MovePiece extends Command {
 
-    private int x1;
-
-    private int y1;
-
-    private int x2;
-
-    private int y2;
-
     private Optional<Piece> pieceToMove;
 
-    private Game game;
-
     public MovePiece(final int x1, final int y1, final int x2, final int y2, final Game game) {
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
-        this.game = game;
-
-        // Détermination de la pièce à bouger
-        if (game.getGameboard().ifWithinBounds(x1, y1)) {
-            this.pieceToMove = game.getGameboard().getTile(x1, y1).getPiece();
-        } else {
-            this.pieceToMove = Optional.empty();
-        }
+        super(x1, y1, x2, y2, game);
     }
 
     @Override
@@ -84,6 +63,16 @@ public class MovePiece extends Command {
         // Si la pièce est déplacée de plus de 2 cases ou en diagonale
         // ou si elle n'est pas déplacée du tout
         return (dx + dy) < 2 && (dx + dy) != 0;
+    }
+
+    @Override
+    public void setCurrentState() {
+        // Détermination de la pièce à bouger
+        if (game.getGameboard().ifWithinBounds(x1, y1)) {
+            this.pieceToMove = game.getGameboard().getTile(x1, y1).getPiece();
+        } else {
+            this.pieceToMove = Optional.empty();
+        }
     }
 
     public int getX1() {

@@ -60,6 +60,8 @@ public class Game {
 
     public Optional<Player> checkVictory() {
 
+        //TODO : Normalement on peut encore optimiser la méthode en fonction du joueur qui joue uniquement
+
         // Si la balle du joueur 1 est sur la dernière rangée
         final Tile t1 = player1.getBall().getPiece().getTile();
         if (t1.getY() == Board.BOARDSIZE - 1) {
@@ -94,6 +96,7 @@ public class Game {
     }
 
     public void endTurn() {
+        // Ou if currentTurn.getTurn
         if (currentTurn.checkEndTurn()) {
             swapCurrentPlayer();
             currentTurn = new Turn();
