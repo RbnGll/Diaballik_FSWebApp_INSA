@@ -212,6 +212,16 @@ public class GameTest {
     }
 
     @Test
+    void undo() {
+        // TODO
+    }
+
+    @Test
+    void redo() {
+        // TODO
+    }
+
+    @Test
     void endTurnFalse() {
         g.start();
 
@@ -224,5 +234,10 @@ public class GameTest {
 
         assertEquals(currentPlayer, g.getCurrentPlayer());
         assertEquals(currentTurn, g.getCurrentTurn());
+    }
+
+    @Test
+    void twoEntireTurns() {
+        // TODO
     }
 }

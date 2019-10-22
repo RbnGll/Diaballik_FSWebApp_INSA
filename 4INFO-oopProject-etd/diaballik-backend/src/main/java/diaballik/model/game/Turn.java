@@ -2,13 +2,21 @@ package diaballik.model.game;
 
 import diaballik.model.control.Command;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Turn {
 
+    @XmlTransient
     private Deque<Command> undoDeque;
 
+    @XmlTransient
     private Deque<Command> redoDeque;
 
     private boolean turnEnd;
@@ -41,12 +49,18 @@ public class Turn {
         final Command c = undoDeque.removeFirst();
         c.undo();
         redoDeque.addFirst(c);
+
+        // Mise à jour de turnEnd
+        turnEnd = checkEndTurn();
     }
 
     public void redo() {
         final Command c = redoDeque.removeFirst();
         c.exe();
         undoDeque.addFirst(c);
+
+        // Mise à jour de turnEnd
+        turnEnd = checkEndTurn();
     }
 
     public boolean checkEndTurn() {

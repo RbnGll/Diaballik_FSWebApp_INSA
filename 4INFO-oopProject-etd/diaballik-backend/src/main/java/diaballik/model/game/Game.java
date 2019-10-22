@@ -9,22 +9,37 @@ import diaballik.model.player.HumanPlayer;
 import diaballik.model.player.Piece;
 import diaballik.model.player.Player;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.awt.Color;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Game {
 
-    private Player player2;
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Game {
 
     private Player player1;
 
+    private Player player2;
+
+    @XmlTransient
     private Board gameboard;
 
     private Turn currentTurn;
 
+    @XmlIDREF
     private Player currentPlayer;
+
+    // Constructeur sans paramètres pour utiliser REST
+    public Game() {
+
+    }
 
     public Game(final Color c1, final String name1, final Color c2, final String name2) {
         gameboard = new Board();
@@ -49,7 +64,7 @@ public class Game {
         player2.setBall(new Ball(player2.getPieces().get(Board.BOARDSIZE / 2)));
     }
 
-    public Game(final Color c1, final String name1, final AIType aiLevel) {
+    public Game(final Color c, final String name, final AIType aiLevel) {
         // TODO
     }
 
@@ -93,6 +108,14 @@ public class Game {
                 victory(currentPlayer);
             }
         }
+    }
+
+    public void undo() {
+        currentTurn.undo();
+    }
+
+    public void redo() {
+        currentTurn.redo();
     }
 
     public void endTurn() {

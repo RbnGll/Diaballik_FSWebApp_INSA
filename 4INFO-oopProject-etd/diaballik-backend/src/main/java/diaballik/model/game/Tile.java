@@ -2,15 +2,28 @@ package diaballik.model.game;
 
 import diaballik.model.player.Piece;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.Optional;
 
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Tile {
 
     private int x;
 
     private int y;
 
+    @XmlTransient
     private Optional<Piece> piece;
+
+    // Constructeur sans paramètres pour utiliser REST
+    public Tile() {
+
+    }
 
     public Tile(final int x, final int y) {
         this.x = x;
