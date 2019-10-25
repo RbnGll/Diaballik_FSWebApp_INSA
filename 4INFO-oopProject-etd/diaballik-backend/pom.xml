@@ -140,6 +140,7 @@
                 </dependencies>
             </plugin>
 
+            <!--
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
@@ -171,6 +172,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            -->
 
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
