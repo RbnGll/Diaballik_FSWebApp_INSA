@@ -1,11 +1,6 @@
 package diaballik.model.player;
-import diaballik.model.player.aiStrategy.AIStrategy;
-import diaballik.model.player.aiStrategy.NoobAI;
-import diaballik.model.player.aiStrategy.ProgressiveAI;
-import diaballik.model.player.aiStrategy.StartingAI;
 
 import java.awt.Color;
-
 
 public class AIPlayer extends Player {
 
@@ -27,5 +22,4 @@ public class AIPlayer extends Player {
                 break;
         }
     }
-
 }

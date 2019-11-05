@@ -1,4 +1,4 @@
-package diaballik.model.player.aiStrategy;
+package diaballik.model.player;
 
 public class NoobAI extends AIStrategy {
 
