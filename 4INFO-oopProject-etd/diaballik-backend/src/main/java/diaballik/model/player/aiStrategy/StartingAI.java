@@ -1,4 +1,4 @@
-package diaballik.model.player;
+package diaballik.model.player.aiStrategy;
 
 public class StartingAI extends AIStrategy {
 

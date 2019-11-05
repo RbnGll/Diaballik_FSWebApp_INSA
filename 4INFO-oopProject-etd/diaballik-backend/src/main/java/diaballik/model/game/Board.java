@@ -1,9 +1,12 @@
 package diaballik.model.game;
 
+import diaballik.model.control.Command;
+import diaballik.model.control.PassBall;
 import diaballik.model.player.Piece;
 import org.apache.commons.lang3.Range;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
