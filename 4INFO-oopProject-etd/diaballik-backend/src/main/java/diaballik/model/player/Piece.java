@@ -2,16 +2,29 @@ package diaballik.model.player;
 
 import diaballik.model.game.Tile;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.awt.Color;
 import java.util.Optional;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Piece {
 
+    @XmlTransient
     private Color color;
 
     private Tile tile;
 
+    @XmlTransient
     private Optional<Ball> ball;
+
+    // Constructeur sans paramètres pour utiliser REST
+    Piece() {
+
+    }
 
     public Piece(final Color c, final Tile tile) {
         color = c;
