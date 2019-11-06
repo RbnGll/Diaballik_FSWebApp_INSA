@@ -1,6 +1,7 @@
 package diaballik.model.player.aiStrategy;
 
 import diaballik.model.control.Command;
+import diaballik.model.control.MovePiece;
 import diaballik.model.control.PassBall;
 import diaballik.model.game.Board;
 import diaballik.model.game.Game;
@@ -12,13 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class AIStrategy {
+public abstract class AIStrategy {
 
     Game game;
 
-    public void execute(Game g) {
-        game = g;
-    }
+    public abstract Command execute(Game g);
 
     public List<Command> getPossiblePassBallForPiece(final Piece p) {
         int x = p.getTile().getX();
@@ -40,16 +39,25 @@ public class AIStrategy {
                 }).flatMap(List::stream).collect(Collectors.toList());
     }
 
-    public List<Command> getPossibleMovePieceForPlayer(final Player p){
+    public List<Command> getPossibleMovePieceForPlayer(final Player p) {
         List<Piece> pieces = p.getPieces();
         List<Command> commands = pieces.stream().map(piece -> {
             int x = piece.getTile().getX();
             int y = piece.getTile().getY();
             final List<Command> temp = Arrays.asList(
-                        new movePiece()
-                    );
-        })
-
+                    new MovePiece(x, y, x + 1, y, game),
+                    new MovePiece(x, y, x - 1, y, game),
+                    new MovePiece(x, y, x, y + 1, game),
+                    new MovePiece(x, y, x, y - 1, game)
+            );
+            return temp;
+        }).flatMap(List::stream).collect(Collectors.toList());
         return commands.stream().filter(command -> command.canDo()).collect(Collectors.toList());
+    }
+
+    public List<Command> getPossibleActionsForPlayer(final Player p) {
+        List<Command> actions = getPossibleMovePieceForPlayer(p);
+        actions.addAll(getPossiblePassBallForPiece(p.getBall().getPiece()));
+        return actions;
     }
 }

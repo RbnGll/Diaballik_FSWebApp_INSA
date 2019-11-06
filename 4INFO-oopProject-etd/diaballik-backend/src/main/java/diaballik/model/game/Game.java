@@ -33,6 +33,8 @@ public class Game {
 
     private Turn currentTurn;
 
+    private int turnCount;
+
     @XmlIDREF
     private Player currentPlayer;
 
@@ -71,6 +73,7 @@ public class Game {
     public void start() {
         currentPlayer = player1;
         currentTurn = new Turn();
+        turnCount = 0;
     }
 
     public Optional<Player> checkVictory() {
@@ -123,6 +126,7 @@ public class Game {
         if (currentTurn.checkEndTurn()) {
             swapCurrentPlayer();
             currentTurn = new Turn();
+            turnCount++;
         }
     }
 
@@ -153,4 +157,6 @@ public class Game {
     public Board getGameboard() {
         return gameboard;
     }
+
+    public int getTurnCount() { return turnCount; }
 }

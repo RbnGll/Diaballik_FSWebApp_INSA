@@ -13,28 +13,28 @@ import javax.xml.bind.annotation.XmlTransient;
 // If several sub-classes: @XmlSeeAlso({Cow.class, Dog.class})
 @XmlSeeAlso(Cow.class)
 public abstract class Animal {
-	// why not
-	protected String name;
+    // why not
+    protected String name;
 
-	// Will not marshal this attribute
-	@XmlTransient
-	protected int attributeToIgnore;
+    // Will not marshal this attribute
+    @XmlTransient
+    protected int attributeToIgnore;
 
-	public Animal(final String animalName) {
-		super();
-		name = animalName;
-	}
+    public Animal(final String animalName) {
+        super();
+        name = animalName;
+    }
 
-	// The marshalling library we use require a default constructor (no arg).
-	Animal() {
-		this("");
-	}
+    // The marshalling library we use require a default constructor (no arg).
+    Animal() {
+        this("");
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 }

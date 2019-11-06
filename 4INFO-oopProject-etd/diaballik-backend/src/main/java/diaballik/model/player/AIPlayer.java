@@ -1,6 +1,9 @@
 package diaballik.model.player;
 
-import diaballik.model.player.aiStrategy.*;
+import diaballik.model.player.aiStrategy.AIStrategy;
+import diaballik.model.player.aiStrategy.NoobAI;
+import diaballik.model.player.aiStrategy.ProgressiveAI;
+import diaballik.model.player.aiStrategy.StartingAI;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -9,18 +9,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Farm {
-	private final List<Animal> animals;
+    private final List<Animal> animals;
 
-	public Farm() {
-		super();
-		animals = new ArrayList<>();
-	}
+    public Farm() {
+        super();
+        animals = new ArrayList<>();
+    }
 
-	public List<Animal> getAnimals() {
-		return animals;
-	}
+    public List<Animal> getAnimals() {
+        return animals;
+    }
 
-	public void addAnimal(final Animal animal) {
-		animals.add(animal);
-	}
+    public void addAnimal(final Animal animal) {
+        animals.add(animal);
+    }
 }

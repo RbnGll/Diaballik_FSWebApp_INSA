@@ -1,8 +1,8 @@
 package model;
 
 public class StupidBehavior implements Behavior {
-	@Override
-	public void behave() {
+    @Override
+    public void behave() {
 
-	}
+    }
 }
