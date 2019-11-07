@@ -41,34 +41,37 @@ public class PassBall extends Command {
         game.getCurrentPlayer().getBall().move(fromPiece.get());
     }
 
-    public List<Tile> getPathTiles(final Piece fromPiece, final Piece toPiece) {
+    public List<Tile> getPathTiles() {
         final List<Tile> path;
 
-        final Tile fromTile = fromPiece.getTile();
-        final Tile toTile = toPiece.getTile();
+        final Tile fromTile = fromPiece.orElse(null).getTile();
+        final Tile toTile = toPiece.orElse(null).getTile();
 
-        final int dx = toTile.getX() - fromTile.getX();
-        final int dy = toTile.getY() - fromTile.getY();
+        if (fromTile != null && toTile != null) {
+            final int dx = toTile.getX() - fromTile.getX();
+            final int dy = toTile.getY() - fromTile.getY();
 
-        // On suppose la trajectoire correcte (vérifié dans canDo())
-        if (dx == 0) {
-            path = IntStream
-                    .range(fromTile.getY() + 1, toTile.getY())
-                    .mapToObj(i -> game.getGameboard().getTile(fromTile.getX(), i))
-                    .collect(Collectors.toList());
-        } else if (dy == 0) {
-            path = IntStream
-                    .range(fromTile.getX() + 1, toTile.getX())
-                    .mapToObj(i -> game.getGameboard().getTile(i, fromTile.getY()))
-                    .collect(Collectors.toList());
-        } else {
-            path = IntStream
-                    .range(fromTile.getX() + 1, toTile.getX())
-                    .mapToObj(i -> game.getGameboard().getTile(i, i))
-                    .collect(Collectors.toList());
+            // On suppose la trajectoire correcte (vérifié dans canDo())
+            if (dx == 0) {
+                path = IntStream
+                        .range(fromTile.getY() + 1, toTile.getY())
+                        .mapToObj(i -> game.getGameboard().getTile(fromTile.getX(), i))
+                        .collect(Collectors.toList());
+            } else if (dy == 0) {
+                path = IntStream
+                        .range(fromTile.getX() + 1, toTile.getX())
+                        .mapToObj(i -> game.getGameboard().getTile(i, fromTile.getY()))
+                        .collect(Collectors.toList());
+            } else {
+                path = IntStream
+                        .range(fromTile.getX() + 1, toTile.getX())
+                        .mapToObj(i -> game.getGameboard().getTile(i, i))
+                        .collect(Collectors.toList());
+            }
+
+            return path;
         }
-
-        return path;
+        return null;
     }
 
     // TODO : Méthode ifWithinbounds ??
@@ -94,7 +97,7 @@ public class PassBall extends Command {
     }
 
     public boolean ifNoOpponentOnPath() {
-        final List<Tile> path = getPathTiles(fromPiece.get(), toPiece.get());
+        final List<Tile> path = this.getPathTiles();
         final Player opponent = game.getCurrentPlayer() == game.getPlayer1() ? game.getPlayer2() : game.getPlayer1();
 
         return !path.stream().anyMatch(tile -> tile.getPiece().isPresent() && opponent.getPieces().contains(tile.getPiece().get()));

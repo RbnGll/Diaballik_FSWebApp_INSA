@@ -3,10 +3,10 @@ package diaballik.model.player;
 import diaballik.model.game.Tile;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.awt.Color;
+import java.awt.*;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PieceTest {
 

@@ -5,23 +5,22 @@ import diaballik.model.game.Game;
 
 public class ProgressiveAI extends AIStrategy {
 
-    private static final int SWITCH_THRESHOLD = 5;
+    public static final int CHANGE_STRATEGY_LIMIT = 5;
     private AIStrategy starting;
     private AIStrategy noob;
 
-    public ProgressiveAI() {
-        super();
-        this.noob = new NoobAI();
-        this.starting = new StartingAI();
+    public ProgressiveAI(final Game g) {
+        super(g);
+        this.noob = new NoobAI(g);
+        this.starting = new StartingAI(g);
     }
 
     @Override
-    public Command execute(Game g) {
-        if (game.getTurnCount()>5){
-            return starting.execute(g);
-        }else{
-            return noob.execute(g);
+    public Command execute() {
+        if (game.getTurnCount() > CHANGE_STRATEGY_LIMIT) {
+            return starting.execute();
+        } else {
+            return noob.execute();
         }
     }
-
 }

@@ -1,11 +1,5 @@
 package model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlTransient;
-
 @XmlRootElement
 // Should consider the attributes during the marshalling
 @XmlAccessorType(XmlAccessType.FIELD)

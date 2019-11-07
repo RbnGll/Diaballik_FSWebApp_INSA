@@ -1,5 +1,6 @@
 package diaballik.model.player;
 
+import diaballik.model.game.Game;
 import diaballik.model.player.aiStrategy.AIStrategy;
 import diaballik.model.player.aiStrategy.NoobAI;
 import diaballik.model.player.aiStrategy.ProgressiveAI;
@@ -23,17 +24,17 @@ public class AIPlayer extends Player {
 
     }
 
-    public AIPlayer(final String name, final Color color, final AIType strategy) {
+    public AIPlayer(final String name, final Color color, final AIType strategy, final Game g) {
         super(name, color);
         switch (strategy) {
             case NOOB:
-                this.strategy = new NoobAI();
+                this.strategy = new NoobAI(g);
                 break;
             case STARTING:
-                this.strategy = new StartingAI();
+                this.strategy = new StartingAI(g);
                 break;
             case PROGRESSIVE:
-                this.strategy = new ProgressiveAI();
+                this.strategy = new ProgressiveAI(g);
                 break;
             default:
                 break;

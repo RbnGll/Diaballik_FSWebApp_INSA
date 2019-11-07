@@ -17,11 +17,15 @@ public abstract class AIStrategy {
 
     Game game;
 
-    public abstract Command execute(Game g);
+    public AIStrategy(final Game g) {
+        game = g;
+    }
+
+    public abstract Command execute();
 
     public List<Command> getPossiblePassBallForPiece(final Piece p) {
-        int x = p.getTile().getX();
-        int y = p.getTile().getY();
+        final int x = p.getTile().getX();
+        final int y = p.getTile().getY();
         return IntStream.range(1, Board.BOARDSIZE)
                 .mapToObj(i -> {
                     final List<Command> commands = Arrays.asList(
@@ -40,10 +44,10 @@ public abstract class AIStrategy {
     }
 
     public List<Command> getPossibleMovePieceForPlayer(final Player p) {
-        List<Piece> pieces = p.getPieces();
-        List<Command> commands = pieces.stream().map(piece -> {
-            int x = piece.getTile().getX();
-            int y = piece.getTile().getY();
+        final List<Piece> pieces = p.getPieces();
+        final List<Command> commands = pieces.stream().map(piece -> {
+            final int x = piece.getTile().getX();
+            final int y = piece.getTile().getY();
             final List<Command> temp = Arrays.asList(
                     new MovePiece(x, y, x + 1, y, game),
                     new MovePiece(x, y, x - 1, y, game),
@@ -56,7 +60,7 @@ public abstract class AIStrategy {
     }
 
     public List<Command> getPossibleActionsForPlayer(final Player p) {
-        List<Command> actions = getPossibleMovePieceForPlayer(p);
+        final List<Command> actions = getPossibleMovePieceForPlayer(p);
         actions.addAll(getPossiblePassBallForPiece(p.getBall().getPiece()));
         return actions;
     }

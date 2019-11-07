@@ -10,15 +10,15 @@ public class NoobAI extends AIStrategy {
 
     private Random r;
 
-    public NoobAI() {
-        super();
+    public NoobAI(final Game g) {
+        super(g);
         r = new Random();
     }
 
 
     @Override
-    public Command execute(Game g) {
-        List<Command> actions = getPossibleActionsForPlayer(game.getCurrentPlayer());
+    public Command execute() {
+        final List<Command> actions = getPossibleActionsForPlayer(game.getCurrentPlayer());
         return actions.get(r.nextInt(actions.size()));
     }
 

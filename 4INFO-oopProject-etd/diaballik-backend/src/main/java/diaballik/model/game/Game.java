@@ -158,5 +158,7 @@ public class Game {
         return gameboard;
     }
 
-    public int getTurnCount() { return turnCount; }
+    public int getTurnCount() {
+        return turnCount;
+    }
 }

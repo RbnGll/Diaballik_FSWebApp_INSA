@@ -5,7 +5,7 @@ import diaballik.model.control.MovePiece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
