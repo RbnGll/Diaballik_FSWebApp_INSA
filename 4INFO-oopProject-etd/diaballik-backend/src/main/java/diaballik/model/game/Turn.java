@@ -1,6 +1,9 @@
 package diaballik.model.game;
 
 import diaballik.model.control.Command;
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.TurnException;
+import diaballik.model.exception.turn.UndoRedoException;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.NoSuchElementException;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -27,26 +31,39 @@ public class Turn {
         turnEnd = false;
     }
 
-    public boolean invokeCommand(final Command c) {
+    public boolean invokeCommand(final Command c) throws TurnException, CommandException {
 
-        // TODO : On set l'état des commandes (les pièces qu'elles concernent) auparavant à leur création et non à leur invocation
-        // Ici il faudrait lancer un commande.setState avant exécution pour que la commande recherche ensuite la pièce qui correspond etc
-        // Et qu'elle ne fasse pas cela à sa création
+        // On set l'état des commandes à leur invocation (et non à leur création)
         c.setCurrentState();
 
-        if (c.canDo() && !turnEnd) {
-            if (c.exe()) {
-                undoDeque.addFirst(c);
-                redoDeque.clear();
-                turnEnd = checkEndTurn();
-                return true;
+        if (c.canDo()) {
+            if (!turnEnd) {
+                if (c.exe()) {
+                    undoDeque.addFirst(c);
+                    redoDeque.clear();
+                    turnEnd = checkEndTurn();
+                    return true;
+                }
+            } else {
+                throw new TurnException();
             }
+        } else {
+            throw new CommandException();
         }
+
         return false;
     }
 
-    public void undo() {
-        final Command c = undoDeque.removeFirst();
+    public void undo() throws UndoRedoException {
+
+        final Command c;
+
+        try {
+            c = undoDeque.removeFirst();
+        } catch (NoSuchElementException e) {
+            throw new UndoRedoException();
+        }
+
         c.undo();
         redoDeque.addFirst(c);
 
@@ -54,8 +71,15 @@ public class Turn {
         turnEnd = checkEndTurn();
     }
 
-    public void redo() {
-        final Command c = redoDeque.removeFirst();
+    public void redo() throws UndoRedoException {
+        final Command c;
+
+        try {
+            c = redoDeque.removeFirst();
+        } catch (NoSuchElementException e) {
+            throw new UndoRedoException();
+        }
+
         c.exe();
         undoDeque.addFirst(c);
 

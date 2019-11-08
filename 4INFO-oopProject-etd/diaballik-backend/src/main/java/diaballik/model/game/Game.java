@@ -3,6 +3,10 @@ package diaballik.model.game;
 import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
 import diaballik.model.control.PassBall;
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.EndTurnException;
+import diaballik.model.exception.turn.TurnException;
+import diaballik.model.exception.turn.UnstartedGameException;
 import diaballik.model.player.AIType;
 import diaballik.model.player.Ball;
 import diaballik.model.player.HumanPlayer;
@@ -75,8 +79,6 @@ public class Game {
 
     public Optional<Player> checkVictory() {
 
-        //TODO : Normalement on peut encore optimiser la méthode en fonction du joueur qui joue uniquement
-
         // Si la balle du joueur 1 est sur la dernière rangée
         final Tile t1 = player1.getBall().getPiece().getTile();
         if (t1.getY() == Board.BOARDSIZE - 1) {
@@ -96,13 +98,23 @@ public class Game {
         p.setVictory(true);
     }
 
-    public void movePiece(final int x1, final int y1, final int x2, final int y2) {
+    public void movePiece(final int x1, final int y1, final int x2, final int y2) throws TurnException, CommandException {
         final Command c = new MovePiece(x1, y1, x2, y2, this);
-        currentTurn.invokeCommand(c);
+
+        try {
+            currentTurn.invokeCommand(c);
+        } catch (NullPointerException e) {
+            throw new UnstartedGameException();
+        }
     }
 
-    public void passBall(final int x1, final int y1, final int x2, final int y2) {
+    public void passBall(final int x1, final int y1, final int x2, final int y2) throws TurnException, CommandException {
         final Command c = new PassBall(x1, y1, x2, y2, this);
+
+        if (currentTurn == null) {
+            throw new UnstartedGameException();
+        }
+
         if (currentTurn.invokeCommand(c)) {
             if (checkVictory().isPresent()) {
                 victory(currentPlayer);
@@ -110,20 +122,35 @@ public class Game {
         }
     }
 
-    public void undo() {
-        currentTurn.undo();
+    public void undo() throws TurnException {
+        try {
+            currentTurn.undo();
+        } catch (NullPointerException e) {
+            throw new UnstartedGameException();
+        }
     }
 
-    public void redo() {
-        currentTurn.redo();
+    public void redo() throws TurnException {
+        try {
+            currentTurn.redo();
+        } catch (NullPointerException e) {
+            throw new UnstartedGameException();
+        }
     }
 
-    public void endTurn() {
-        // Ou if currentTurn.getTurn
+    public void endTurn() throws TurnException {
+
+        if (currentTurn == null) {
+            throw new UnstartedGameException();
+        }
+
         if (currentTurn.checkEndTurn()) {
             swapCurrentPlayer();
             currentTurn = new Turn();
+        } else {
+            throw new EndTurnException();
         }
+
     }
 
     public void swapCurrentPlayer() {

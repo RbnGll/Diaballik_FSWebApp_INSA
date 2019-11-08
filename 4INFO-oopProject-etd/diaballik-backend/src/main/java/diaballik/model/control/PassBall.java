@@ -27,7 +27,7 @@ public class PassBall extends Command {
 
     @Override
     public boolean canDo() {
-        // Vérifier également si les coordonnées "from" et "to" sont dans le plateau ??
+        // Vérifier également si les coordonnées "from" et "to" sont dans le plateau ?? Non car vérifié dans setCurrentState
         return ifPiecesExists() && ifBelongToCurrentPlayer() && ifPieceHasBall() && ifCorrectPath() && ifNoOpponentOnPath();
     }
 
@@ -70,8 +70,6 @@ public class PassBall extends Command {
 
         return path;
     }
-
-    // TODO : Méthode ifWithinbounds ??
 
     public boolean ifPiecesExists() {
         return fromPiece.isPresent() && toPiece.isPresent();

@@ -52,7 +52,7 @@ public class Board {
     }
 
     public boolean ifWithinBounds(final int x, final int y) {
-        final Range<Integer> myRange = Range.between(0, 6);
+        final Range<Integer> myRange = Range.between(0, BOARDSIZE - 1);
         return myRange.contains(x) && myRange.contains(y);
     }
 }

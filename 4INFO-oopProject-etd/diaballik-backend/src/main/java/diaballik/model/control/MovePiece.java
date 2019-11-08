@@ -21,6 +21,7 @@ public class MovePiece extends Command {
 
     @Override
     public boolean canDo() {
+
         return game.getGameboard().ifWithinBounds(x1, y1)
                 && game.getGameboard().ifWithinBounds(x2, y2)
                 && ifPresentPiece()
@@ -57,8 +58,8 @@ public class MovePiece extends Command {
     }
 
     public boolean ifCorrectPath() {
-        final int dx = x2 - x1;
-        final int dy = y2 - y1;
+        final int dx = Math.abs(x2 - x1);
+        final int dy = Math.abs(y2 - y1);
 
         // Si la pièce est déplacée de plus de 2 cases ou en diagonale
         // ou si elle n'est pas déplacée du tout

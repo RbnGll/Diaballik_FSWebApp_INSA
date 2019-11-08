@@ -1,7 +1,5 @@
 package diaballik.model.game;
 
-import diaballik.model.exception.NullPieceException;
-import diaballik.model.exception.OccupiedPositionException;
 import diaballik.model.player.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +39,7 @@ public class BoardTest {
     }
 
     @Test
-    public void move() throws NullPieceException, OccupiedPositionException {
+    public void move() {
         Tile from = b.getTile(0, 0);
         Tile to = b.getTile(5, 3);
         Piece p = new Piece(Color.WHITE, from);
@@ -57,18 +55,12 @@ public class BoardTest {
     }
 
     @Test
-    void moveFromNull() throws NullPieceException, OccupiedPositionException {
-        //assertThrows(NullPieceException.class, () -> b.move(0, 0, 6, 6));
+    void outOfBounds() {
+        assertFalse(b.ifWithinBounds(-1, 9));
     }
 
     @Test
-    void moveToOccupied() {
-        /*Tile from = b.getTile(0, 0);
-        Tile to = b.getTile(6, 6);
-
-        Piece p1 = new Piece(Color.WHITE, to);
-        Piece p2 = new Piece(Color.WHITE, from);
-
-        assertThrows(OccupiedPositionException.class, () -> b.move(0, 0, 6, 6));*/
+    void withinBounds() {
+        assertTrue(b.ifWithinBounds(5, 3));
     }
 }

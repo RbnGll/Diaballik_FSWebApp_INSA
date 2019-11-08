@@ -1,11 +1,15 @@
 package diaballik.resource;
 
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.TurnException;
 import diaballik.model.game.Game;
 import diaballik.model.player.AIType;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.Range;
 
 import javax.inject.Singleton;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -20,16 +24,26 @@ import java.awt.Color;
 @Api(value = "game")
 public class GameResource {
 
-    Game game;
+    private Game game;
 
     public GameResource() {
         super();
     }
 
+//    POST /game/newPvP/{name1}/{color1}/{name2}/{color2}
+//    name1 (String) : Nom du 1er joueur
+//    color1 (int) : Couleur du 1er joueur (0 : Noir ; 1 : Blanc)
+//    name2 (String) : Nom du 2ème joueur
+//    color2 (int) : Couleur du 2ème joueur (0 : Noir ; 1 : Blanc)
+
     @POST
     @Path("newPvP/{name1}/{color1}/{name2}/{color2}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response postNewPvP(@PathParam("name1") final String name1, @PathParam("color1") final int color1, @PathParam("name2") final String name2, @PathParam("color2") final int color2) {
+
+        if (!checkColors(color1, color2)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
         // Déterminer les couleurs
         final Color player1Color = color1 == 1 ? Color.WHITE : Color.BLACK;
@@ -37,9 +51,13 @@ public class GameResource {
 
         game = new Game(player1Color, name1, player2Color, name2);
 
-        final Response response = Response.status(Response.Status.OK).entity(game).build();
+        return Response.status(Response.Status.OK).entity(game).build();
+    }
 
-        return response;
+    private boolean checkColors(final int color1, final int color2) {
+        final Range colorRange = Range.between(0, 1);
+
+        return color1 != color2 && colorRange.contains(color1) && colorRange.contains(color2);
     }
 
 //    POST /game/newPvAI/{name}/{color}/{strategy}
@@ -51,6 +69,16 @@ public class GameResource {
     @Path("newPvAI/{name}/{color}/{strategy}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response postNewPvAI(@PathParam("name") final String name, @PathParam("color") final int color, @PathParam("strategy") final int strategy) {
+
+        // Validation de la stratégie
+        if (!checkStrategy(strategy)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        // Validation de la couleur
+        if (color != 0 && color != 1) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
         // Déterminer la couleur et la stratégie
         final Color playerColor = color == 1 ? Color.WHITE : Color.BLACK;
@@ -73,6 +101,35 @@ public class GameResource {
 
         return Response.status(Response.Status.OK).entity(game).build();
     }
+
+    private boolean checkStrategy(final int strategy) {
+        final Range strategyRange = Range.between(0, 2);
+
+        return strategyRange.contains(strategy);
+    }
+
+    // Démarrer le jeu
+    //PUT /game/start
+
+    @PUT
+    @Path("start")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response start() {
+
+        // Si une partie est déjà en cours
+        if (game != null && game.getCurrentTurn() != null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        try {
+            game.start();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(game).build();
+    }
 //
 //    Faire une passe
 //    PUT /game/action/{playerID}/passBall/{pieceID1}/{pieceID2}
@@ -85,7 +142,15 @@ public class GameResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response passBall(@PathParam("x1") final int x1, @PathParam("y1") final int y1, @PathParam("x2") final int x2, @PathParam("y2") final int y2) {
 
-        game.passBall(x1, y1, x2, y2);
+        try {
+            game.passBall(x1, y1, x2, y2);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (TurnException | CommandException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
         return Response.status(Response.Status.OK).entity(game).build();
     }
@@ -102,8 +167,15 @@ public class GameResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response movePiece(@PathParam("x1") final int x1, @PathParam("y1") final int y1, @PathParam("x2") final int x2, @PathParam("y2") final int y2) {
 
-        game.movePiece(x1, y1, x2, y2);
-
+        try {
+            game.movePiece(x1, y1, x2, y2);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (TurnException | CommandException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         return Response.status(Response.Status.OK).entity(game).build();
     }
 
@@ -114,7 +186,15 @@ public class GameResource {
     @Path("action/undo")
     @Produces(MediaType.APPLICATION_JSON)
     public Response undo() {
-        game.undo();
+        try {
+            game.undo();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (TurnException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
         return Response.status(Response.Status.OK).entity(game).build();
     }
@@ -126,7 +206,16 @@ public class GameResource {
     @Path("action/redo")
     @Produces(MediaType.APPLICATION_JSON)
     public Response redo() {
-        game.redo();
+
+        try {
+            game.redo();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (TurnException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
         return Response.status(Response.Status.OK).entity(game).build();
     }
@@ -138,7 +227,16 @@ public class GameResource {
     @Path("action/endTurn")
     @Produces(MediaType.APPLICATION_JSON)
     public Response endTurn() {
-        game.endTurn();
+
+        try {
+            game.endTurn();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (TurnException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
         return Response.status(Response.Status.OK).entity(game).build();
     }
@@ -152,41 +250,34 @@ public class GameResource {
     public Response delete() {
         game = null;
 
-        return Response.status(Response.Status.OK).entity(game).build();
-    }
-
-    // Démarrer le jeu
-    //PUT /game/start
-
-    @PUT
-    @Path("start")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response start() {
-        game.start();
-
-        return Response.status(Response.Status.OK).entity(game).build();
+        return Response.status(Response.Status.OK).build();
     }
 //
 //    Get current player
 //    GET /game/player/current
 
-//
-//    Get ball (id)
-//    GET /game/ball/{id}
-//    id (int) : Identifiant de la balle à récupérer
-//
-//    Get ball (player)
-//    GET /game/ball/{player}
-//    player (int) : Identifiant du joueur dont on veut récupérer la balle
-//
-//    Get piece (id)
-//    GET /game/piece/{id}
-//    id (int) : Identifiant de la pièce à récupérer
-//
-//    Get pieces (player)
-//    GET /game/piece/{player}
-//    player (int) : Identifiant du joueur dont on veut récupérer toutes les pièces
-//
-//    Get game
-//    GET /game
+    @GET
+    @Path("get/currentPlayer")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCurrentPlayer() {
+        if (game != null && game.getCurrentPlayer() != null) {
+            return Response.status(Response.Status.OK).entity(game.getCurrentPlayer()).build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+//      Get game
+////    GET /game
+
+    @GET
+    @Path("get/game")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getGame() {
+        if (game != null) {
+            return Response.status(Response.Status.OK).entity(game).build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
 }

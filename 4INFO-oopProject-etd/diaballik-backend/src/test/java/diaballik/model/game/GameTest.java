@@ -1,5 +1,8 @@
 package diaballik.model.game;
 
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.EndTurnException;
+import diaballik.model.exception.turn.TurnException;
 import diaballik.model.player.Piece;
 import diaballik.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,7 +89,7 @@ public class GameTest {
     }
 
     @Test
-    void movePieceDy() {
+    void movePieceDy() throws TurnException, CommandException {
         g.start();
 
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().isPresent());
@@ -99,7 +102,7 @@ public class GameTest {
     }
 
     @Test
-    void movePieceDx() {
+    void movePieceDx() throws TurnException, CommandException {
         g.start();
 
         g.movePiece(0, 0, 0, 1);
@@ -114,20 +117,20 @@ public class GameTest {
     }
 
     @Test
-    void movePieceDiag() {
+    void movePieceDiag() throws TurnException, CommandException {
         g.start();
 
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().isPresent());
         assertTrue(g.getGameboard().getTile(1, 1).getPiece().isEmpty());
 
-        g.movePiece(0, 0, 1, 1);
+        assertThrows(CommandException.class, () -> g.movePiece(0, 0, 1, 1));
 
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().isPresent());
         assertTrue(g.getGameboard().getTile(1, 1).getPiece().isEmpty());
     }
 
     @Test
-    void passBallDx() {
+    void passBallDx() throws TurnException, CommandException {
         g.start();
 
         assertFalse(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
@@ -140,7 +143,7 @@ public class GameTest {
     }
 
     @Test
-    void passBallDy() {
+    void passBallDy() throws TurnException, CommandException {
         // Déplacer le pion de manière à pouvoir faire un Dy
         g.getGameboard().movePiece(0, 0, Board.BOARDSIZE / 2, Board.BOARDSIZE / 2);
 
@@ -156,7 +159,7 @@ public class GameTest {
     }
 
     @Test
-    void passBallDiag() {
+    void passBallDiag() throws TurnException, CommandException {
         // déplacer un pion pour faire une passe en diagonale
         g.getGameboard().movePiece(6, 0, 3, 3);
 
@@ -174,7 +177,7 @@ public class GameTest {
     }
 
     @Test
-    void passBallOpponentOnPath() {
+    void passBallOpponentOnPath() throws TurnException, CommandException {
         // Placer l'adversaire au milieu du plateau
 
         g.getGameboard().movePiece(6, 6, 3, 3);
@@ -187,14 +190,14 @@ public class GameTest {
         assertFalse(g.getGameboard().getTile(5, 5).getPiece().get().hasBall());
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
 
-        g.passBall(0, 0, 5, 5);
+        assertThrows(CommandException.class, () -> g.passBall(0, 0, 5, 5));
 
         assertFalse(g.getGameboard().getTile(5, 5).getPiece().get().hasBall());
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
     }
 
     @Test
-    void endTurnTrue() {
+    void endTurnTrue() throws TurnException, CommandException {
         g.start();
 
         g.passBall(Board.BOARDSIZE / 2, 0, 0, 0);
@@ -222,7 +225,7 @@ public class GameTest {
     }
 
     @Test
-    void endTurnFalse() {
+    void endTurnFalse() throws EndTurnException {
         g.start();
 
         // Pas 3 actions donc fin de tour pas possible
@@ -230,7 +233,7 @@ public class GameTest {
         Player currentPlayer = g.getCurrentPlayer();
         Turn currentTurn = g.getCurrentTurn();
 
-        g.endTurn();
+        assertThrows(EndTurnException.class, () -> g.endTurn());
 
         assertEquals(currentPlayer, g.getCurrentPlayer());
         assertEquals(currentTurn, g.getCurrentTurn());
@@ -240,4 +243,6 @@ public class GameTest {
     void twoEntireTurns() {
         // TODO
     }
+
+    // TODO : Test des méthodes avec le cas Unstarted Game
 }

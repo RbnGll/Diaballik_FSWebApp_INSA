@@ -2,9 +2,9 @@ package diaballik.model.player.aiStrategy;
 
 public class StartingAI extends AIStrategy {
 
-    @Override
+    /*@Override
     public void execute() {
 
-    }
+    }*/
 
 }
