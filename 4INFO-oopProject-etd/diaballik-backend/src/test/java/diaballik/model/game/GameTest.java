@@ -3,6 +3,7 @@ package diaballik.model.game;
 import diaballik.model.exception.CommandException;
 import diaballik.model.exception.turn.EndTurnException;
 import diaballik.model.exception.turn.TurnException;
+import diaballik.model.exception.turn.UnstartedGameException;
 import diaballik.model.player.Piece;
 import diaballik.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,6 +90,11 @@ public class GameTest {
     }
 
     @Test
+    void movePieceUnstartedGame() throws UnstartedGameException {
+        assertThrows(UnstartedGameException.class, () -> g.movePiece(0, 0, 0, 1));
+    }
+
+    @Test
     void movePieceDy() throws TurnException, CommandException {
         g.start();
 
@@ -127,6 +133,11 @@ public class GameTest {
 
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().isPresent());
         assertTrue(g.getGameboard().getTile(1, 1).getPiece().isEmpty());
+    }
+
+    @Test
+    void passBallUnstartedGame() throws UnstartedGameException {
+        assertThrows(UnstartedGameException.class, () -> g.passBall(0, 3, 0, 0));
     }
 
     @Test
@@ -197,31 +208,8 @@ public class GameTest {
     }
 
     @Test
-    void endTurnTrue() throws TurnException, CommandException {
-        g.start();
-
-        g.passBall(Board.BOARDSIZE / 2, 0, 0, 0);
-        g.passBall(0, 0, 1, 0);
-        g.movePiece(0, 0, 0, 1);
-
-        Player currentPlayer = g.getCurrentPlayer();
-        Turn currentTurn = g.getCurrentTurn();
-
-        g.endTurn();
-
-        assertNotEquals(currentPlayer, g.getCurrentPlayer());
-        assertNotEquals(currentTurn, g.getCurrentTurn());
-
-    }
-
-    @Test
-    void undo() {
-        // TODO
-    }
-
-    @Test
-    void redo() {
-        // TODO
+    void endTurnUnstartedGame() throws UnstartedGameException {
+        assertThrows(UnstartedGameException.class, () -> g.endTurn());
     }
 
     @Test
@@ -240,9 +228,109 @@ public class GameTest {
     }
 
     @Test
-    void twoEntireTurns() {
-        // TODO
+    void endTurnTrue() throws TurnException, CommandException {
+        g.start();
+
+        g.passBall(Board.BOARDSIZE / 2, 0, 0, 0);
+        g.passBall(0, 0, 1, 0);
+        g.movePiece(0, 0, 0, 1);
+
+        Player currentPlayer = g.getCurrentPlayer();
+        Turn currentTurn = g.getCurrentTurn();
+
+        g.endTurn();
+
+        assertNotEquals(currentPlayer, g.getCurrentPlayer());
+        assertNotEquals(currentTurn, g.getCurrentTurn());
+
     }
 
-    // TODO : Test des méthodes avec le cas Unstarted Game
+    @Test
+    void undoUnstartedTurn() throws UnstartedGameException {
+        assertThrows(UnstartedGameException.class, () -> g.undo());
+    }
+
+    @Test
+    void undo() throws TurnException, CommandException {
+        g.start();
+
+        g.movePiece(0, 0, 0, 1);
+        g.undo();
+
+        assertTrue(g.getGameboard().getTile(0, 0).getPiece().isPresent());
+        assertTrue(g.getGameboard().getTile(0, 1).getPiece().isEmpty());
+    }
+
+    @Test
+    void redoUnstartedTurn() throws UnstartedGameException {
+        assertThrows(UnstartedGameException.class, () -> g.redo());
+    }
+
+    @Test
+    void redo() throws TurnException, CommandException {
+        g.start();
+
+        g.movePiece(0, 0, 0, 1);
+
+        g.undo();
+        g.redo();
+
+        assertTrue(g.getGameboard().getTile(0, 1).getPiece().isPresent());
+        assertTrue(g.getGameboard().getTile(0, 0).getPiece().isEmpty());
+    }
+
+    @Test
+    void entireGame() throws TurnException, CommandException {
+        g.start();
+
+        // 1st Turn (Player 1)
+        g.movePiece(0, 0, 0, 1);
+        g.movePiece(0, 1, 0, 2);
+        g.movePiece(0, 2, 0, 3);
+
+        assertTrue(g.getGameboard().getTile(0, 3).getPiece().isPresent());
+
+        // End Turn
+        g.endTurn();
+
+        //2nd Turn (Player 2)
+        g.movePiece(0, 6, 0, 5);
+        g.movePiece(0, 5, 1, 5);
+        g.passBall(3, 6, 6, 6);
+
+        assertTrue(g.getGameboard().getTile(1, 5).getPiece().isPresent());
+        assertEquals(6, g.getPlayer2().getBall().getPiece().getTile().getX());
+        assertEquals(6, g.getPlayer2().getBall().getPiece().getTile().getY());
+
+        // End turn
+        g.endTurn();
+
+        // 3rd turn (Player 1)
+        g.movePiece(0, 3, 0, 4);
+        g.movePiece(0, 4, 0, 5);
+        g.movePiece(0, 5, 0, 6);
+
+        assertTrue(g.getGameboard().getTile(0, 6).getPiece().isPresent());
+
+        // End turn
+        g.endTurn();
+
+        // 4th turn (Player 2)
+        g.movePiece(5, 6, 5, 5);
+        g.movePiece(5, 5, 5, 4);
+        g.movePiece(5, 4, 5, 3);
+
+        assertTrue(g.getGameboard().getTile(5, 3).getPiece().isPresent());
+
+        // End turn
+        g.endTurn();
+
+        //5th turn and victory (Player 1)
+        g.movePiece(1, 0, 0, 0);
+        g.passBall(3, 0, 0, 0);
+        g.passBall(0, 0, 0, 6);
+
+        // Le joueur 1 est vainqueur
+        assertTrue(g.getPlayer1().isVictory());
+    }
 }
