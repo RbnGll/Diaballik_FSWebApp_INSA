@@ -16,6 +16,7 @@ import java.util.List;
 @XmlSeeAlso({HumanPlayer.class, AIPlayer.class})
 public abstract class Player {
 
+    // TODO : Ajouter un attribut ID, ne fonctionne pas si il y a le même nom pour l'instant
     @XmlID
     protected String name;
 

@@ -37,4 +37,8 @@ public class Ball {
     public Piece getPiece() {
         return piece;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }
