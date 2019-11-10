@@ -126,7 +126,7 @@ public class PassBallTest {
     void getPathTilesDx() {
         PassBall command = new PassBall(0, 0, 6, 0, game);
         command.setCurrentState();
-        List<Tile> path = command.getPathTiles(command.getFromPiece().get(), command.getToPiece().get());
+        List<Tile> path = command.getPathTiles();
 
         assertTrue(
                 IntStream
@@ -140,7 +140,7 @@ public class PassBallTest {
         PassBall command = new PassBall(0, 0, 0, 6, game);
         command.setCurrentState();
 
-        List<Tile> path = command.getPathTiles(command.getFromPiece().get(), command.getToPiece().get());
+        List<Tile> path = command.getPathTiles();
 
         assertTrue(
                 IntStream
@@ -154,7 +154,7 @@ public class PassBallTest {
         PassBall command = new PassBall(0, 0, 6, 6, game);
         command.setCurrentState();
 
-        List<Tile> path = command.getPathTiles(command.getFromPiece().get(), command.getToPiece().get());
+        List<Tile> path = command.getPathTiles();
 
         assertTrue(
                 IntStream

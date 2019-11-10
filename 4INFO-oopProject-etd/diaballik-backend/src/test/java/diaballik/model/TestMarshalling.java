@@ -22,7 +22,7 @@ public class TestMarshalling {
         properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
         properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, Boolean.TRUE);
 
-        final JAXBContext ctx = JAXBContextFactory.createContext(new Class[]{objectToMarshall.getClass()}, properties);
+        final JAXBContext ctx = JAXBContextFactory.createContext(new Class[] {objectToMarshall.getClass()}, properties);
         final Marshaller marshaller = ctx.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
