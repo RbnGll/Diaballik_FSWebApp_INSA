@@ -3,6 +3,7 @@ package diaballik.model.game;
 import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
 import diaballik.model.control.PassBall;
+import diaballik.model.player.AIPlayer;
 import diaballik.model.player.AIType;
 import diaballik.model.player.Ball;
 import diaballik.model.player.HumanPlayer;
@@ -32,8 +33,6 @@ public class Game {
     private Board gameboard;
 
     private Turn currentTurn;
-
-    private int turnCount;
 
     @XmlIDREF
     private Player currentPlayer;
@@ -67,13 +66,36 @@ public class Game {
     }
 
     public Game(final Color c, final String name, final AIType aiLevel) {
-        // TODO
+        gameboard = new Board();
+        // Création des joueurs
+        player1 = new HumanPlayer(name, c);
+        final Color cAI;
+        if (c.equals(Color.BLACK)) {
+            cAI = Color.WHITE;
+        }else {
+            cAI = Color.BLACK;
+        }
+        player2 = new AIPlayer("Computer", cAI, aiLevel);
+
+        // Créations des pièces des joueurs
+        player1.setPieces(IntStream
+                .range(0, 7)
+                .mapToObj(i -> new Piece(c, gameboard.getTile(i % 7, i / 7)))
+                .collect(Collectors.toList()));
+
+        player2.setPieces(IntStream
+                .range(42, 49)
+                .mapToObj(i -> new Piece(cAI, gameboard.getTile(i % 7, i / 7)))
+                .collect(Collectors.toList()));
+
+        // Création des balles des joueurs
+        player1.setBall(new Ball(player1.getPieces().get(Board.BOARDSIZE / 2)));
+        player2.setBall(new Ball(player2.getPieces().get(Board.BOARDSIZE / 2)));
     }
 
     public void start() {
         currentPlayer = player1;
         currentTurn = new Turn();
-        turnCount = 0;
     }
 
     public Optional<Player> checkVictory() {
@@ -126,7 +148,6 @@ public class Game {
         if (currentTurn.checkEndTurn()) {
             swapCurrentPlayer();
             currentTurn = new Turn();
-            turnCount++;
         }
     }
 
@@ -156,9 +177,5 @@ public class Game {
 
     public Board getGameboard() {
         return gameboard;
-    }
-
-    public int getTurnCount() {
-        return turnCount;
     }
 }
