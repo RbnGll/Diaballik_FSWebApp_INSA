@@ -49,8 +49,8 @@ public class Game {
         gameboard = new Board();
 
         // Création des joueurs
-        player1 = new HumanPlayer(name1, c1);
-        player2 = new HumanPlayer(name2, c2);
+        player1 = new HumanPlayer(name1, c1, 1);
+        player2 = new HumanPlayer(name2, c2, 2);
 
         // Créations des pièces des joueurs
         player1.setPieces(IntStream

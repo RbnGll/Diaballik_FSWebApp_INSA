@@ -1,6 +1,7 @@
 package diaballik.model.player;
 
 import diaballik.resource.adapters.ColorAdapter;
+import diaballik.resource.adapters.IntStringAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,8 +17,10 @@ import java.util.List;
 @XmlSeeAlso({HumanPlayer.class, AIPlayer.class})
 public abstract class Player {
 
-    // TODO : Ajouter un attribut ID, ne fonctionne pas si il y a le même nom pour l'instant
     @XmlID
+    @XmlJavaTypeAdapter(IntStringAdapter.class)
+    protected int playerNumber;
+
     protected String name;
 
     @XmlJavaTypeAdapter(ColorAdapter.class)
@@ -34,10 +37,11 @@ public abstract class Player {
 
     }
 
-    public Player(final String name, final Color color) {
+    public Player(final String name, final Color color, final int playerNumber) {
         this.name = name;
         this.color = color;
         this.victory = false;
+        this.playerNumber = playerNumber;
     }
 
     public boolean isVictory() {
@@ -72,4 +76,7 @@ public abstract class Player {
         this.ball = ball;
     }
 
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
 }
