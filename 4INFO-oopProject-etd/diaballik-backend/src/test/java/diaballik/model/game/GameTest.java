@@ -55,6 +55,7 @@ public class GameTest {
     void start() {
         g.start();
         assertNotNull(g.getCurrentTurn());
+        assertEquals(g.getPlayer1(), g.getCurrentPlayer());
     }
 
     @Test
