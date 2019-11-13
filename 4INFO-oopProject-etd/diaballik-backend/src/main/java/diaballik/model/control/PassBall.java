@@ -96,23 +96,11 @@ public class PassBall extends Command {
         return (dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy) && dx != 0);
     }
 
-    public boolean ifNoPieceOnPath() {
-        final List<Tile> path = this.getPathTiles();
-        final Player player1 = game.getPlayer1();
-        final Player player2 = game.getPlayer2();
-        System.out.println(path);
-        return path.stream().noneMatch(tile -> tile.getPiece().isPresent());
+    public boolean ifNoOpponentOnPath() {
+        final List<Tile> path = getPathTiles(fromPiece.get(), toPiece.get());
+        final Player opponent = game.getCurrentPlayer() == game.getPlayer1() ? game.getPlayer2() : game.getPlayer1();
 
-//        return !path.stream().anyMatch(tile -> {
-//            final boolean test1 = tile.getPiece().isPresent();
-//            final boolean test2 = player1.getPieces().contains(tile.getPiece().get());
-//            final boolean test3 = player2.getPieces().contains(tile.getPiece().get());
-//
-//
-//            return tile.getPiece().isPresent()
-//                    && (player1.getPieces().contains(tile.getPiece().get())
-//                    || player2.getPieces().contains(tile.getPiece().get()));
-//        });
+        return !path.stream().anyMatch(tile -> tile.getPiece().isPresent() && opponent.getPieces().contains(tile.getPiece().get()));
     }
 
     @Override

@@ -14,7 +14,7 @@ public class HumanPlayer extends Player {
 
     }
 
-    public HumanPlayer(final String name, final Color color) {
-        super(name, color);
+    public HumanPlayer(final String name, final Color color, final int playerNumber) {
+        super(name, color, playerNumber);
     }
 }

@@ -2,6 +2,9 @@ package diaballik.model.game;
 
 import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.EndTurnException;
+import diaballik.model.exception.turn.TurnException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +49,7 @@ public class TurnTest {
     }
 
     @Test
-    void invokeFirstCommand() {
+    void invokeFirstCommand() throws TurnException, CommandException {
         Command command = new MovePiece(0, 0, 0, 1, game);
 
         assertEquals(0, turn.getUndoDeque().size());
@@ -60,7 +63,7 @@ public class TurnTest {
     }
 
     @Test
-    void invokeCommandTurnEnd() {
+    void invokeCommandTurnEnd() throws TurnException, CommandException {
         Command command1 = new MovePiece(0, 0, 0, 1, game);
         assertTrue(turn.invokeCommand(command1));
         Command command2 = new MovePiece(0, 1, 0, 2, game);
@@ -68,17 +71,17 @@ public class TurnTest {
         Command command3 = new MovePiece(0, 2, 0, 3, game);
         assertTrue(turn.invokeCommand(command3));
         Command command4 = new MovePiece(0, 3, 0, 4, game);
-        assertFalse(turn.invokeCommand(command4));
+        assertThrows(TurnException.class, () -> turn.invokeCommand(command4));
     }
 
     @Test
     void invokeCommandCantDo() {
         Command command = new MovePiece(0, 0, 0, 0, game);
-        assertFalse(turn.invokeCommand(command));
+        assertThrows(CommandException.class, () -> turn.invokeCommand(command));
     }
 
     @Test
-    void undo() {
+    void undo() throws TurnException, CommandException {
         Command command = new MovePiece(0, 0, 0, 1, game);
 
         assertTrue(turn.invokeCommand(command));
@@ -93,7 +96,7 @@ public class TurnTest {
     }
 
     @Test
-    void redo() {
+    void redo() throws TurnException, CommandException {
         Command command = new MovePiece(0, 0, 0, 1, game);
         assertTrue(turn.invokeCommand(command));
 

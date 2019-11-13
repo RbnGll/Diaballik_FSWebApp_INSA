@@ -3,17 +3,12 @@ package diaballik.model.game;
 import diaballik.model.player.Piece;
 import org.apache.commons.lang3.Range;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Board {
 
     public static final int BOARDSIZE = 7;
@@ -52,7 +47,7 @@ public class Board {
     }
 
     public boolean ifWithinBounds(final int x, final int y) {
-        final Range<Integer> myRange = Range.between(0, 6);
+        final Range<Integer> myRange = Range.between(0, BOARDSIZE - 1);
         return myRange.contains(x) && myRange.contains(y);
     }
 }

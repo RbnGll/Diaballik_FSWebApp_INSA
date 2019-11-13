@@ -56,4 +56,9 @@ public class Piece {
     public void setTile(final Tile tile) {
         this.tile = tile;
     }
+
+    @Override
+    public String toString() {
+        return tile.toString();
+    }
 }
