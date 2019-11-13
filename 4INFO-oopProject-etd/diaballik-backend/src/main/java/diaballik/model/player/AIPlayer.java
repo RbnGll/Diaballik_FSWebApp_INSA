@@ -1,5 +1,12 @@
 package diaballik.model.player;
 
+import diaballik.model.control.Command;
+import diaballik.model.game.Game;
+import diaballik.model.player.aiStrategy.AIStrategy;
+import diaballik.model.player.aiStrategy.NoobAI;
+import diaballik.model.player.aiStrategy.ProgressiveAI;
+import diaballik.model.player.aiStrategy.StartingAI;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,17 +25,17 @@ public class AIPlayer extends Player {
 
     }
 
-    public AIPlayer(final String name, final Color color, final AIType strategy) {
+    public AIPlayer(final String name, final Color color, final AIType strategy, final Game game) {
         super(name, color);
         switch (strategy) {
             case NOOB:
-                this.strategy = new NoobAI();
+                this.strategy = new NoobAI(game);
                 break;
             case STARTING:
-                this.strategy = new StartingAI();
+                this.strategy = new StartingAI(game);
                 break;
             case PROGRESSIVE:
-                this.strategy = new ProgressiveAI();
+                this.strategy = new ProgressiveAI(game);
                 break;
             default:
                 break;
@@ -47,5 +54,13 @@ public class AIPlayer extends Player {
             aiType = null;
         }
         return aiType;
+    }
+
+    public Command getCommand() {
+        return strategy.execute();
+    }
+
+    public AIStrategy getStrategy() {
+        return strategy;
     }
 }

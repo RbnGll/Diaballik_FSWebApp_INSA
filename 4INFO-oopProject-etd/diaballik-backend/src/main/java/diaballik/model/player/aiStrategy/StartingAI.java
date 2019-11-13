@@ -19,7 +19,6 @@ import static java.util.Objects.nonNull;
 
 public class StartingAI extends AIStrategy {
 
-    private int direction;
     private Random r;
     private Player opponent;
 
@@ -27,11 +26,7 @@ public class StartingAI extends AIStrategy {
         super(g);
         opponent = getOpponent();
         r = new Random();
-        if (g.getCurrentPlayer().equals(g.getPlayer1())) {
-            direction = 1;
-        } else {
-            direction = -1;
-        }
+
     }
 
     @Override
@@ -80,7 +75,7 @@ public class StartingAI extends AIStrategy {
                 .collect(Collectors.toList());
         final List<Command> blockingMoves = opponentMoves.stream().map(command -> {
             final MovePiece move = (MovePiece) command;
-            if ((move.getY2() - move.getY1() ^ -direction) > 0) {
+            if ((move.getY2() - move.getY1() ^ -1) > 0) {
                 return aiMoves.get(new Tile(move.getX2(), move.getY2()));
             } else {
                 return null;
@@ -96,7 +91,7 @@ public class StartingAI extends AIStrategy {
                 .collect(Collectors.toList());
         final List<Command> forwardMoves = moves.stream().map(command -> {
             final MovePiece move = (MovePiece) command;
-            if ((move.getY2() - move.getY1() ^ direction) > 0) {
+            if ((move.getY2() - move.getY1() ^ 1) > 0) {
                 return move;
             } else {
                 return null;
@@ -114,7 +109,7 @@ public class StartingAI extends AIStrategy {
             final PassBall pass = (PassBall) command;
             final Piece toPiece = ((PassBall) command).getToPiece().orElse(null);
             final Piece fromPiece = ((PassBall) command).getFromPiece().orElse(null);
-            if ((toPiece.getTile().getY() - fromPiece.getTile().getY() ^ direction) > 0) {
+            if ((toPiece.getTile().getY() - fromPiece.getTile().getY() ^ 1) > 0) {
                 return pass;
             } else {
                 return null;
@@ -124,13 +119,7 @@ public class StartingAI extends AIStrategy {
     }
 
     private Player getOpponent() {
-        final Player opponent;
-        if (game.getCurrentPlayer() == game.getPlayer1()) {
-            opponent = game.getPlayer2();
-        } else {
-            opponent = game.getPlayer1();
-        }
-        return opponent;
+        return game.getCurrentPlayer() == game.getPlayer1() ? game.getPlayer2() : game.getPlayer1();
     }
 
     private List<Tile> getPassesPath(final Player player) {

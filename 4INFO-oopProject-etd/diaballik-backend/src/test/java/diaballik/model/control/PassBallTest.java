@@ -150,11 +150,29 @@ public class PassBallTest {
     }
 
     @Test
+    void getPathTileDyBis() {
+        PassBall command = new PassBall(3, 6, 1, 6, game);
+        command.setCurrentState();
+
+        List<Tile> path = command.getPathTiles();
+
+        System.out.println(path);
+
+        assertTrue(
+                IntStream
+                        .range(0, 5)
+                        .allMatch(i -> path.get(i).getX() == 0 && path.get(i).getY() == (i + 1))
+        );
+    }
+
+    @Test
     void getPathTileDiagonal() {
         PassBall command = new PassBall(0, 0, 6, 6, game);
         command.setCurrentState();
 
         List<Tile> path = command.getPathTiles();
+
+        System.out.println(path);
 
         assertTrue(
                 IntStream
@@ -169,14 +187,15 @@ public class PassBallTest {
 
         PassBall command = new PassBall(0, 0, 6, 6, game);
         command.setCurrentState();
-        assertFalse(command.ifNoOpponentOnPath());
+        assertFalse(command.ifNoPieceOnPath());
     }
 
     @Test
     void noOpponentOnPath() {
-        PassBall command = new PassBall(0, 0, 6, 0, game);
+        PassBall command = new PassBall(3, 6, 1, 6, game);
         command.setCurrentState();
-        assertTrue(command.ifNoOpponentOnPath());
+        command.ifNoPieceOnPath();
+        assertTrue(command.ifNoPieceOnPath());
     }
 
     @Test

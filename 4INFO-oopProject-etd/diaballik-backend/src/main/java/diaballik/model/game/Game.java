@@ -34,6 +34,10 @@ public class Game {
 
     private Turn currentTurn;
 
+    private boolean aiGame;
+
+    private int turnCount;
+
     @XmlIDREF
     private Player currentPlayer;
 
@@ -44,6 +48,8 @@ public class Game {
 
     public Game(final Color c1, final String name1, final Color c2, final String name2) {
         gameboard = new Board();
+        turnCount = 0;
+        aiGame = false;
 
         // Création des joueurs
         player1 = new HumanPlayer(name1, c1);
@@ -67,15 +73,18 @@ public class Game {
 
     public Game(final Color c, final String name, final AIType aiLevel) {
         gameboard = new Board();
+        turnCount = 0;
+        aiGame = true;
+
         // Création des joueurs
         player1 = new HumanPlayer(name, c);
         final Color cAI;
         if (c.equals(Color.BLACK)) {
             cAI = Color.WHITE;
-        }else {
+        } else {
             cAI = Color.BLACK;
         }
-        player2 = new AIPlayer("Computer", cAI, aiLevel);
+        player2 = new AIPlayer("Computer", cAI, aiLevel, this);
 
         // Créations des pièces des joueurs
         player1.setPieces(IntStream
@@ -135,6 +144,10 @@ public class Game {
         }
     }
 
+    public void aiActions(final AIPlayer p) {
+        IntStream.range(1, 3).peek(i -> currentTurn.invokeCommand(p.getCommand())).close();
+    }
+
     public void undo() {
         currentTurn.undo();
     }
@@ -146,9 +159,21 @@ public class Game {
     public void endTurn() {
         // Ou if currentTurn.getTurn
         if (currentTurn.checkEndTurn()) {
+            if(aiGame) {
+            turnCount++;
             swapCurrentPlayer();
             currentTurn = new Turn();
+            aiActions((AIPlayer) getCurrentPlayer());
+            turnCount++;
+            swapCurrentPlayer();
+            currentTurn = new Turn();
+            }else {
+                turnCount++;
+                swapCurrentPlayer();
+                currentTurn = new Turn();
+            }
         }
+
     }
 
     public void swapCurrentPlayer() {
@@ -178,4 +203,13 @@ public class Game {
     public Board getGameboard() {
         return gameboard;
     }
+
+    public int getTurnCount() {
+        return turnCount;
+    }
+
+    public void setAiGame(boolean b) {
+        this.aiGame = b;
+    }
+
 }

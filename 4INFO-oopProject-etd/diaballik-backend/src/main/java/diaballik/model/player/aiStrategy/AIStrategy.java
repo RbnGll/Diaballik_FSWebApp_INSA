@@ -39,7 +39,10 @@ public abstract class AIStrategy {
                             new PassBall(x, y, x - i, y + i, game),
                             new PassBall(x, y, x - i, y - i, game),
                             new PassBall(x, y, x + i, y - i, game));
-                    return commands.stream().filter(command -> command.canDo()).collect(Collectors.toList());
+                    return commands.stream()
+                            .peek(Command::setCurrentState)
+                            .filter(Command::canDo)
+                            .collect(Collectors.toList());
                 }).flatMap(List::stream).collect(Collectors.toList());
     }
 
@@ -48,15 +51,14 @@ public abstract class AIStrategy {
         final List<Command> commands = pieces.stream().map(piece -> {
             final int x = piece.getTile().getX();
             final int y = piece.getTile().getY();
-            final List<Command> temp = Arrays.asList(
+            return Arrays.<Command>asList(
                     new MovePiece(x, y, x + 1, y, game),
                     new MovePiece(x, y, x - 1, y, game),
                     new MovePiece(x, y, x, y + 1, game),
                     new MovePiece(x, y, x, y - 1, game)
             );
-            return temp;
-        }).flatMap(List::stream).collect(Collectors.toList());
-        return commands.stream().filter(command -> command.canDo()).collect(Collectors.toList());
+        }).flatMap(List::stream).peek(Command::setCurrentState).collect(Collectors.toList());
+        return commands.stream().filter(Command::canDo).collect(Collectors.toList());
     }
 
     public List<Command> getPossibleActionsForPlayer(final Player p) {
