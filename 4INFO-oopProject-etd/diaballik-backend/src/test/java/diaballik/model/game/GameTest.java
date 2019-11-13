@@ -1,5 +1,9 @@
 package diaballik.model.game;
 
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.EndTurnException;
+import diaballik.model.exception.turn.TurnException;
+import diaballik.model.exception.turn.UnstartedGameException;
 import diaballik.model.player.*;
 import diaballik.model.player.aiStrategy.AIStrategy;
 import diaballik.model.player.aiStrategy.NoobAI;

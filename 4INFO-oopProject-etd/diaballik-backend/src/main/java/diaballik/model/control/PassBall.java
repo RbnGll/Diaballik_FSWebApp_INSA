@@ -96,8 +96,8 @@ public class PassBall extends Command {
         return (dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy) && dx != 0);
     }
 
-    public boolean ifNoOpponentOnPath() {
-        final List<Tile> path = getPathTiles(fromPiece.get(), toPiece.get());
+    public boolean ifNoPieceOnPath() {
+        final List<Tile> path = getPathTiles();
         final Player opponent = game.getCurrentPlayer() == game.getPlayer1() ? game.getPlayer2() : game.getPlayer1();
 
         return !path.stream().anyMatch(tile -> tile.getPiece().isPresent() && opponent.getPieces().contains(tile.getPiece().get()));

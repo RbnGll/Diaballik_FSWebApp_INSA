@@ -3,6 +3,9 @@ package diaballik.model.game;
 import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
 import diaballik.model.control.PassBall;
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.TurnException;
+import diaballik.model.exception.turn.UnstartedGameException;
 import diaballik.model.player.AIPlayer;
 import diaballik.model.player.AIType;
 import diaballik.model.player.Ball;
@@ -52,8 +55,8 @@ public class Game {
         aiGame = false;
 
         // Création des joueurs
-        player1 = new HumanPlayer(name1, c1);
-        player2 = new HumanPlayer(name2, c2);
+        player1 = new HumanPlayer(name1, c1, 1);
+        player2 = new HumanPlayer(name2, c2, 2);
 
         // Créations des pièces des joueurs
         player1.setPieces(IntStream
@@ -77,14 +80,14 @@ public class Game {
         aiGame = true;
 
         // Création des joueurs
-        player1 = new HumanPlayer(name, c);
+        player1 = new HumanPlayer(name, c, 1);
         final Color cAI;
         if (c.equals(Color.BLACK)) {
             cAI = Color.WHITE;
         } else {
             cAI = Color.BLACK;
         }
-        player2 = new AIPlayer("Computer", cAI, aiLevel, this);
+        player2 = new AIPlayer("Computer", cAI, aiLevel, 2, this);
 
         // Créations des pièces des joueurs
         player1.setPieces(IntStream
@@ -155,7 +158,15 @@ public class Game {
     }
 
     public void aiActions(final AIPlayer p) {
-        IntStream.range(1, 3).peek(i -> currentTurn.invokeCommand(p.getCommand())).close();
+        IntStream.range(1, 3).peek(i -> {
+            try {
+                currentTurn.invokeCommand(p.getCommand());
+            } catch (TurnException e) {
+                e.printStackTrace();
+            } catch (CommandException e) {
+                e.printStackTrace();
+            }
+        }).close();
     }
 
     public void undo() throws TurnException {
@@ -229,7 +240,7 @@ public class Game {
         return turnCount;
     }
 
-    public void setAiGame(boolean b) {
+    public void setAiGame(final boolean b) {
         this.aiGame = b;
     }
 

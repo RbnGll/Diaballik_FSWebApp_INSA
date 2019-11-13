@@ -3,6 +3,8 @@ package diaballik.model.player;
 import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
 import diaballik.model.control.PassBall;
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.TurnException;
 import diaballik.model.game.Game;
 import diaballik.model.player.aiStrategy.NoobAI;
 import diaballik.model.player.aiStrategy.StartingAI;
@@ -20,7 +22,7 @@ public class ProgressiveAITest {
     private Game g;
 
     @BeforeEach
-    void init(){
+    void init() throws TurnException, CommandException {
         g = new Game(Color.WHITE, "Robebs", AIType.PROGRESSIVE);
         g.start();
         g.getCurrentTurn().invokeCommand(new MovePiece(0,0,0,1,g));
@@ -31,7 +33,7 @@ public class ProgressiveAITest {
     }
 
     @Test
-    void executeTest(){
+    void executeTest() throws TurnException, CommandException {
         AIPlayer aip = (AIPlayer) g.getPlayer2();
         assertEquals(aip.getStrategy().getClass(), NoobAI.class);
         g.getCurrentTurn().invokeCommand(new PassBall(3,0,1,0,g));

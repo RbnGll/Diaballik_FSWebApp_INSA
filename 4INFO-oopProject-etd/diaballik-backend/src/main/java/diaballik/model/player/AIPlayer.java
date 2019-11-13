@@ -25,7 +25,7 @@ public class AIPlayer extends Player {
 
     }
 
-    public AIPlayer(final String name, final Color color, final AIType strategy, final int playerNumber) {
+    public AIPlayer(final String name, final Color color, final AIType strategy, final int playerNumber, Game game) {
         super(name, color, playerNumber);
         switch (strategy) {
             case NOOB:

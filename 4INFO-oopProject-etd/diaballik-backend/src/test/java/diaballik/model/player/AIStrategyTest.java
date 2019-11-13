@@ -3,6 +3,8 @@ package diaballik.model.player;
 import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
 import diaballik.model.control.PassBall;
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.TurnException;
 import diaballik.model.game.Game;
 import diaballik.model.game.Turn;
 import diaballik.model.player.aiStrategy.AIStrategy;
@@ -19,7 +21,7 @@ public class AIStrategyTest {
     private Game g;
 
     @BeforeEach
-    void init(){
+    void init() throws TurnException, CommandException {
         g = new Game(Color.WHITE, "Robebs", AIType.NOOB);
         g.start();
         g.getCurrentTurn().invokeCommand(new MovePiece(0,0,0,1,g));

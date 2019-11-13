@@ -2,6 +2,8 @@ package diaballik.model.player;
 
 import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
+import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.TurnException;
 import diaballik.model.game.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ public class StartingAITest {
     private Game g;
 
     @BeforeEach
-    void init(){
+    void init() throws TurnException, CommandException {
         g = new Game(Color.WHITE, "Robebs", AIType.NOOB);
         g.start();
         g.getCurrentTurn().invokeCommand(new MovePiece(0,0,0,1,g));
@@ -28,7 +30,7 @@ public class StartingAITest {
     }
 
     @Test
-    void executeTest(){
+    void executeTest() throws TurnException, CommandException {
         AIPlayer aip = (AIPlayer) g.getCurrentPlayer();
         Command c = aip.getCommand();
         g.getCurrentTurn().invokeCommand(c);

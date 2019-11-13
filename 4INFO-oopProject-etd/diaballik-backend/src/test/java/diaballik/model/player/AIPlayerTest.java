@@ -18,7 +18,7 @@ public class AIPlayerTest {
 
     @Test
     void constructionTestNOOB() {
-        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.NOOB, new Game());
+        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.NOOB, 2, new Game());
 
         assertEquals("Robebs", aip.getName());
         assertEquals(Color.WHITE, aip.getColor());
@@ -31,7 +31,7 @@ public class AIPlayerTest {
 
     @Test
     void constructionTestStarting() {
-        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.STARTING, new Game());
+        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.STARTING, 2, new Game() );
 
         assertEquals("Robebs", aip.getName());
         assertEquals(Color.WHITE, aip.getColor());
@@ -44,7 +44,7 @@ public class AIPlayerTest {
 
     @Test
     void constructionTestProgressive() {
-        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.PROGRESSIVE, new Game());
+        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.PROGRESSIVE, 2,new Game());
 
         assertEquals("Robebs", aip.getName());
         assertEquals(Color.WHITE, aip.getColor());
