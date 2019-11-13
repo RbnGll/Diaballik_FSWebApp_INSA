@@ -3,7 +3,6 @@ package diaballik.model.control;
 import diaballik.model.game.Game;
 import diaballik.model.game.Tile;
 import diaballik.model.player.Piece;
-import diaballik.model.player.Player;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,6 @@ public class PassBall extends Command {
 
     @Override
     public boolean canDo() {
-        // Vérifier également si les coordonnées "from" et "to" sont dans le plateau ??
         return ifPiecesExists() && ifBelongToCurrentPlayer() && ifPieceHasBall() && ifCorrectPath() && ifNoPieceOnPath();
     }
 
@@ -48,33 +46,48 @@ public class PassBall extends Command {
         final Tile toTile = toPiece.orElse(null).getTile();
 
         if (fromTile != null && toTile != null) {
+
             final int dx = toTile.getX() - fromTile.getX();
             final int dy = toTile.getY() - fromTile.getY();
 
-            // On suppose la trajectoire correcte (vérifié dans canDo())
+            // Si déplacement selon Y uniquement
             if (dx == 0) {
-                path = IntStream
-                        .range(fromTile.getY() + 1, toTile.getY())
-                        .mapToObj(i -> game.getGameboard().getTile(fromTile.getX(), i))
+
+                final int uy = dy / Math.abs(dy);
+
+                path = IntStream.range(1, Math.abs(dy))
+                        .mapToObj(i -> {
+                            final int y = fromTile.getY() + i * uy;
+                            return game.getGameboard().getTile(fromTile.getX(), y);
+                        })
                         .collect(Collectors.toList());
             } else if (dy == 0) {
-                path = IntStream
-                        .range(fromTile.getX() + 1, toTile.getX())
-                        .mapToObj(i -> game.getGameboard().getTile(i, fromTile.getY()))
+                // Si déplacement selon X uniquement
+                final int ux = dx / Math.abs(dx);
+
+                path = IntStream.range(1, Math.abs(dx))
+                        .mapToObj(i -> {
+                            final int x = fromTile.getX() + i * ux;
+                            return game.getGameboard().getTile(x, fromTile.getY());
+                        })
                         .collect(Collectors.toList());
             } else {
-                path = IntStream
-                        .range(fromTile.getX() + 1, toTile.getX())
-                        .mapToObj(i -> game.getGameboard().getTile(i, i))
+                // Si déplacement en diagonale, dans ce cas on a abs(dx) = abs(dx) car diagonale donc un seul stream suffit
+                final int ux = dx / Math.abs(dx);
+                final int uy = dy / Math.abs(dy);
+
+                path = IntStream.range(1, Math.abs(dx))
+                        .mapToObj(i -> {
+                            final int x = fromTile.getX() + i * ux;
+                            final int y = fromTile.getY() + i * uy;
+                            return game.getGameboard().getTile(x, y);
+                        })
                         .collect(Collectors.toList());
             }
-
             return path;
         }
         return null;
     }
-
-    // TODO : Méthode ifWithinbounds ??
 
     public boolean ifPiecesExists() {
         return fromPiece.isPresent() && toPiece.isPresent();
@@ -98,13 +111,12 @@ public class PassBall extends Command {
 
     public boolean ifNoPieceOnPath() {
         final List<Tile> path = getPathTiles();
-        final Player opponent = game.getCurrentPlayer() == game.getPlayer1() ? game.getPlayer2() : game.getPlayer1();
-
-        return !path.stream().anyMatch(tile -> tile.getPiece().isPresent() && opponent.getPieces().contains(tile.getPiece().get()));
+        return path.stream().noneMatch(tile -> tile.getPiece().isPresent());
     }
 
     @Override
     public void setCurrentState() {
+        // On regarde si les pièces sont bien dans les limites de la board ici !
         if (game.getGameboard().ifWithinBounds(x1, y1) && game.getGameboard().ifWithinBounds(x2, y2)) {
             fromPiece = game.getGameboard().getTile(x1, y1).getPiece();
             toPiece = game.getGameboard().getTile(x2, y2).getPiece();

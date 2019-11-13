@@ -4,6 +4,7 @@ import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
 import diaballik.model.control.PassBall;
 import diaballik.model.exception.CommandException;
+import diaballik.model.exception.turn.EndTurnException;
 import diaballik.model.exception.turn.TurnException;
 import diaballik.model.exception.turn.UnstartedGameException;
 import diaballik.model.player.AIPlayer;
@@ -193,18 +194,20 @@ public class Game {
 
         if (currentTurn.checkEndTurn()) {
             if(aiGame) {
-            turnCount++;
-            swapCurrentPlayer();
-            currentTurn = new Turn();
-            aiActions((AIPlayer) getCurrentPlayer());
-            turnCount++;
-            swapCurrentPlayer();
-            currentTurn = new Turn();
-            }else {
+                turnCount++;
+                swapCurrentPlayer();
+                currentTurn = new Turn();
+                aiActions((AIPlayer) getCurrentPlayer());
+                turnCount++;
+                swapCurrentPlayer();
+                currentTurn = new Turn();
+            } else {
                 turnCount++;
                 swapCurrentPlayer();
                 currentTurn = new Turn();
             }
+        } else {
+            throw new EndTurnException();
         }
     }
 

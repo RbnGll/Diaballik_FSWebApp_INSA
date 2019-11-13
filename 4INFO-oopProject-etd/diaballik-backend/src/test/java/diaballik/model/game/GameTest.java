@@ -179,7 +179,7 @@ public class GameTest {
         assertFalse(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
         assertTrue(g.getGameboard().getTile(g.getGameboard().BOARDSIZE / 2, 0).getPiece().get().hasBall());
 
-        g.passBall(g.getGameboard().BOARDSIZE / 2, 0, 0, 0);
+        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0,0).getPiece().get());
 
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
         assertFalse(g.getGameboard().getTile(g.getGameboard().BOARDSIZE / 2, 0).getPiece().get().hasBall());
@@ -208,7 +208,7 @@ public class GameTest {
 
         g.start();
 
-        g.passBall(Board.BOARDSIZE / 2, 0, 0, 0);
+        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0,0).getPiece().get());
 
         assertFalse(g.getGameboard().getTile(3, 3).getPiece().get().hasBall());
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
@@ -228,7 +228,7 @@ public class GameTest {
 
         g.start();
 
-        g.passBall(Board.BOARDSIZE / 2, 0, 0, 0);
+        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0,0).getPiece().get());
 
         assertFalse(g.getGameboard().getTile(5, 5).getPiece().get().hasBall());
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
@@ -263,8 +263,8 @@ public class GameTest {
     void endTurnTrue() throws TurnException, CommandException {
         g.start();
 
-        g.passBall(Board.BOARDSIZE / 2, 0, 0, 0);
-        g.passBall(0, 0, 1, 0);
+        g.passBall(Board.BOARDSIZE / 2, 0, 2, 0);
+        g.passBall(2, 0, 1, 0);
         g.movePiece(0, 0, 0, 1);
 
         Player currentPlayer = g.getCurrentPlayer();
@@ -328,10 +328,10 @@ public class GameTest {
         //2nd Turn (Player 2)
         g.movePiece(0, 6, 0, 5);
         g.movePiece(0, 5, 1, 5);
-        g.passBall(3, 6, 6, 6);
+        g.passBall(3, 6, 2, 6);
 
         assertTrue(g.getGameboard().getTile(1, 5).getPiece().isPresent());
-        assertEquals(6, g.getPlayer2().getBall().getPiece().getTile().getX());
+        assertEquals(2, g.getPlayer2().getBall().getPiece().getTile().getX());
         assertEquals(6, g.getPlayer2().getBall().getPiece().getTile().getY());
 
         // End turn
@@ -357,10 +357,22 @@ public class GameTest {
         // End turn
         g.endTurn();
 
-        //5th turn and victory (Player 1)
+        //5th turn (Player 1)
         g.movePiece(1, 0, 0, 0);
-        g.passBall(3, 0, 0, 0);
-        g.passBall(0, 0, 0, 6);
+        g.passBall(3, 0, 2, 0);
+        g.passBall(2, 0, 0, 0);
+
+        g.endTurn();
+
+        // 6th turn (Player 2)
+        g.movePiece(5,3,5,4);
+        g.movePiece(5,4,5,3);
+        g.movePiece(5,3,5,4);
+
+        g.endTurn();
+
+        // 7th turn and victory (Player 1)
+        g.passBall(0,0,0,6);
 
         // Le joueur 1 est vainqueur
         assertTrue(g.getPlayer1().isVictory());

@@ -7,11 +7,13 @@ import diaballik.model.player.Ball;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PassBallTest {
 
@@ -151,34 +153,29 @@ public class PassBallTest {
 
     @Test
     void getPathTileDyBis() {
-        PassBall command = new PassBall(3, 6, 1, 6, game);
+        PassBall command = new PassBall(3, 0, 1, 0, game);
         command.setCurrentState();
 
         List<Tile> path = command.getPathTiles();
 
-        System.out.println(path);
-
-        assertTrue(
-                IntStream
-                        .range(0, 5)
-                        .allMatch(i -> path.get(i).getX() == 0 && path.get(i).getY() == (i + 1))
-        );
+        assertEquals(1, path.size());
+        assertEquals(2, path.get(0).getX());
+        assertEquals(0, path.get(0).getY());
     }
 
     @Test
     void getPathTileDiagonal() {
-        PassBall command = new PassBall(0, 0, 6, 6, game);
+        game.getGameboard().movePiece(6, 6, 6, 5);
+        PassBall command = new PassBall(6, 5, 1, 0, game);
         command.setCurrentState();
 
         List<Tile> path = command.getPathTiles();
 
         System.out.println(path);
 
-        assertTrue(
-                IntStream
-                        .range(0, 5)
-                        .allMatch(i -> path.get(i).getX() == (i + 1) && path.get(i).getY() == (i + 1))
-        );
+        for (int i = 0; i < 4; i++) {
+            assertTrue(path.get(i).getX() == (5 - i) && path.get(i).getY() == (5 - i - 1));
+        }
     }
 
     @Test
@@ -191,16 +188,30 @@ public class PassBallTest {
     }
 
     @Test
-    void noOpponentOnPath() {
-        PassBall command = new PassBall(3, 6, 1, 6, game);
+    void friendOnPath() {
+        PassBall command = new PassBall(0, 0, 6, 0, game);
         command.setCurrentState();
-        command.ifNoPieceOnPath();
+        assertFalse(command.ifNoPieceOnPath());
+    }
+
+    @Test
+    void friendOnPathBis() {
+        PassBall command = new PassBall(3, 0, 0, 0, game);
+        command.setCurrentState();
+        assertFalse(command.ifNoPieceOnPath());
+    }
+
+    @Test
+    void noOpponentOnPath() {
+        game.getGameboard().movePiece(6, 0, 3, 2);
+        PassBall command = new PassBall(3, 2, 5, 0, game);
+        command.setCurrentState();
         assertTrue(command.ifNoPieceOnPath());
     }
 
     @Test
     void candDoDx() {
-        PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, 6, 0, game);
+        PassBall command = new PassBall(Board.BOARDSIZE / 2, 0, 4, 0, game);
         command.setCurrentState();
         assertTrue(command.canDo());
     }

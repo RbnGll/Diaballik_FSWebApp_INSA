@@ -124,7 +124,7 @@ public class TestGameRessourceGameStarted {
         // Faire une passe possible
         Response response = client
                 .target(baseUri)
-                .path("game/action/passBall/3/0/0/0")
+                .path("game/action/passBall/3/0/2/0")
                 .request()
                 .put(Entity.text(""));
 
@@ -132,7 +132,7 @@ public class TestGameRessourceGameStarted {
 
         Game game = LogJSONAndUnmarshallValue(response, Game.class);
         Tile ballTile = game.getCurrentPlayer().getBall().getPiece().getTile();
-        assertEquals(0, ballTile.getX());
+        assertEquals(2, ballTile.getX());
         assertEquals(0, ballTile.getY());
     }
 
