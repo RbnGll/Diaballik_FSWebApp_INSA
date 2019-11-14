@@ -13,16 +13,18 @@ import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.validation.constraints.AssertTrue;
 import java.awt.Color;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StartingAITest {
 
-    private Game g;
     StartingAI ais;
+    private Game g;
 
     @BeforeEach
     void init() throws TurnException, CommandException {
@@ -103,8 +105,8 @@ public class StartingAITest {
         c = ais.tryToPassForward();
         PassBall pass = (PassBall) c;
 
-        assertEquals(g.getGameboard().getTile(3,6).getPiece(),pass.getFromPiece());
-        assertEquals(g.getGameboard().getTile(5,4).getPiece(),pass.getToPiece());
+        assertEquals(g.getGameboard().getTile(3, 6).getPiece(), pass.getFromPiece());
+        assertEquals(g.getGameboard().getTile(5, 4).getPiece(), pass.getToPiece());
 
     }
 
@@ -112,14 +114,72 @@ public class StartingAITest {
     void tryToGoForwardTest() {
 
         //Scenario setup
-        g.getGameboard().movePiece(5, 6, 5, 4);
+        g.getGameboard().movePiece(0, 6, 0, 1);
+        g.getGameboard().movePiece(1, 6, 1, 1);
+        g.getGameboard().movePiece(2, 6, 2, 4);
+        g.getGameboard().movePiece(4, 6, 4, 1);
+        g.getGameboard().movePiece(5, 6, 5, 1);
+        g.getGameboard().movePiece(6, 6, 5, 1);
         g.swapCurrentPlayer();
 
+        MovePiece move = (MovePiece) ais.tryToGoForward();
+
+        assertEquals(g.getGameboard().getTile(2, 3), g.getGameboard().getTile(move.getX2(), move.getY2()));
+
+        g.getGameboard().movePiece(2, 4, 2, 1);
+        move = (MovePiece) ais.tryToGoForward();
+
+        assertNull(move);
+    }
+
+    @Test
+    void getBestActionTest() throws TurnException, CommandException {
+        g.swapCurrentPlayer();
+
+        //Scenario setup
+        g.getGameboard().movePiece(0, 0, 0, 3);
+        g.getGameboard().movePiece(0, 6, 0, 5);
+        g.getGameboard().movePiece(1, 6, 1, 3);
+        g.getGameboard().movePiece(2, 6, 3, 2);
+        g.getGameboard().movePiece(4, 6, 4, 2);
+        g.getGameboard().movePiece(5, 6, 5, 4);
+
+        Command c = ais.getBestAction();
+
+        assertEquals(MovePiece.class, c.getClass());
+        MovePiece move = (MovePiece) c;
+        assertEquals((g.getGameboard().getTile(1, 2)), g.getGameboard().getTile(move.getX2(), move.getY2()));
+
+        //Scenario setup
+        g.getGameboard().movePiece(0, 3, 0, 0);
+
+        c = ais.getBestAction();
+        assertEquals(MovePiece.class, c.getClass());
+        move = (MovePiece) c;
+        assertEquals((g.getGameboard().getTile(4, 1)), g.getGameboard().getTile(move.getX2(), move.getY2()));
+
+    }
+
+    @Test
+    void noBestActionTest() {
+        g.swapCurrentPlayer();
+
+        assertNull(ais.getBestAction());
 
     }
 
     @Test
     void executeTest() {
-
+        //Scenario setup
+        g.getGameboard().movePiece(0, 6, 0, 1);
+        g.getGameboard().movePiece(1, 6, 1, 1);
+        g.getGameboard().movePiece(2, 6, 2, 1);
+        g.getGameboard().movePiece(4, 6, 4, 1);
+        g.getGameboard().movePiece(5, 6, 5, 1);
+        g.getGameboard().movePiece(6, 6, 6, 1);
+        g.swapCurrentPlayer();
+        Command c = ais.execute();
+        //getBestAction() subfunction has been fully tested, we just test that a random actions his given if there is no best action;
+        assertNotNull(c);
     }
 }

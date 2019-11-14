@@ -42,22 +42,6 @@ public class TestGameResource {
     }
 
     @Test
-    void exampleMethod(final Client client, final URI baseUri) {
-        // final Response res = client
-        // 	.target(baseUri)
-        // 	.path("TODO")
-        // 	.request()
-        // 	.post(Entity.text(""));
-
-        // assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
-
-        // final Game game = LogJSONAndUnmarshallValue(res, Game.class);
-
-        // assertNotNull(game);
-        // etc..
-    }
-
-    @Test
     void testNewValidGamePvP(final Client client, final URI baseUri) {
         final Response response = client
                 .target(baseUri)
@@ -101,22 +85,44 @@ public class TestGameResource {
 
     @Test
     void testNewGamePvAI(final Client client, final URI baseUri) {
-        // TODO
+        final Response response = client
+                .target(baseUri)
+                .path("game/newPvAI/Robebs/0/0")
+                .request()
+                .post(Entity.text(""));
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+
+        final Game game = LogJSONAndUnmarshallValue(response, Game.class);
+
+        assertNotNull(game);
+
+        assertEquals("Robebs", game.getPlayer1().getName());
+        assertEquals(Color.BLACK, game.getPlayer1().getColor());
+        assertEquals("Computer", game.getPlayer2().getName());
+        assertEquals(Color.WHITE, game.getPlayer2().getColor());
     }
 
     @Test
     void testNewGamePvAIInvalidColor(final Client client, final URI baseUri) {
-        // TODO
-    }
+        final Response response = client
+                .target(baseUri)
+                .path("game/newPvAI/Robebs/2/0")
+                .request()
+                .post(Entity.text(""));
 
-    @Test
-    void testNewGamePvAISameColor(final Client client, final URI baseUri) {
-        // TODO
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
     void testNewGamePvAIInvalidStrategy(final Client client, final URI baseUri) {
-        // TODO
+        final Response response = client
+                .target(baseUri)
+                .path("game/newPvAI/Robebs/0/5")
+                .request()
+                .post(Entity.text(""));
+
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test

@@ -26,22 +26,22 @@ public abstract class AIStrategy {
     public List<Command> getPossiblePassBallForPiece(final Piece p) {
         final int x = p.getTile().getX();
         final int y = p.getTile().getY();
-        return IntStream.range(1, Board.BOARDSIZE)
+        return IntStream.range(1, Board.BOARDSIZE) //Make a list of every possible pass for each tile of the gameboard
                 .mapToObj(i -> {
                     final List<Command> commands = Arrays.asList(
-                            // Toutes les lignes droites que peut faire une balle
+                            // Every vertical and horizontal pass
                             new PassBall(x, y, x + i, y, game),
                             new PassBall(x, y, x - i, y, game),
                             new PassBall(x, y, x, y + i, game),
                             new PassBall(x, y, x, y - i, game),
-                            // Toutes les diagonales droites que peut faire une balle
+                            // Every diagonal pass
                             new PassBall(x, y, x + i, y + i, game),
                             new PassBall(x, y, x - i, y + i, game),
                             new PassBall(x, y, x - i, y - i, game),
                             new PassBall(x, y, x + i, y - i, game));
                     return commands.stream()
                             .peek(Command::setCurrentState)
-                            .filter(Command::canDo)
+                            .filter(Command::canDo) //Filter the pass which can't be execute at this point of the game
                             .collect(Collectors.toList());
                 }).flatMap(List::stream).collect(Collectors.toList());
     }
@@ -51,6 +51,7 @@ public abstract class AIStrategy {
         final List<Command> commands = pieces.stream().map(piece -> {
             final int x = piece.getTile().getX();
             final int y = piece.getTile().getY();
+            //Return a list of every move for this piece
             return Arrays.<Command>asList(
                     new MovePiece(x, y, x + 1, y, game),
                     new MovePiece(x, y, x - 1, y, game),
@@ -58,7 +59,7 @@ public abstract class AIStrategy {
                     new MovePiece(x, y, x, y - 1, game)
             );
         }).flatMap(List::stream).peek(Command::setCurrentState).collect(Collectors.toList());
-        return commands.stream().filter(Command::canDo).collect(Collectors.toList());
+        return commands.stream().filter(Command::canDo).collect(Collectors.toList()); //Filter those moves with the Command.canDo()
     }
 
     public List<Command> getPossibleActionsForPlayer(final Player p) {

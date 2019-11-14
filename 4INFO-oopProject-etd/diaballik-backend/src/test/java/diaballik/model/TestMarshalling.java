@@ -3,10 +3,14 @@ package diaballik.model;
 import diaballik.model.game.Game;
 import diaballik.model.game.Tile;
 import diaballik.model.game.Turn;
+import diaballik.model.player.AIPlayer;
+import diaballik.model.player.AIType;
 import diaballik.model.player.Ball;
 import diaballik.model.player.HumanPlayer;
 import diaballik.model.player.Piece;
 import diaballik.model.player.Player;
+import diaballik.model.player.aiStrategy.AIStrategy;
+import diaballik.model.player.aiStrategy.StartingAI;
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +37,9 @@ public class TestMarshalling {
     Piece piece;
     Ball b;
     Player hp;
+    Player aip;
     Game g;
+    Game aig;
     Turn turn;
 
     <T> T marshall(final T objectToMarshall) throws IOException, JAXBException {
@@ -66,6 +72,8 @@ public class TestMarshalling {
         b = new Ball(piece);
         g = new Game(Color.BLACK, "Robin", Color.WHITE, "Ronan");
         hp = g.getPlayer1();
+        aig = new Game(Color.WHITE, "Robebs", AIType.STARTING);
+        aip = aig.getPlayer2();
 
         g.start();
         turn = g.getCurrentTurn();
@@ -114,7 +122,16 @@ public class TestMarshalling {
 
     @Test
     void testAIPlayer() throws IOException, JAXBException {
-        // TODO
+        Player aiPlayer = marshall(aip);
+
+        assertEquals("Computer", aiPlayer.getName());
+        assertEquals(Color.BLACK, aiPlayer.getColor());
+        assertFalse(aiPlayer.isVictory());
+        assertEquals(7, aiPlayer.getPieces().size());
+        assertEquals(3, aiPlayer.getBall().getPiece().getTile().getX());
+        assertEquals(6, aiPlayer.getBall().getPiece().getTile().getY());
+
+        assertEquals(AIPlayer.class, aiPlayer.getClass());
     }
 
     @Test

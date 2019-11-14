@@ -3,6 +3,9 @@ package diaballik.specification;
 import diaballik.model.game.Board;
 import diaballik.model.game.Game;
 import diaballik.model.game.Tile;
+import diaballik.model.player.AIPlayer;
+import diaballik.model.player.AIType;
+import diaballik.model.player.HumanPlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -134,27 +137,32 @@ public class SpecificationTest {
 
     @Test
     void R23_1_PLAYER_KINDS() {
-        // TODO
+        assertEquals(HumanPlayer.class, g.getPlayer1().getClass());
+        assertEquals(HumanPlayer.class, g.getPlayer2().getClass());
+
+        Game aiGame = new Game(Color.WHITE, "Robebs", AIType.NOOB);
+        assertEquals(HumanPlayer.class, aiGame.getPlayer1().getClass());
+        assertEquals(AIPlayer.class, aiGame.getPlayer2().getClass());
     }
 
     @Test
     void R23_2_IA_LEVELS() {
-        // TODO
+        assertEquals(3, AIType.values().length);
     }
 
     @Test
     void R23_3_AI_LEVEL_NOOB() {
-        // TODO
+        // Cf NoobAITest dans player.aiTest
     }
 
     @Test
     void R23_4_AI_LEVEL_STARTING() {
-        // TODO
+        // Cf StartingAITest & AIStrategyTest dans player.aiTest
     }
 
     @Test
     void R23_5_AI_LEVEL_PROGRESSIVE() {
-        // TODO
+        // Cf ProgressiveAITest & AIStrategyTest dans player.aiTest
     }
 
     @Test

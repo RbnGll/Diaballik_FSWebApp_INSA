@@ -35,39 +35,36 @@ public class StartingAI extends AIStrategy {
     @Override
     public Command execute() {
         Command bestAction = getBestAction();
-        if (nonNull(bestAction)) {
+        if (bestAction == null) {
             // If there is no best action, return a random action
             bestAction = new NoobAI(game).execute();
         }
         return bestAction;
     }
 
-    private Command getBestAction() {
+    public Command getBestAction() {
+        //Try to block a pass
         Command bestAction = tryToBlockPass();
+        //If no pass can be blocked, try to stop the opponent to go forward
         if (bestAction == null) {
             bestAction = tryToBlockForwardMoves();
         }
-        if (bestAction == null) {
-            bestAction = tryToPassForward();
-        }
-        if (bestAction == null) {
-            bestAction = tryToGoForward();
-        }
-
+        //If there is no blocking move possible, return bestAction as null
         return bestAction;
     }
 
     public Command tryToBlockPass() {
         final Map<Tile, Command> moves = getPossiblePosition(game.getCurrentPlayer());
         final List<Tile> positionToBlockPass = getPassesPath(opponent);
-        final List<Command> blockingPassPosition = positionToBlockPass.stream()
-                .map(moves::get)
+        final List<Command> blockingPassMove = positionToBlockPass.stream()
+                .map(moves::get) //Get every move from "moves" indexed by a tile which is in "positionToBlockPass" list
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-        if (blockingPassPosition.isEmpty()) {
+        if (blockingPassMove.isEmpty()) {
             return null;
         }
-        return blockingPassPosition.get(r.nextInt(blockingPassPosition.size()));
+        //Choose a random move from "blockingPassPosition" move list
+        return blockingPassMove.get(r.nextInt(blockingPassMove.size()));
     }
 
     public Command tryToBlockForwardMoves() {
@@ -75,51 +72,17 @@ public class StartingAI extends AIStrategy {
         final List<Command> opponentMoves = getPossibleMovePieceNotCurrentPlayer(opponent);
         final List<Command> blockingMoves = opponentMoves.stream().map(command -> {
             final MovePiece move = (MovePiece) command;
-            if ((move.getY2() - move.getY1()) > 0) {
-                return aiMoves.get(game.getGameboard().getTile(move.getX2(), move.getY2()));
+            if ((move.getY2() - move.getY1()) > 0) { // Verify if the opponent moves were going forward
+                return aiMoves.get(game.getGameboard().getTile(move.getX2(), move.getY2())); //Get move from "aiMoves" indexed by a tile which is in "opponentMoves"
             } else {
                 return null;
             }
         }).filter(Objects::nonNull).collect(Collectors.toList());
         if (blockingMoves.isEmpty()) {
+            //If there is no blocking move possible, return null
             return null;
         }
         return blockingMoves.get(r.nextInt(blockingMoves.size()));
-    }
-
-    public Command tryToGoForward() {
-        final List<Command> actions = getPossibleActionsForPlayer(game.getCurrentPlayer());
-        final List<Command> moves = actions.stream()
-                .filter(command -> command.getClass() == MovePiece.class)
-                .collect(Collectors.toList());
-        final List<Command> forwardMoves = moves.stream().map(command -> {
-            final MovePiece move = (MovePiece) command;
-            if ((move.getY2() - move.getY1() ^ 1) > 0) {
-                return move;
-            } else {
-                return null;
-            }
-        }).filter(Objects::nonNull).collect(Collectors.toList());
-        return forwardMoves.get(r.nextInt(forwardMoves.size()));
-    }
-
-    public Command tryToPassForward() {
-        final List<Command> actions = getPossibleActionsForPlayer(game.getCurrentPlayer());
-        final List<Command> passes = actions.stream()
-                .filter(command -> command.getClass() == PassBall.class)
-                .collect(Collectors.toList());
-        final List<Command> forwardPasses = passes.stream().map(command -> {
-            final PassBall pass = (PassBall) command;
-            final Piece toPiece = ((PassBall) command).getToPiece().orElse(null);
-            final Piece fromPiece = ((PassBall) command).getFromPiece().orElse(null);
-            if (toPiece.getTile().getY() - fromPiece.getTile().getY() < 0) {
-                return pass;
-            } else {
-                return null;
-            }
-        }).filter(Objects::nonNull).collect(Collectors.toList());
-        if (forwardPasses.isEmpty()) { return null;}
-        return forwardPasses.get(r.nextInt(forwardPasses.size()));
     }
 
     private Player getOpponent() {
@@ -191,5 +154,47 @@ public class StartingAI extends AIStrategy {
             final MovePiece move = (MovePiece) command;
             return move.canDoForPlayer(p);
         }).collect(Collectors.toList());
+    }
+
+    //This function would have been useful if we wanted the AI to try to win
+    public Command tryToGoForward() {
+        final List<Command> actions = getPossibleActionsForPlayer(game.getCurrentPlayer());
+        final List<Command> moves = actions.stream()
+                .filter(command -> command.getClass() == MovePiece.class)
+                .collect(Collectors.toList());
+        final List<Command> forwardMoves = moves.stream().map(command -> {
+            final MovePiece move = (MovePiece) command;
+            if (move.getY2() - move.getY1() < 0) {
+                return move;
+            } else {
+                return null;
+            }
+        }).filter(Objects::nonNull).collect(Collectors.toList());
+        if (forwardMoves.isEmpty()) {
+            return null;
+        }
+        return forwardMoves.get(r.nextInt(forwardMoves.size()));
+    }
+
+    //This function would have been useful if we wanted the AI to try to win
+    public Command tryToPassForward() {
+        final List<Command> actions = getPossibleActionsForPlayer(game.getCurrentPlayer());
+        final List<Command> passes = actions.stream()
+                .filter(command -> command.getClass() == PassBall.class)
+                .collect(Collectors.toList());
+        final List<Command> forwardPasses = passes.stream().map(command -> {
+            final PassBall pass = (PassBall) command;
+            final Piece toPiece = ((PassBall) command).getToPiece().orElse(null);
+            final Piece fromPiece = ((PassBall) command).getFromPiece().orElse(null);
+            if (toPiece.getTile().getY() - fromPiece.getTile().getY() < 0) {
+                return pass;
+            } else {
+                return null;
+            }
+        }).filter(Objects::nonNull).collect(Collectors.toList());
+        if (forwardPasses.isEmpty()) {
+            return null;
+        }
+        return forwardPasses.get(r.nextInt(forwardPasses.size()));
     }
 }

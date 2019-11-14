@@ -37,6 +37,5 @@ public class NoobAITest {
         Command c = aip.getCommand();
         g.getCurrentTurn().invokeCommand(c);
         assertTrue(g.getCurrentTurn().getUndoDeque().contains(c));
-        assertNotEquals(aip.getCommand(), aip.getCommand());
     }
 }
