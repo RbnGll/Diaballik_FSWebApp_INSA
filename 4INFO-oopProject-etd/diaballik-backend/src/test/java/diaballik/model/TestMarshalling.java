@@ -29,6 +29,13 @@ import static org.junit.Assert.assertNull;
 
 
 public class TestMarshalling {
+    Tile t;
+    Piece piece;
+    Ball b;
+    Player hp;
+    Game g;
+    Turn turn;
+
     <T> T marshall(final T objectToMarshall) throws IOException, JAXBException {
         final Map<String, Object> properties = new HashMap<>();
         properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
@@ -51,13 +58,6 @@ public class TestMarshalling {
 
         return o;
     }
-
-    Tile t;
-    Piece piece;
-    Ball b;
-    Player hp;
-    Game g;
-    Turn turn;
 
     @BeforeEach
     void setUp() {

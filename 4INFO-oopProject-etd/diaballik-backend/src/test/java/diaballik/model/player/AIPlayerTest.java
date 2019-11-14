@@ -1,14 +1,9 @@
 package diaballik.model.player;
 
-import diaballik.model.control.Command;
-import diaballik.model.control.MovePiece;
 import diaballik.model.game.Game;
-import diaballik.model.player.aiStrategy.AIStrategy;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -31,7 +26,7 @@ public class AIPlayerTest {
 
     @Test
     void constructionTestStarting() {
-        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.STARTING, 2, new Game() );
+        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.STARTING, 2, new Game());
 
         assertEquals("Robebs", aip.getName());
         assertEquals(Color.WHITE, aip.getColor());
@@ -44,7 +39,7 @@ public class AIPlayerTest {
 
     @Test
     void constructionTestProgressive() {
-        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.PROGRESSIVE, 2,new Game());
+        AIPlayer aip = new AIPlayer("Robebs", Color.WHITE, AIType.PROGRESSIVE, 2, new Game());
 
         assertEquals("Robebs", aip.getName());
         assertEquals(Color.WHITE, aip.getColor());

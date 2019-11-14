@@ -2,6 +2,7 @@ package diaballik.model.control;
 
 import diaballik.model.game.Game;
 import diaballik.model.player.Piece;
+import diaballik.model.player.Player;
 
 import java.util.Optional;
 
@@ -25,7 +26,18 @@ public class MovePiece extends Command {
         return game.getGameboard().ifWithinBounds(x1, y1)
                 && game.getGameboard().ifWithinBounds(x2, y2)
                 && ifPresentPiece()
-                && ifBelongstoCurrentPlayer()
+                && ifBelongsToCurrentPlayer()
+                && ifFreePosition()
+                && ifNotContainsBall()
+                && ifCorrectPath();
+    }
+
+    public boolean canDoForPlayer(final Player p) {
+
+        return game.getGameboard().ifWithinBounds(x1, y1)
+                && game.getGameboard().ifWithinBounds(x2, y2)
+                && ifPresentPiece()
+                && ifBelongsToPlayer(p)
                 && ifFreePosition()
                 && ifNotContainsBall()
                 && ifCorrectPath();
@@ -49,8 +61,12 @@ public class MovePiece extends Command {
         return game.getGameboard().getTile(x2, y2).getPiece().isEmpty();
     }
 
-    public boolean ifBelongstoCurrentPlayer() {
+    public boolean ifBelongsToCurrentPlayer() {
         return game.getCurrentPlayer().getPieces().contains(pieceToMove.get());
+    }
+
+    public boolean ifBelongsToPlayer(final Player p) {
+        return p.getPieces().contains(pieceToMove.get());
     }
 
     public boolean ifNotContainsBall() {

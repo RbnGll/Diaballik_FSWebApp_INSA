@@ -3,7 +3,7 @@ package diaballik.model.player;
 import diaballik.model.game.Tile;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

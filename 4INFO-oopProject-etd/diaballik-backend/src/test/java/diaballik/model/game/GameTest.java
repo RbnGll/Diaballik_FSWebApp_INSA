@@ -4,16 +4,23 @@ import diaballik.model.exception.CommandException;
 import diaballik.model.exception.turn.EndTurnException;
 import diaballik.model.exception.turn.TurnException;
 import diaballik.model.exception.turn.UnstartedGameException;
-import diaballik.model.player.*;
-import diaballik.model.player.aiStrategy.AIStrategy;
-import diaballik.model.player.aiStrategy.NoobAI;
+import diaballik.model.player.AIPlayer;
+import diaballik.model.player.AIType;
+import diaballik.model.player.HumanPlayer;
+import diaballik.model.player.Piece;
+import diaballik.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameTest {
 
@@ -61,8 +68,8 @@ public class GameTest {
         assertEquals(Color.BLACK, g.getPlayer2().getColor());
         assertEquals("Robebs", g.getPlayer1().getName());
         assertEquals("Computer", g.getPlayer2().getName());
-        assertEquals(HumanPlayer.class,g.getPlayer1().getClass());
-        assertEquals(AIPlayer.class,g.getPlayer2().getClass());
+        assertEquals(HumanPlayer.class, g.getPlayer1().getClass());
+        assertEquals(AIPlayer.class, g.getPlayer2().getClass());
 
         List<Piece> piecesP1 = g.getPlayer1().getPieces();
         List<Piece> pieceP2 = g.getPlayer2().getPieces();
@@ -177,12 +184,12 @@ public class GameTest {
         g.start();
 
         assertFalse(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
-        assertTrue(g.getGameboard().getTile(g.getGameboard().BOARDSIZE / 2, 0).getPiece().get().hasBall());
+        assertTrue(g.getGameboard().getTile(Board.BOARDSIZE / 2, 0).getPiece().get().hasBall());
 
-        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0,0).getPiece().get());
+        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0, 0).getPiece().get());
 
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
-        assertFalse(g.getGameboard().getTile(g.getGameboard().BOARDSIZE / 2, 0).getPiece().get().hasBall());
+        assertFalse(g.getGameboard().getTile(Board.BOARDSIZE / 2, 0).getPiece().get().hasBall());
     }
 
     @Test
@@ -193,12 +200,12 @@ public class GameTest {
         g.start();
 
         assertFalse(g.getGameboard().getTile(Board.BOARDSIZE / 2, Board.BOARDSIZE / 2).getPiece().get().hasBall());
-        assertTrue(g.getGameboard().getTile(g.getGameboard().BOARDSIZE / 2, 0).getPiece().get().hasBall());
+        assertTrue(g.getGameboard().getTile(Board.BOARDSIZE / 2, 0).getPiece().get().hasBall());
 
-        g.passBall(g.getGameboard().BOARDSIZE / 2, 0, Board.BOARDSIZE / 2, Board.BOARDSIZE / 2);
+        g.passBall(Board.BOARDSIZE / 2, 0, Board.BOARDSIZE / 2, Board.BOARDSIZE / 2);
 
         assertTrue(g.getGameboard().getTile(Board.BOARDSIZE / 2, Board.BOARDSIZE / 2).getPiece().get().hasBall());
-        assertFalse(g.getGameboard().getTile(g.getGameboard().BOARDSIZE / 2, 0).getPiece().get().hasBall());
+        assertFalse(g.getGameboard().getTile(Board.BOARDSIZE / 2, 0).getPiece().get().hasBall());
     }
 
     @Test
@@ -208,7 +215,7 @@ public class GameTest {
 
         g.start();
 
-        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0,0).getPiece().get());
+        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0, 0).getPiece().get());
 
         assertFalse(g.getGameboard().getTile(3, 3).getPiece().get().hasBall());
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
@@ -228,7 +235,7 @@ public class GameTest {
 
         g.start();
 
-        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0,0).getPiece().get());
+        g.getCurrentPlayer().getBall().move(g.getGameboard().getTile(0, 0).getPiece().get());
 
         assertFalse(g.getGameboard().getTile(5, 5).getPiece().get().hasBall());
         assertTrue(g.getGameboard().getTile(0, 0).getPiece().get().hasBall());
@@ -365,14 +372,14 @@ public class GameTest {
         g.endTurn();
 
         // 6th turn (Player 2)
-        g.movePiece(5,3,5,4);
-        g.movePiece(5,4,5,3);
-        g.movePiece(5,3,5,4);
+        g.movePiece(5, 3, 5, 4);
+        g.movePiece(5, 4, 5, 3);
+        g.movePiece(5, 3, 5, 4);
 
         g.endTurn();
 
         // 7th turn and victory (Player 1)
-        g.passBall(0,0,0,6);
+        g.passBall(0, 0, 0, 6);
 
         // Le joueur 1 est vainqueur
         assertTrue(g.getPlayer1().isVictory());

@@ -6,9 +6,11 @@ import diaballik.model.game.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MovePieceTest {
 
@@ -66,14 +68,14 @@ public class MovePieceTest {
     void notBelongstoCurrentPlayer() {
         MovePiece command = new MovePiece(0, 6, 0, 5, game);
         command.setCurrentState();
-        assertFalse(command.ifBelongstoCurrentPlayer());
+        assertFalse(command.ifBelongsToCurrentPlayer());
     }
 
     @Test
     void belongstoCurrentPlayer() {
         MovePiece command = new MovePiece(0, 0, 0, 5, game);
         command.setCurrentState();
-        assertTrue(command.ifBelongstoCurrentPlayer());
+        assertTrue(command.ifBelongsToCurrentPlayer());
     }
 
     @Test

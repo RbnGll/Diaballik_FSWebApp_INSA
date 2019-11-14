@@ -3,6 +3,7 @@ package diaballik.model.control;
 import diaballik.model.game.Game;
 import diaballik.model.game.Tile;
 import diaballik.model.player.Piece;
+import diaballik.model.player.Player;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,10 @@ public class PassBall extends Command {
     @Override
     public boolean canDo() {
         return ifPiecesExists() && ifBelongToCurrentPlayer() && ifPieceHasBall() && ifCorrectPath() && ifNoPieceOnPath();
+    }
+
+    public boolean canDoForAIPlayer(final Player p) {
+        return ifPiecesExists() && ifBelongToPlayer(p) && ifPieceHasBall() && ifCorrectPath() && ifNoPieceOnPath();
     }
 
     @Override
@@ -96,6 +101,11 @@ public class PassBall extends Command {
     public boolean ifBelongToCurrentPlayer() {
         final List<Piece> currentPlayerPieces = game.getCurrentPlayer().getPieces();
         return currentPlayerPieces.contains(fromPiece.get()) && currentPlayerPieces.contains(toPiece.get());
+    }
+
+    public boolean ifBelongToPlayer(final Player p) {
+        final List<Piece> PlayerPieces = p.getPieces();
+        return PlayerPieces.contains(fromPiece.get()) && PlayerPieces.contains(toPiece.get());
     }
 
     public boolean ifPieceHasBall() {

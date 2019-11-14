@@ -52,7 +52,7 @@ public class Game {
 
     public Game(final Color c1, final String name1, final Color c2, final String name2) {
         gameboard = new Board();
-        turnCount = 0;
+        turnCount = 1;
         aiGame = false;
 
         // Création des joueurs
@@ -77,7 +77,7 @@ public class Game {
 
     public Game(final Color c, final String name, final AIType aiLevel) {
         gameboard = new Board();
-        turnCount = 0;
+        turnCount = 1;
         aiGame = true;
 
         // Création des joueurs
@@ -159,15 +159,21 @@ public class Game {
     }
 
     public void aiActions(final AIPlayer p) {
-        IntStream.range(1, 3).peek(i -> {
+        IntStream.range(0, 3).forEach(i -> {
             try {
-                currentTurn.invokeCommand(p.getCommand());
-            } catch (TurnException e) {
-                e.printStackTrace();
-            } catch (CommandException e) {
+                final Command c = p.getCommand();
+                if (c.getClass() == PassBall.class) {
+                    final Tile from = ((PassBall) c).getFromPiece().get().getTile();
+                    final Tile to = ((PassBall) c).getToPiece().get().getTile();
+                    passBall(from.getX(), from.getY(), to.getX(), to.getY());
+                } else {
+                    final MovePiece move = (MovePiece) c;
+                    movePiece(move.getX1(), move.getY1(), move.getX2(), move.getY2());
+                }
+            } catch (TurnException | CommandException e) {
                 e.printStackTrace();
             }
-        }).close();
+        });
     }
 
     public void undo() throws TurnException {
@@ -193,7 +199,7 @@ public class Game {
         }
 
         if (currentTurn.checkEndTurn()) {
-            if(aiGame) {
+            if (aiGame) {
                 turnCount++;
                 swapCurrentPlayer();
                 currentTurn = new Turn();
