@@ -1,7 +1,7 @@
 div {
   --size-cell: 120px;
   --border-cell: 5px;
-  --color-cell: white;
+  --color-cell: #E8E6C0;
   --border-color-cell : black;
   --nb-cell : 7;
 }
@@ -26,5 +26,27 @@ div {
 }
 
 .piece {
+  border: 1px solid black;
+  box-sizing: border-box;
+  position: absolute;
+  background-color: black;
+  width: calc(var(--size-cell) - 20px);
+  height: calc(var(--size-cell) - 20px);
+  border-radius: calc( (var(--size-cell) - 20px) / 2);
+  z-index: 2;
+  padding: 0;
+  margin: 0;
+}
 
+.ball {
+  background-color: #E8E6C0;
+  border: 1px solid black;
+  box-sizing: border-box;
+  position: absolute;
+  width: calc(var(--size-cell) - 60px);
+  height: calc(var(--size-cell) - 60px);
+  border-radius: calc( (var(--size-cell) - 60px) / 2);
+  z-index: 3;
+  padding: 0;
+  margin: 0;
 }

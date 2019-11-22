@@ -1,12 +1,34 @@
 <div class="board">
 
   <div class="line" *ngFor="let y of [6,5,4,3,2,1,0]">
+
     <div class="cell"
-         #cells
-         *ngFor="let x of [0,1,2,3,4,5,6]"
-         [attr.data-x] = x
-         [attr.data-y]= y
-         (click)="processClick($event)">
+      #cells
+      *ngFor="let x of [0,1,2,3,4,5,6]"
+      [attr.data-x] = x
+      [attr.data-y]= y
+      (click)="processClick($event)">
     </div>
+
+    <div class="piece" #pieces *ngFor="let piece of data.game.player1.pieces"
+      [ngStyle]="{'background-color': data.game.player1.color ? '#6F6E5C' : 'white'}"
+      [style.left.px]="piece.tile.x * 120 + 10" [style.top.px]="(6 - piece.tile.y) * 120 + 10">
+    </div>
+
+    <div class="piece" #pieces *ngFor="let piece of data.game.player2.pieces"
+      [ngStyle]="{'background-color': data.game.player2.color ? '#6F6E5C' : 'white'}"
+      [style.left.px]="piece.tile.x * 120 + 10" [style.top.px]="(6 - piece.tile.y) * 120 + 10">
+    </div>
+
+    <div class="ball" #balls
+         [style.left.px]="data.game.player1.ball.piece.tile.x * 120 + 30"
+         [style.top.px]="(6 - data.game.player1.ball.piece.tile.y) * 120 + 30">
+    </div>
+
+    <div class="ball" #balls
+         [style.left.px]="data.game.player2.ball.piece.tile.x * 120 + 30"
+         [style.top.px]="(6 - data.game.player2.ball.piece.tile.y) * 120 + 30">
+    </div>
+
   </div>
 </div>
