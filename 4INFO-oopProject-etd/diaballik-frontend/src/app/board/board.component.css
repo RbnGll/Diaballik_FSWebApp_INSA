@@ -1,0 +1,30 @@
+div {
+  --size-cell: 120px;
+  --border-cell: 5px;
+  --color-cell: white;
+  --border-color-cell : black;
+  --nb-cell : 7;
+}
+
+.board {
+  box-sizing: border-box;
+  position: relative;
+  width: calc((var(--size-cell)) * var(--nb-cell)); /* Pourquoi pas la taille de la bordure dedans ??*/
+  height: calc(var(--size-cell) * var(--nb-cell));  /* Pourquoi pas la taille de la bordure dedans ??*/
+  z-index: 1;
+}
+
+.cell {
+  box-sizing: border-box;
+  border: var(--border-cell) solid var(--border-color-cell);
+  background-color: var(--color-cell);
+  width: var(--size-cell);
+  height: var(--size-cell);
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+
+.piece {
+
+}

@@ -1,0 +1,12 @@
+<div class="board">
+
+  <div class="line" *ngFor="let y of [6,5,4,3,2,1,0]">
+    <div class="cell"
+         #cells
+         *ngFor="let x of [0,1,2,3,4,5,6]"
+         [attr.data-x] = x
+         [attr.data-y]= y
+         (click)="processClick($event)">
+    </div>
+  </div>
+</div>
