@@ -1,0 +1,17 @@
+<select [(ngModel)]="playerType">
+  <option value="Joueur" selected="selected">Joueur</option>
+  <option value="IA">IA</option>
+</select>
+
+<input *ngIf="playerType === 'Joueur'" type="text" />
+
+<select *ngIf="playerType === 'Joueur'">
+  <option>Noir</option>
+  <option>Blanc</option>
+</select>
+
+<select *ngIf="playerType === 'IA'">
+  <option>Noob</option>
+  <option>Starting</option>
+  <option>Progressive</option>
+</select>

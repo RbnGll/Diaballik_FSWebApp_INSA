@@ -25,17 +25,24 @@ div {
   margin: 0;
 }
 
+.cell:hover {
+  background-color: black;
+}
+
 .piece {
   border: 1px solid black;
   box-sizing: border-box;
   position: absolute;
-  background-color: black;
   width: calc(var(--size-cell) - 20px);
   height: calc(var(--size-cell) - 20px);
   border-radius: calc( (var(--size-cell) - 20px) / 2);
   z-index: 2;
   padding: 0;
   margin: 0;
+}
+
+.piece:hover {
+  background-color: black !important;
 }
 
 .ball {
@@ -49,4 +56,8 @@ div {
   z-index: 3;
   padding: 0;
   margin: 0;
+}
+
+.ball:hover {
+  background-color: black;
 }

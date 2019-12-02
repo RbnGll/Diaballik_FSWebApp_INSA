@@ -1,0 +1,76 @@
+<form [formGroup]="playersData" (ngSubmit)="onSubmit()">
+
+  <div formGroupName="player1">
+    <label>
+      Type :
+      <select formControlName="player1Type" required>
+          <option value="Joueur">Joueur</option>
+          <option value="IA">IA</option>
+      </select>
+    </label>
+    
+    <label *ngIf="playersData.get('player1').get('player1Type').value === 'Joueur'">
+      Nom du joueur :
+      <input formControlName="player1Name" type="text" required/>
+    </label>
+    
+    <label *ngIf="playersData.get('player1').get('player1Type').value === 'IA'">
+      Niveau :
+      <select formControlName="player1AILevel" required>
+        <option>Noob</option>
+        <option>Starting</option>
+        <option>Progressive</option>
+      </select>
+    </label>
+    
+    <label>
+      Couleur :
+      <select formControlName="player1Color" required>
+        <option>Noir</option>
+        <option>Blanc</option>
+      </select>
+    </label>
+
+  </div>
+
+  <div formGroupName="player2">
+
+      <label>
+        Type :
+        <select formControlName="player2Type" required>
+            <option value="Joueur">Joueur</option>
+            <option value="IA">IA</option>
+        </select>
+      </label>
+      
+      <label *ngIf="playersData.get('player2').get('player2Type').value === 'Joueur'">
+        Nom du joueur :
+        <input formControlName="player2Name" type="text" required/>
+      </label>
+      
+      <label *ngIf="playersData.get('player2').get('player2Type').value === 'IA'">
+        Niveau :
+        <select formControlName="player2AILevel" required>
+          <option>Noob</option>
+          <option>Starting</option>
+          <option>Progressive</option>
+        </select>
+      </label>
+      
+      <label>
+        Couleur :
+        <select formControlName="player2Color" required>
+          <option *ngIf="playersData.get('player1').get('player1Color').value === 'Blanc'">Noir</option>
+          <option *ngIf="playersData.get('player1').get('player1Color').value === 'Noir'">Blanc</option>
+        </select>
+      </label>
+  </div>
+
+  <!-- Vérifier si cases du nom non remplies ?? 
+  Mettre un !profileForm.valid-->
+  <div>
+    <button type="submit" [disabled]="!playersData.valid">Jouer</button>
+    <button (click)="onQuitClicked()">Quitter</button>
+  </div>
+  
+</form>
