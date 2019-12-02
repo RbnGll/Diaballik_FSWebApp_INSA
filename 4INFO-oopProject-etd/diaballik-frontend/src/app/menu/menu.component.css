@@ -1,0 +1,45 @@
+div {
+  --size-cell: 120px;
+  --nb-cell : 7;
+}
+
+.menu {
+  padding: 40px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+  border: 3px solid #6F6E5C;
+  background-color: #E8E6C0;
+}
+
+.underMenu{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.button {
+  background-color: #6F6E5C;
+  border-radius: 20px;
+  border: 2px solid #E8E6C0;
+  color: #E8E6C0;
+  padding: 15px 32px;
+  text-align: center;
+  font-family: Courier, monospace;
+  display: inline-block;
+  font-size: 18px;
+  margin: 10px auto;
+  cursor: pointer;
+  outline: 0;
+}
+.button:hover{
+  background-color: #807f68;
+}
+.button:active{
+  background-color: #E8E6C0;
+  border: 2px solid #6F6E5C;
+  color: #6F6E5C;
+}
