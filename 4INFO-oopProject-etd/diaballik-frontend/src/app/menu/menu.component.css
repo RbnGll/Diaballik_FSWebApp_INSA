@@ -36,10 +36,25 @@ div {
   outline: 0;
 }
 .button:hover{
-  background-color: #807f68;
+  background-color: #a3a286;
 }
 .button:active{
   background-color: #E8E6C0;
   border: 2px solid #6F6E5C;
   color: #6F6E5C;
+}
+
+.imageButton {
+  background-color: #E8E6C0;
+  outline: 0;
+  border-radius: 20px;
+  padding: auto;
+  margin-left: auto;
+}
+.imageButton:hover{
+  background-color: #a3a286;
+  border: 2px solid #6F6E5C;
+}
+.imageButton:active{
+  background-color: #E8E6C0;
 }

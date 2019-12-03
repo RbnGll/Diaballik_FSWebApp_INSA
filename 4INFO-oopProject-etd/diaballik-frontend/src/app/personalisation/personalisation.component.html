@@ -1,7 +1,7 @@
 <form [formGroup]="playersData" (ngSubmit)="onSubmit()">
 
   <div formGroupName="player1">
-    <label>
+    <label style="font-family: Courier, monospace">
       Type :
       <select formControlName="player1Type" required>
           <option value="Joueur">Joueur</option>
@@ -9,12 +9,12 @@
       </select>
     </label>
     
-    <label *ngIf="playersData.get('player1').get('player1Type').value === 'Joueur'">
+    <label style="font-family: Courier, monospace" *ngIf="playersData.get('player1').get('player1Type').value === 'Joueur'">
       Nom du joueur :
       <input formControlName="player1Name" type="text" required/>
     </label>
     
-    <label *ngIf="playersData.get('player1').get('player1Type').value === 'IA'">
+    <label style="font-family: Courier, monospace" *ngIf="playersData.get('player1').get('player1Type').value === 'IA'">
       Niveau :
       <select formControlName="player1AILevel" required>
         <option>Noob</option>
@@ -23,7 +23,7 @@
       </select>
     </label>
     
-    <label>
+    <label style="font-family: Courier, monospace">
       Couleur :
       <select formControlName="player1Color" required>
         <option>Noir</option>
@@ -35,7 +35,7 @@
 
   <div formGroupName="player2">
 
-      <label>
+      <label style="font-family: Courier, monospace">
         Type :
         <select formControlName="player2Type" required>
             <option value="Joueur">Joueur</option>
@@ -43,12 +43,12 @@
         </select>
       </label>
       
-      <label *ngIf="playersData.get('player2').get('player2Type').value === 'Joueur'">
+      <label style="font-family: Courier, monospace" *ngIf="playersData.get('player2').get('player2Type').value === 'Joueur'">
         Nom du joueur :
         <input formControlName="player2Name" type="text" required/>
       </label>
       
-      <label *ngIf="playersData.get('player2').get('player2Type').value === 'IA'">
+      <label style="font-family: Courier, monospace" *ngIf="playersData.get('player2').get('player2Type').value === 'IA'">
         Niveau :
         <select formControlName="player2AILevel" required>
           <option>Noob</option>
@@ -57,7 +57,7 @@
         </select>
       </label>
       
-      <label>
+      <label style="font-family: Courier, monospace">
         Couleur :
         <select formControlName="player2Color" required>
           <option *ngIf="playersData.get('player1').get('player1Color').value === 'Blanc'">Noir</option>
@@ -69,8 +69,8 @@
   <!-- Vérifier si cases du nom non remplies ?? 
   Mettre un !profileForm.valid-->
   <div>
-    <button type="submit" [disabled]="!playersData.valid">Jouer</button>
-    <button (click)="onQuitClicked()">Quitter</button>
+    <button class="button" type="submit" [disabled]="!playersData.valid">Jouer</button>
+    <button class="button" (click)="onQuitClicked()">Quitter</button>
   </div>
   
 </form>

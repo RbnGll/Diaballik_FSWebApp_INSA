@@ -1,27 +1,28 @@
 <p>menu works!</p>
 
-<button (click)="newPvPClicked()">newPvP</button>
-<button (click)="startClicked()">start</button>
-<button (click)="endTurnClicked()">endTurn</button>
-<button (click)="undoClicked()">Undo</button>
-<button (click)="redoClicked()">Redo</button>
-<button (click)="onQuitClicked()">Quitter</button>
+<div class="button" (click)="newPvPClicked()">newPvP</div>
+<div class="button" (click)="startClicked()">start</div>
+
 
 <div class="menu">
-  <img src="https://zupimages.net/viewer.php?id=19/49/90pz.png"
+  <img src="https://image.noelshack.com/fichiers/2019/49/2/1575377708-logo.png"
        height="232"
        width="546"
        alt="[Diaballik]"
   />
   <div class="underMenu">
     <b><div style = "text-align: justify; font-family : Courier, monospace; font-size : 35px; color: #6F6E5C;">Tour {{data.game.turnCount}}</div></b>
-    <div class="button" style="border: 0; background-color: currentColor"><img src = "https://zupimages.net/viewer.php?id=19/49/o81l.png"></div>
+    <div class="imageButton"><img
+      alt="Prochain tour"
+      height="35"
+      src="https://image.noelshack.com/fichiers/2019/49/2/1575377708-bouton-tour.png"
+      width="35"></div>
   </div>
   <b><div style = "text-align: justify; font-family : Courier, monospace; font-size : 35px; color: #6F6E5C;">{{data.game.currentPlayer - 1 ? data.game.player2.name : data.game.player1.name}}</div></b>
   <b><div style = "text-align: justify; font-family : Courier, monospace; font-size : 35px; color: #6F6E5C;">Action /3</div></b>
 </div>
 <div class="underMenu">
-  <div class="button">Annuler</div>
-  <div class="button">Rétablir</div>
+  <div class="button" (click)="undoClicked()">Annuler</div>
+  <div class="button" (click)="redoClicked()">Rétablir</div>
 </div>
-<div class="button" style="">Quitter</div>
+<div class="button" (click)="onQuitClicked()">Quitter</div>
