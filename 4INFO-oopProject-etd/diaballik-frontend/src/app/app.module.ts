@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { PlayerSelectionComponent } from './player-selection/player-selection.component';
 import { PersonalisationComponent } from './personalisation/personalisation.component';
 import { GameComponent } from './game/game.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({

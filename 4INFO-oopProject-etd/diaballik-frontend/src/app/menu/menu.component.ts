@@ -39,8 +39,8 @@ export class MenuComponent implements OnInit, AfterViewInit {
   }
 
   undoClicked(): void {
-    this.http.put('/game/action/undo', {}, {observe : 'response'}).
-    subscribe(response => this.handleResponse(response));
+    this.http.put('/game/action/undo', {}, {}).
+    subscribe(response => console.log(response), error => console.log(error.status));
 
     console.log('/game/undo');
   }

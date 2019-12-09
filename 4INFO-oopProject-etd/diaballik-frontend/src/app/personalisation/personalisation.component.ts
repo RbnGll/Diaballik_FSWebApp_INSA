@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-personalisation',
@@ -9,59 +9,24 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./personalisation.component.css']
 })
 
-export class PersonalisationComponent implements OnInit {
+export class PersonalisationComponent implements OnInit, AfterViewInit {
 
   playersData = this.fb.group({
     player1: this.fb.group({
       player1Name: [''],
-      player1Type: ['', Validators.required],
-      player1AILevel: [''],
-      player1Color: ['', Validators.required]
-    }),
-    player2: this.fb.group({
-      player2Name: [''],
-      player2Type: ['', Validators.required],
-      player2AILevel: [''],
-      player2Color: ['', Validators.required]
+      player1Type: [''],
+      player1AILevel: ['']
     })
-  })
+  });
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { }
 
+  ngAfterViewInit(): void {
+
+  }
+
   ngOnInit() {
     this.playersData.get('player1').get('player1Type').setValue('Joueur');
-    this.playersData.get('player2').get('player2Type').setValue('Joueur');
-
-    this.playersData.get('player1').get('player1Color').setValue('Noir');
-    this.playersData.get('player2').get('player2Color').setValue('Blanc');
-
-    this.playersData.get('player1').get('player1Type').valueChanges.subscribe(type => {
-      if(type === 'Joueur') {
-        // Enlever les validateurs sur le champ Level
-        this.playersData.get('player1').get('player1AILevel').clearValidators();
-        // Les remettre sur le champ Name
-        this.playersData.get('player1').get('player1Name').setValidators([Validators.required]);
-      }
-
-      else {
-        this.playersData.get('player1').get('player1AILevel').setValidators(Validators.required);
-        this.playersData.get('player1').get('player1Name').clearValidators();
-      }
-    })
-
-    this.playersData.get('player1').get('player1Type').valueChanges.subscribe(type => {
-      if(type === 'Joueur') {
-        // Enlever les validateurs sur le champ Level
-        this.playersData.get('player2').get('player2AILevel').clearValidators();
-        // Les remettre sur le champ Name
-        this.playersData.get('player2').get('player2Name').setValidators([Validators.required]);
-      }
-
-      else {
-        this.playersData.get('player2').get('player2AILevel').setValidators(Validators.required);
-        this.playersData.get('player2').get('player2Name').clearValidators();
-      }
-    })
   }
 
   onSubmit(): void {
