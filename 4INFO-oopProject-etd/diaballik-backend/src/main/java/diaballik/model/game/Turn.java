@@ -25,10 +25,15 @@ public class Turn {
 
     private boolean turnEnd;
 
+    private int actionCount;
+    private int redoCount;
+
     public Turn() {
         undoDeque = new ArrayDeque<>();
         redoDeque = new ArrayDeque<>();
         turnEnd = false;
+        actionCount = 0;
+        redoCount = 0;
     }
 
     public boolean invokeCommand(final Command c) throws TurnException, CommandException {
@@ -42,6 +47,8 @@ public class Turn {
                     undoDeque.addFirst(c);
                     redoDeque.clear();
                     turnEnd = checkEndTurn();
+                    actionCount++;
+                    redoCount = 0;
                     return true;
                 }
             } else {
@@ -66,6 +73,9 @@ public class Turn {
 
         c.undo();
         redoDeque.addFirst(c);
+        redoCount++;
+
+        actionCount--;
 
         // Mise à jour de turnEnd
         turnEnd = checkEndTurn();
@@ -82,6 +92,9 @@ public class Turn {
 
         c.exe();
         undoDeque.addFirst(c);
+
+        actionCount++;
+        redoCount--;
 
         // Mise à jour de turnEnd
         turnEnd = checkEndTurn();

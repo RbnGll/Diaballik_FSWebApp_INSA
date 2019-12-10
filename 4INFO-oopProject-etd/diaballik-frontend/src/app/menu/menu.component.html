@@ -18,10 +18,10 @@
       width="35"></div>
   </div>
   <b><div style = "text-align: justify; font-family : Courier, monospace; font-size : 35px; color: #6F6E5C;">{{data.game.currentPlayer - 1 ? data.game.player2.name : data.game.player1.name}}</div></b>
-  <b><div style = "text-align: justify; font-family : Courier, monospace; font-size : 35px; color: #6F6E5C;">Action /3</div></b>
+  <b><div style = "text-align: justify; font-family : Courier, monospace; font-size : 35px; color: #6F6E5C;">Action {{data.game.currentTurn.actionCount}}/3</div></b>
 </div>
 <div class="underMenu">
-  <div class="button" (click)="undoClicked()">Annuler</div>
-  <div class="button" (click)="redoClicked()">Rétablir</div>
+  <button class="button" (click)="undoClicked()" [disabled]="this.data.game.currentTurn.actionCount === 0">Annuler</button>
+  <button class="button" (click)="redoClicked()" [disabled]="this.data.game.currentTurn.redoCount === 0">Rétablir</button>
 </div>
 <div class="button" (click)="onQuitClicked()">Quitter</div>
