@@ -2,7 +2,6 @@ import {Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef} f
 import {MyData} from '../mydata';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {error} from "util";
 
 @Component({
   selector: 'app-board',

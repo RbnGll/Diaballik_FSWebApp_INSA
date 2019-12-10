@@ -18,50 +18,40 @@ export class MenuComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
   }
 
-  newPvPClicked(): void {
+  /*newPvPClicked(): void {
     this.http.post('/game/newPvP/Robin/0/Ronan/1', {}, {observe : 'response'}).
     subscribe(response => this.handleResponse(response));
 
     console.log('/game/newPvP/Robin/0/Ronan/1');
   }
   startClicked(): void {
-    this.http.put('/game/start', {}, {observe : 'response' }).
-    subscribe(response => this.handleResponse(response));
-
-    console.log('/game/start');
-  }
+    this.executePutResquest('/game/start');
+  }*/
 
   endTurnClicked(): void {
-    this.http.put('/game/action/endTurn', {}, {observe : 'response'}).
-    subscribe(response => this.handleResponse(response));
-
-    console.log('/game/endTurn');
+    this.executePutResquest('/game/action/endTurn');
   }
 
   undoClicked(): void {
-    this.http.put('/game/action/undo', {}, {}).
-    subscribe(response => console.log(response), error => console.log(error.status));
-
-    console.log('/game/undo');
+    this.executePutResquest('/game/action/undo');
   }
 
   redoClicked(): void {
-    this.http.put('/game/action/redo', {}, {observe : 'response'}).
-    subscribe(response => this.handleResponse(response));
-
-    console.log('/game/redo');
+    this.executePutResquest('/game/action/redo');
   }
 
   onQuitClicked(): void {
     this.router.navigate(['gameSettings']);
   }
 
-  handleResponse(response: HttpResponse<any>): void {
-    if (response.status === 400) {
-      console.log('Bad Request');
-    } else {
-      this.data.game = response.body;
-    }
+  executePutResquest(request: string): void {
+    this.http.put(request, {}, {})
+      .subscribe(returnedData => this.data.game = returnedData, error => {
+        // Traiter les erreurs
+        console.log(error);
+      });
+
+    console.log(request);
   }
 
 }

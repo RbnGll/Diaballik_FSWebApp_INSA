@@ -12,6 +12,7 @@ import { PersonalisationComponent } from './personalisation/personalisation.comp
 import { GameComponent } from './game/game.component';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
+import { Board2Component } from './board2/board2.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     PlayerSelectionComponent,
     PersonalisationComponent,
     GameComponent,
+    Board2Component,
   ],
   imports: [
     BrowserModule,

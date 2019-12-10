@@ -1,0 +1,63 @@
+/* Déclaration des constantes*/
+div {
+  --color-cell: #E8E6C0;
+  --color-cell-possible: #6F6E5E;
+  --nb-cell : 7;
+  --border-cell: 2px;
+}
+
+.board {
+  width: 56vw;
+  height: 56vw;
+}
+
+.line {
+  display: flex;
+}
+
+.cell:hover {
+  background: #a3a286;
+}
+
+.cell {
+  width: 8vw;
+  height: 8vw;
+  border: var(--border-cell) solid black;
+  box-sizing: border-box;
+  display: flex; /* Pour centrer la pièce dans la cellule */
+}
+
+.cell.classic {
+  background-color: var(--color-cell);
+}
+
+.cell.possible {
+  background-color: var(--color-cell-possible);
+}
+
+.piece {
+  border: 1px solid black;
+
+  border-radius: 50%; /* Pour un rond */
+
+  /* % de la taille de la cellule */
+  width: 80%;
+  height: 80%;
+
+  margin: auto; /* Avec le display flex dans la cellule */
+  display: flex; /* Pareil avec la pièce dans la balle */
+  pointer-events: none; /* Pour avoir des clicks et hover uniquement sur les cells*/
+}
+
+.ball {
+  background-color: #E8E6C0;
+  border: 1px solid black;
+  border-radius: 50%;
+
+  /* % de la taille de de la pièce */
+  width: 65%;
+  height: 65%;
+
+  margin: auto; /* Avec le display flex dans la balle */
+  pointer-events: none; /* Pour avoir des clicks et hover uniquement sur les cells*/
+}

@@ -91,12 +91,6 @@ export class PersonalisationComponent implements OnInit {
       console.log(`/game/newPvP/${name1}/${color1}/${name2}/${color2}`);
     }
 
-    // Démarrer la game
-    this.http.put(`/game/start`, {}, {}).
-    subscribe(returnedData => this.data.game = returnedData);
-
-    console.log('/game/start');
-
     // Navigate to the created game
     this.router.navigate(['game']);
   }

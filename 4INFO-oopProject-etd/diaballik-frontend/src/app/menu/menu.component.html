@@ -1,7 +1,5 @@
-<p>menu works!</p>
-
-<div class="button" (click)="newPvPClicked()">newPvP</div>
-<div class="button" (click)="startClicked()">start</div>
+<!--<div class="button" (click)="newPvPClicked()">newPvP</div>
+<div class="button" (click)="startClicked()">start</div>-->
 
 
 <div class="menu">
@@ -14,6 +12,7 @@
     <b><div style = "text-align: justify; font-family : Courier, monospace; font-size : 35px; color: #6F6E5C;">Tour {{data.game.turnCount}}</div></b>
     <div class="imageButton"><img
       alt="Prochain tour"
+      (click)="endTurnClicked()"
       height="35"
       src="https://image.noelshack.com/fichiers/2019/49/2/1575377708-bouton-tour.png"
       width="35"></div>
