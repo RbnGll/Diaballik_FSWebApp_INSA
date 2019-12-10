@@ -174,7 +174,8 @@ public class GameResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (TurnException | CommandException e) {
             e.printStackTrace();
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            // TODO : Modifié
+            return Response.status(Response.Status.BAD_REQUEST).entity("Vous ne pouvez pas bouger la pièce dans cette position | Ce n'est pas votre tour").build();
         }
         return Response.status(Response.Status.OK).entity(game).build();
     }

@@ -2,6 +2,7 @@ import {Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef} f
 import {MyData} from '../mydata';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {error} from "util";
 
 @Component({
   selector: 'app-board',
@@ -50,7 +51,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       const fromY: string = this.fromElement.getAttribute('data-y');
 
       this.http.put(`/game/action/movePiece/${fromX}/${fromY}/${toX}/${toY}`, {}, {}).
-      subscribe(returnedData => this.data.game = returnedData);
+      subscribe(returnedData => this.data.game = returnedData, error1 => console.log(error1.error));
 
       console.log(`/game/action/movePiece/${fromX}/${fromY}/${toX}/${toY}`);
     }
@@ -74,7 +75,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       const fromY: string = this.fromElement.getAttribute('data-y');
 
       this.http.put(`/game/action/passBall/${fromX}/${fromY}/${toX}/${toY}`, {}, {}).
-      subscribe(returnedData => this.data.game = returnedData);
+      subscribe(returnedData => this.data.game = returnedData, error1 => console.log(error1));
 
       console.log(`/game/action/passBall/${fromX}/${fromY}/${toX}/${toY}`);
 

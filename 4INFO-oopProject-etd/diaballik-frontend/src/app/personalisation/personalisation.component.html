@@ -2,25 +2,43 @@
 
   <div formGroupName="player1">
 
-    <select id="player1Type" formControlName="player1Type">
+    <label>Type : Joueur</label>
+
+    <input formControlName="player1Name"
+           type="text"
+           required/>
+
+    <select formControlName="player1Color"
+            required>
+      <option value="Noir">Noir</option>
+      <option value="Blanc">Blanc</option>
+    </select>
+
+  </div>
+
+  <div formGroupName="player2">
+
+    <select formControlName="player2Type">
       <option value="Joueur">Joueur</option>
       <option value="IA">IA</option>
     </select>
 
-    <input id="player1Name"
-           formControlName="player1Name"
+    <input formControlName="player2Name"
            type="text"
-           [hidden]="playersData.get('player1').get('player1Type').value === 'IA'"
-           [required]="playersData.get('player1').get('player1Type').value === 'Joueur'"/>
+           [hidden]="playersData.get('player2').get('player2Type').value === 'IA'"
+           [required]="playersData.get('player2').get('player2Type').value === 'Joueur'"/>
 
-    <select id="player1AILevel"
-            formControlName="player1AILevel"
-            [hidden]="playersData.get('player1').get('player1Type').value === 'Joueur'"
-            [required]="playersData.get('player1').get('player1Type').value === 'IA'">
-      <option>Noob</option>
-      <option>Starting</option>
-      <option>Progressive</option>
+    <select formControlName="player2AILevel"
+            [hidden]="playersData.get('player2').get('player2Type').value === 'Joueur'"
+            [required]="playersData.get('player2').get('player2Type').value === 'IA'">
+      <option value="Noob">Noob</option>
+      <option value="Starting">Starting</option>
+      <option value="Progressive">Progressive</option>
     </select>
+
+    <div>
+      {{player2Color}}
+    </div>
 
   </div>
 
