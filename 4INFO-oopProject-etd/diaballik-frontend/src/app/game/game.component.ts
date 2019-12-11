@@ -11,11 +11,11 @@ import {MyData} from "../mydata";
 export class GameComponent implements OnInit {
 
   constructor(private http: HttpClient, private router: Router, private data: MyData) {
-    // Démarrer la game
+    /*// Démarrer la game
     this.http.put(`/game/start`, {}, {}).
     subscribe(returnedData => this.data.game = returnedData);
 
-    console.log('/game/start');
+    console.log('/game/start');*/
   }
 
   ngOnInit() {

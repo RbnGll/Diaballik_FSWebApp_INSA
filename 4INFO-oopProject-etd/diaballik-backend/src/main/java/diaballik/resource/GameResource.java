@@ -3,6 +3,7 @@ package diaballik.resource;
 import diaballik.model.exception.CommandException;
 import diaballik.model.exception.turn.TurnException;
 import diaballik.model.game.Game;
+import diaballik.model.game.Tile;
 import diaballik.model.player.AIType;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.Range;
@@ -18,6 +19,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.Color;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Singleton
 @Path("game")
@@ -25,6 +29,7 @@ import java.awt.Color;
 public class GameResource {
 
     private Game game;
+    private Logger logger= Logger.getLogger(GameResource.class.getName());
 
     public GameResource() {
         super();
@@ -50,6 +55,9 @@ public class GameResource {
         final Color player2Color = color2 == 1 ? Color.WHITE : Color.BLACK;
 
         game = new Game(player1Color, name1, player2Color, name2);
+
+        // TODO : Ajout car bug sur le front sinon
+        game.start();
 
         return Response.status(Response.Status.OK).entity(game).build();
     }
@@ -98,6 +106,9 @@ public class GameResource {
         }
 
         game = new Game(playerColor, name, aiType);
+
+        // TODO : Ajout car bug sur le front sinon
+        game.start();
 
         return Response.status(Response.Status.OK).entity(game).build();
     }
@@ -148,8 +159,8 @@ public class GameResource {
             e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (TurnException | CommandException e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            logger.log(Level.WARNING, e.getMessage());
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
 
         return Response.status(Response.Status.OK).entity(game).build();
@@ -173,9 +184,8 @@ public class GameResource {
             e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (TurnException | CommandException e) {
-            e.printStackTrace();
-            // TODO : Modifié
-            return Response.status(Response.Status.BAD_REQUEST).entity("Vous ne pouvez pas bouger la pièce dans cette position | Ce n'est pas votre tour").build();
+            logger.log(Level.WARNING, e.getMessage());
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
         return Response.status(Response.Status.OK).entity(game).build();
     }
@@ -280,5 +290,37 @@ public class GameResource {
         } else {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+    }
+
+    // Get des tiles possibles avec une commande movePiece
+    @GET
+    @Path("get/tiles/movePiece/{x1}/{y1}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMovePieceTiles(@PathParam("x1") final int x1, @PathParam("y1") final int y1) {
+        final List<Tile> tiles;
+        try {
+            tiles = game.getMovePieceTiles(x1, y1);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(tiles.get(0)).build();
+    }
+
+    // Get des tiles possibles avec une commande passBall
+    @GET
+    @Path("get/tiles/passBall/{x1}/{y1}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPassBallTiles(@PathParam("x1") final int x1, @PathParam("y1") final int y1) {
+        final List<Tile> tiles;
+        try {
+            tiles = game.getPassBallTiles(x1, y1);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(tiles.toArray()).build();
     }
 }

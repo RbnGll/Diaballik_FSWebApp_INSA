@@ -1,5 +1,6 @@
 package diaballik.model.control;
 
+import diaballik.model.exception.CommandException;
 import diaballik.model.game.Game;
 import diaballik.model.game.Tile;
 import diaballik.model.player.Piece;
@@ -26,12 +27,18 @@ public class PassBall extends Command {
     }
 
     @Override
-    public boolean canDo() {
+    public boolean canDo() throws CommandException {
         return ifPiecesExists() && ifBelongToCurrentPlayer() && ifPieceHasBall() && ifCorrectPath() && ifNoPieceOnPath();
     }
 
     public boolean canDoForAIPlayer(final Player p) {
-        return ifPiecesExists() && ifBelongToPlayer(p) && ifPieceHasBall() && ifCorrectPath() && ifNoPieceOnPath();
+
+        // TODO : Dégeu, à revoir
+        try {
+            return ifPiecesExists() && ifBelongToPlayer(p) && ifPieceHasBall() && ifCorrectPath() && ifNoPieceOnPath();
+        } catch (CommandException e) {
+            return false;
+        }
     }
 
     @Override
@@ -94,13 +101,22 @@ public class PassBall extends Command {
         return null;
     }
 
-    public boolean ifPiecesExists() {
-        return fromPiece.isPresent() && toPiece.isPresent();
+    public boolean ifPiecesExists() throws CommandException {
+        if(fromPiece.isPresent() && toPiece.isPresent()) {
+            return true;
+        } else {
+            throw new CommandException("La case d'arrivée ne contient pas une de tes pièces");
+        }
     }
 
-    public boolean ifBelongToCurrentPlayer() {
+    public boolean ifBelongToCurrentPlayer() throws CommandException {
         final List<Piece> currentPlayerPieces = game.getCurrentPlayer().getPieces();
-        return currentPlayerPieces.contains(fromPiece.get()) && currentPlayerPieces.contains(toPiece.get());
+
+        if(currentPlayerPieces.contains(fromPiece.get()) && currentPlayerPieces.contains(toPiece.get())) {
+            return true;
+        } else {
+            throw new CommandException("L'une des pièces ne t'appartient pas");
+        }
     }
 
     public boolean ifBelongToPlayer(final Player p) {
@@ -108,20 +124,33 @@ public class PassBall extends Command {
         return PlayerPieces.contains(fromPiece.get()) && PlayerPieces.contains(toPiece.get());
     }
 
-    public boolean ifPieceHasBall() {
-        return fromPiece.get().hasBall();
+    public boolean ifPieceHasBall() throws CommandException {
+        if(fromPiece.get().hasBall()) {
+            return true;
+        } else {
+            throw new CommandException("La pièce n'a pas de balle");
+        }
     }
 
-    public boolean ifCorrectPath() {
+    public boolean ifCorrectPath() throws CommandException {
         final int dx = toPiece.get().getTile().getX() - fromPiece.get().getTile().getX();
         final int dy = toPiece.get().getTile().getY() - fromPiece.get().getTile().getY();
 
-        return (dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy) && dx != 0);
+        if((dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy) && dx != 0)) {
+            return true;
+        } else {
+            throw new CommandException("La trajectoire n'est pas valide ! Aide toi des cases mises en valeur");
+        }
     }
 
-    public boolean ifNoPieceOnPath() {
+    public boolean ifNoPieceOnPath() throws CommandException {
         final List<Tile> path = getPathTiles();
-        return path.stream().noneMatch(tile -> tile.getPiece().isPresent());
+
+        if(path.stream().noneMatch(tile -> tile.getPiece().isPresent())) {
+            return true;
+        } else {
+            throw new CommandException("");
+        }
     }
 
     @Override
@@ -142,6 +171,14 @@ public class PassBall extends Command {
 
     public Optional<Piece> getToPiece() {
         return toPiece;
+    }
+
+    public int getX2() {
+        return this.x2;
+    }
+
+    public int getY2() {
+        return this.y2;
     }
 
     @Override
