@@ -1,4 +1,4 @@
-:host {
+.gameSpace {
   display: flex;
   flex-direction: row;
 }
