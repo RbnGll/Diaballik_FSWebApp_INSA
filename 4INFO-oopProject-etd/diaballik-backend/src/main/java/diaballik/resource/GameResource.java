@@ -16,6 +16,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.Color;
@@ -296,31 +297,34 @@ public class GameResource {
     @GET
     @Path("get/tiles/movePiece/{x1}/{y1}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMovePieceTiles(@PathParam("x1") final int x1, @PathParam("y1") final int y1) {
+    public List<Tile> getMovePieceTiles(@PathParam("x1") final int x1, @PathParam("y1") final int y1) {
         final List<Tile> tiles;
         try {
             tiles = game.getMovePieceTiles(x1, y1);
         } catch (NullPointerException e) {
             e.printStackTrace();
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            //return Response.status(Response.Status.BAD_REQUEST).build();
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
 
-        return Response.status(Response.Status.OK).entity(tiles.get(0)).build();
+        return tiles;
     }
 
     // Get des tiles possibles avec une commande passBall
     @GET
     @Path("get/tiles/passBall/{x1}/{y1}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPassBallTiles(@PathParam("x1") final int x1, @PathParam("y1") final int y1) {
+    public List<Tile> getPassBallTiles(@PathParam("x1") final int x1, @PathParam("y1") final int y1) {
         final List<Tile> tiles;
         try {
             tiles = game.getPassBallTiles(x1, y1);
         } catch (NullPointerException e) {
             e.printStackTrace();
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            //return Response.status(Response.Status.BAD_REQUEST).build();
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
 
-        return Response.status(Response.Status.OK).entity(tiles.toArray()).build();
+        //return Response.status(Response.Status.OK).entity(tiles).build();
+        return tiles;
     }
 }

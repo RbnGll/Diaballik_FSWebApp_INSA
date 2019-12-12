@@ -19,7 +19,7 @@ export class Board2Component implements OnInit {
   private fromElement: Element;
   private toElement: Element;
 
-  private possibleTiles: any;
+  // private possibleTiles: any;
 
   constructor(private http: HttpClient, private router: Router, private data: MyData) {
     this.fromElement = null;
@@ -30,17 +30,6 @@ export class Board2Component implements OnInit {
   }
 
   cellClicked(event: MouseEvent): void {
-    // Données factices en JSON sur les tiles possibles après une action
-    /*const jsonTiles: any = [
-      {
-        x: 1,
-        y: 1
-      },
-      {
-        x: 5,
-        y: 5
-      }
-    ];*/
 
     // Si une cellule a déjà été sélectionnée
     if (this.fromElement !== null) {
@@ -89,20 +78,13 @@ export class Board2Component implements OnInit {
         if (this.isPresentBall(cellX, cellY)) {
           // Récupération des tiles possibles
           this.http.get(`/game/get/tiles/passBall/${cellX}/${cellY}`)
-            .subscribe(returnedData => console.log(returnedData));
+            .subscribe(returnedData => this.changePossibleTileColor(returnedData));
         }
         else {
           // Récupération des tiles possibles
           this.http.get(`/game/get/tiles/movePiece/${cellX}/${cellY}`)
-            .subscribe(returnedData => console.log(returnedData));
+            .subscribe(returnedData => this.changePossibleTileColor(returnedData));
         }
-
-        // Changement de classe des cases possibles pour un affichage différent
-        /*for (const tile of this.possibleTiles) {
-          const element = this.getCell(tile.x, tile.y);
-          element.classList.add('possible');
-          element.classList.remove('classic');
-        }*/
       }
 
       // Sinon on ne fait rien
@@ -182,5 +164,20 @@ export class Board2Component implements OnInit {
       });
 
     console.log(request);
+  }
+
+
+  changePossibleTileColor(tiles: any): void {
+
+    // On vérifie qu'il reste encore des actions pour le joueur
+    if (this.data.game.currentTurn.actionCount !== 3) {
+      // Changement de classe des cases possibles pour un affichage différent
+      for (const tile of tiles) {
+        // console.log(tile);
+        const element = this.getCell(tile.x, tile.y);
+        element.classList.add('possible');
+        element.classList.remove('classic');
+      }
+    }
   }
 }
