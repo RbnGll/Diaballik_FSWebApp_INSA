@@ -3,7 +3,6 @@ package diaballik.model.player.aiStrategy;
 import diaballik.model.control.Command;
 import diaballik.model.control.MovePiece;
 import diaballik.model.control.PassBall;
-import diaballik.model.exception.CommandException;
 import diaballik.model.game.Board;
 import diaballik.model.game.Game;
 import diaballik.model.player.Piece;
@@ -42,13 +41,7 @@ public abstract class AIStrategy {
                             new PassBall(x, y, x + i, y - i, game));
                     return commands.stream()
                             .peek(Command::setCurrentState)
-                            .filter(command ->  {
-                                try {
-                                    return command.canDo();
-                                } catch (CommandException e) {
-                                    return false;
-                                }
-                            }) //Filter the pass which can't be execute at this point of the game
+                            .filter(Command::canDo) //Filter the pass which can't be execute at this point of the game
                             .collect(Collectors.toList());
                 }).flatMap(List::stream).collect(Collectors.toList());
     }
@@ -66,13 +59,7 @@ public abstract class AIStrategy {
                     new MovePiece(x, y, x, y - 1, game)
             );
         }).flatMap(List::stream).peek(Command::setCurrentState).collect(Collectors.toList());
-        return commands.stream().filter(command ->  {
-            try {
-                return command.canDo();
-            } catch (CommandException e) {
-                return false;
-            }
-        }).collect(Collectors.toList()); //Filter those moves with the Command.canDo()
+        return commands.stream().filter(Command::canDo).collect(Collectors.toList()); //Filter those moves with the Command.canDo()
     }
 
     public List<Command> getPossibleActionsForPlayer(final Player p) {

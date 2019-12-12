@@ -41,23 +41,21 @@ public class Turn {
         // On set l'état des commandes à leur invocation (et non à leur création)
         c.setCurrentState();
 
-        try {
-            if (c.canDo()) {
-                if (!turnEnd) {
-                    if (c.exe()) {
-                        undoDeque.addFirst(c);
-                        redoDeque.clear();
-                        turnEnd = checkEndTurn();
-                        actionCount++;
-                        redoCount = 0;
-                        return true;
-                    }
-                } else {
-                    throw new TurnException("Tu as déjà effectué tes 3 actions");
+        if (c.canDo()) {
+            if (!turnEnd) {
+                if (c.exe()) {
+                    undoDeque.addFirst(c);
+                    redoDeque.clear();
+                    turnEnd = checkEndTurn();
+                    actionCount++;
+                    redoCount = 0;
+                    return true;
                 }
+            } else {
+                throw new TurnException();
             }
-        } catch (CommandException | TurnException e) {
-            throw e;
+        } else {
+            throw new CommandException();
         }
 
         return false;

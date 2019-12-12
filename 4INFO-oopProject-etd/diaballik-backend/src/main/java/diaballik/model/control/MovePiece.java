@@ -1,6 +1,5 @@
 package diaballik.model.control;
 
-import diaballik.model.exception.CommandException;
 import diaballik.model.game.Game;
 import diaballik.model.player.Piece;
 import diaballik.model.player.Player;
@@ -22,7 +21,8 @@ public class MovePiece extends Command {
     }
 
     @Override
-    public boolean canDo() throws CommandException {
+    public boolean canDo() {
+
         return game.getGameboard().ifWithinBounds(x1, y1)
                 && game.getGameboard().ifWithinBounds(x2, y2)
                 && ifPresentPiece()
@@ -34,18 +34,13 @@ public class MovePiece extends Command {
 
     public boolean canDoForPlayer(final Player p) {
 
-        // TODO : Dégeu, à revoir
-        try {
-            return game.getGameboard().ifWithinBounds(x1, y1)
-                    && game.getGameboard().ifWithinBounds(x2, y2)
-                    && ifPresentPiece()
-                    && ifBelongsToPlayer(p)
-                    && ifFreePosition()
-                    && ifNotContainsBall()
-                    && ifCorrectPath();
-        } catch (CommandException e) {
-            return false;
-        }
+        return game.getGameboard().ifWithinBounds(x1, y1)
+                && game.getGameboard().ifWithinBounds(x2, y2)
+                && ifPresentPiece()
+                && ifBelongsToPlayer(p)
+                && ifFreePosition()
+                && ifNotContainsBall()
+                && ifCorrectPath();
     }
 
     @Override
@@ -58,53 +53,33 @@ public class MovePiece extends Command {
         game.getGameboard().movePiece(x2, y2, x1, y1);
     }
 
-    public boolean ifPresentPiece() throws CommandException {
-        if(pieceToMove.isPresent()) {
-            return true;
-        } else {
-            throw new CommandException("Aucune pièce n'est présente sur cette case");
-        }
+    public boolean ifPresentPiece() {
+        return pieceToMove.isPresent();
     }
 
-    public boolean ifFreePosition() throws CommandException {
-        if(game.getGameboard().getTile(x2, y2).getPiece().isEmpty()) {
-            return true;
-        } else {
-            throw new CommandException("Il y a déjà une pièce sur cette case");
-        }
+    public boolean ifFreePosition() {
+        return game.getGameboard().getTile(x2, y2).getPiece().isEmpty();
     }
 
-    public boolean ifBelongsToCurrentPlayer() throws CommandException{
-        if(game.getCurrentPlayer().getPieces().contains(pieceToMove.get())) {
-            return true;
-        } else {
-            throw new CommandException("Ce n'est pas votre pièce !");
-        }
+    public boolean ifBelongsToCurrentPlayer() {
+        return game.getCurrentPlayer().getPieces().contains(pieceToMove.get());
     }
 
     public boolean ifBelongsToPlayer(final Player p) {
         return p.getPieces().contains(pieceToMove.get());
     }
 
-    public boolean ifNotContainsBall() throws CommandException {
-        if(!pieceToMove.get().hasBall()) {
-            return true;
-        } else {
-            throw new CommandException("Cette pièce a une balle et ne peut donc pas être déplacée");
-        }
+    public boolean ifNotContainsBall() {
+        return !pieceToMove.get().hasBall();
     }
 
-    public boolean ifCorrectPath() throws CommandException {
+    public boolean ifCorrectPath() {
         final int dx = Math.abs(x2 - x1);
         final int dy = Math.abs(y2 - y1);
 
         // Si la pièce est déplacée de plus de 2 cases ou en diagonale
         // ou si elle n'est pas déplacée du tout
-        if( (dx + dy) < 2 && (dx + dy) != 0) {
-            return true;
-        } else {
-            throw new CommandException("Impossible d'atteindre cette case, aidez-vous des cases mises en valeur");
-        }
+        return (dx + dy) < 2 && (dx + dy) != 0;
     }
 
     @Override

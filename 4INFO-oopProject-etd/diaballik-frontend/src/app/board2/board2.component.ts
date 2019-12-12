@@ -19,8 +19,6 @@ export class Board2Component implements OnInit {
   private fromElement: Element;
   private toElement: Element;
 
-  private possibleTiles: any;
-
   constructor(private http: HttpClient, private router: Router, private data: MyData) {
     this.fromElement = null;
     this.toElement = null;
@@ -31,7 +29,7 @@ export class Board2Component implements OnInit {
 
   cellClicked(event: MouseEvent): void {
     // Données factices en JSON sur les tiles possibles après une action
-    /*const jsonTiles: any = [
+    const jsonTiles: any = [
       {
         x: 1,
         y: 1
@@ -40,7 +38,7 @@ export class Board2Component implements OnInit {
         x: 5,
         y: 5
       }
-    ];*/
+    ];
 
     // Si une cellule a déjà été sélectionnée
     if (this.fromElement !== null) {
@@ -73,7 +71,6 @@ export class Board2Component implements OnInit {
         elementRef.nativeElement.classList.add('classic');
       });
     }
-
     // Sinon on se met en attente d'une autre case
     else {
       const cell = event.currentTarget as Element;
@@ -86,23 +83,13 @@ export class Board2Component implements OnInit {
         this.toElement = null;
 
         // Affichage des possibilités (mise en valeur des cases possibles)
-        if (this.isPresentBall(cellX, cellY)) {
-          // Récupération des tiles possibles
-          this.http.get(`/game/get/tiles/passBall/${cellX}/${cellY}`)
-            .subscribe(returnedData => console.log(returnedData));
-        }
-        else {
-          // Récupération des tiles possibles
-          this.http.get(`/game/get/tiles/movePiece/${cellX}/${cellY}`)
-            .subscribe(returnedData => console.log(returnedData));
-        }
+        // TODO: Récupérer à l'aide d'une requête les tiles possibles
 
-        // Changement de classe des cases possibles pour un affichage différent
-        /*for (const tile of this.possibleTiles) {
+        for (const tile of jsonTiles) {
           const element = this.getCell(tile.x, tile.y);
           element.classList.add('possible');
           element.classList.remove('classic');
-        }*/
+        }
       }
 
       // Sinon on ne fait rien

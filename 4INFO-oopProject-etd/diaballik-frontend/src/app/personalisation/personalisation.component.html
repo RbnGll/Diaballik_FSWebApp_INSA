@@ -1,52 +1,71 @@
-<form [formGroup]="playersData" (ngSubmit)="onSubmit()">
+<div class="menu">
+  <img src="https://zimbra1.insa-rennes.fr/home/rguill@insa-rennes.fr/Diaballik/logo.png?ver=1"
+       height="10%"
+       width="20%"
+       alt="[Diaballik]"
+       style="margin: 1% auto;"
+  />
+  <form [formGroup]="playersData" (ngSubmit)="onSubmit()">
 
-  <div formGroupName="player1">
+   <div class="rowMenu">
+     <div formGroupName="player1">
+        <div class="columnMenu">
 
-    <label>Type : Joueur</label>
+          <label class="component" style="font-size: 120%; text-align: center; margin-bottom: 3%">Joueur 1</label>
+          <label class="component">Type : Joueur</label>
 
-    <input formControlName="player1Name"
-           type="text"
-           required/>
+          <input formControlName="player1Name"
+                 class="component"
+                 type="text"
+                 required/>
 
-    <select formControlName="player1Color"
-            required>
-      <option value="Noir">Noir</option>
-      <option value="Blanc">Blanc</option>
-    </select>
+          <select formControlName="player1Color"
+                  class="select-style"
+                  required>
+            <option value="Noir">Noir</option>
+            <option value="Blanc">Blanc</option>
+          </select>
 
-  </div>
+        </div>
+      </div>
 
-  <div formGroupName="player2">
+      <div formGroupName="player2">
+        <div class="columnMenu">
+          <label class="component" style="font-size: 120%; margin-bottom: 3%; text-align: center">Joueur 2</label>
 
-    <select formControlName="player2Type">
-      <option value="Joueur">Joueur</option>
-      <option value="IA">IA</option>
-    </select>
+          <select formControlName="player2Type"
+                  class="select-style">
+            <option value="Joueur">Joueur</option>
+            <option value="IA">IA</option>
+          </select>
 
-    <input formControlName="player2Name"
-           type="text"
-           [hidden]="playersData.get('player2').get('player2Type').value === 'IA'"
-           [required]="playersData.get('player2').get('player2Type').value === 'Joueur'"/>
+          <input formControlName="player2Name"
+                 class="component"
+                 type="text"
+                 [hidden]="playersData.get('player2').get('player2Type').value === 'IA'"
+                 [required]="playersData.get('player2').get('player2Type').value === 'Joueur'"/>
 
-    <select formControlName="player2AILevel"
-            [hidden]="playersData.get('player2').get('player2Type').value === 'Joueur'"
-            [required]="playersData.get('player2').get('player2Type').value === 'IA'">
-      <option value="Noob">Noob</option>
-      <option value="Starting">Starting</option>
-      <option value="Progressive">Progressive</option>
-    </select>
+          <select formControlName="player2AILevel"
+                  class="select-style"
+                  [hidden]="playersData.get('player2').get('player2Type').value === 'Joueur'"
+                  [required]="playersData.get('player2').get('player2Type').value === 'IA'">
+            <option value="Noob">Noob</option>
+            <option value="Starting">Starting</option>
+            <option value="Progressive">Progressive</option>
+          </select>
 
-    <div>
-      {{player2Color}}
+          <div class="component">
+            {{player2Color}}
+          </div>
+        </div>
+      </div>
+   </div>
+    <!-- Vérifier si cases du nom non remplies ??
+    Mettre un !profileForm.valid-->
+    <div class="rowMenu">
+      <button class="button" type="submit" [disabled]="!playersData.valid">Jouer</button>
+      <button class="button" (click)="onQuitClicked()">Quitter</button>
     </div>
 
-  </div>
-
-  <!-- Vérifier si cases du nom non remplies ??
-  Mettre un !profileForm.valid-->
-  <div>
-    <button class="button" type="submit" [disabled]="!playersData.valid">Jouer</button>
-    <button class="button" (click)="onQuitClicked()">Quitter</button>
-  </div>
-
-</form>
+  </form>
+</div>
