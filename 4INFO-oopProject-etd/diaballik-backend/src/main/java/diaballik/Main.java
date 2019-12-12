@@ -1,5 +1,6 @@
 package diaballik;
 
+import diaballik.resource.GameResource;
 import diaballik.resource.MyExceptionMapper;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;

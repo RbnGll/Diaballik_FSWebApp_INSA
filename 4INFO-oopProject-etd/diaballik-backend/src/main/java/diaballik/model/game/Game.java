@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.awt.Color;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -221,6 +222,56 @@ public class Game {
         } else {
             currentPlayer = player1;
         }
+    }
+
+    /**
+     * Retourne la liste possible de tiles pour un MovePiece pour la position initiale en (x1, y1)
+     * @param x1
+     * @param y1
+     * @return La liste de tiles
+     */
+    public List<Tile> getMovePieceTiles(final int x1, final int y1) {
+        return IntStream.range(0, Board.BOARDSIZE).mapToObj(i ->
+                IntStream.range(0, Board.BOARDSIZE).mapToObj(j -> {
+                            MovePiece c = new MovePiece(x1, y1, i, j, this);
+                            c.setCurrentState();
+                            return c;
+                        })
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList())
+                .stream()
+                .flatMap(List::stream)
+                .filter(command ->  {
+                    try {
+                        return command.canDo();
+                    } catch (CommandException e) {
+                        return false;
+                    }
+                })
+                .map(command -> this.gameboard.getTile(command.getX2(), command.getY2()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Tile> getPassBallTiles(final int x1, final int y1) {
+            return IntStream.range(0, Board.BOARDSIZE).mapToObj(i ->
+                    IntStream.range(0, Board.BOARDSIZE).mapToObj(j -> {
+                        PassBall c = new PassBall(x1, y1, i, j, this);
+                        c.setCurrentState();
+                        return c;
+                            })
+                            .collect(Collectors.toList()))
+                    .collect(Collectors.toList())
+                    .stream()
+                    .flatMap(List::stream)
+                    .filter(command ->  {
+                        try {
+                            return command.canDo();
+                        } catch (CommandException e) {
+                            return false;
+                        }
+                    })
+                    .map(command -> this.gameboard.getTile(command.getX2(), command.getY2()))
+                    .collect(Collectors.toList());
     }
 
     public Player getPlayer2() {

@@ -6,8 +6,8 @@ import {GameComponent} from './game/game.component';
 
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'gameSettings', component: PersonalisationComponent},
+  {path: '', component: HomeComponent, data: {animation: 'HomePage'}},
+  {path: 'gameSettings', component: PersonalisationComponent, data: { animation: 'PersonalisationPage'}},
   {path: 'game', component: GameComponent}
 ];
 

@@ -71,7 +71,7 @@
 
   overflow: hidden;
   text-overflow: ellipsis;
- }
+}
 .select-style::after{
   content: '';
   position: absolute;

@@ -1,5 +1,6 @@
 package diaballik.model.control;
 
+import diaballik.model.exception.CommandException;
 import diaballik.model.game.Game;
 
 public abstract class Command implements Undoable, Action {
@@ -24,7 +25,7 @@ public abstract class Command implements Undoable, Action {
     public abstract boolean exe();
 
     @Override
-    public abstract boolean canDo();
+    public abstract boolean canDo() throws CommandException;
 
     @Override
     public abstract void redo();

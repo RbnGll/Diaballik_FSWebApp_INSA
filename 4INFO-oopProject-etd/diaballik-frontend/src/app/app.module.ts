@@ -13,6 +13,9 @@ import { GameComponent } from './game/game.component';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import { Board2Component } from './board2/board2.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { AlertBasicComponent } from './alert-basic/alert-basic.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -24,13 +27,16 @@ import { Board2Component } from './board2/board2.component';
     PersonalisationComponent,
     GameComponent,
     Board2Component,
+    AlertBasicComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [MyData],
   bootstrap: [AppComponent]
