@@ -1,9 +1,22 @@
+.menu {
+  padding: auto;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  box-sizing: border-box;
+  position: relative;
+  border: 3px solid #6F6E5C;
+  background-color: #E8E6C0;
+  margin: 1%;
+}
+
 .button {
   background-color: #6F6E5C;
   border-radius: 20px;
   border: 2px solid #E8E6C0;
   color: #E8E6C0;
-  padding: 15px 32px;
+  padding: 1% 3%;
   text-align: center;
   font-family: Courier, monospace;
   display: inline-block;
@@ -11,9 +24,14 @@
   margin: 10px auto;
   cursor: pointer;
   outline: 0;
+  transition: 0.2s;
+  margin-bottom: 3%;
 }
 .button:hover{
   background-color: #a3a286;
+  padding:1% 4%;
+  letter-spacing: 1px;
+  color: #535243;
 }
 .button:active{
   background-color: #E8E6C0;
