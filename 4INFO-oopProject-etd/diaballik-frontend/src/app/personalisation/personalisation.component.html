@@ -64,7 +64,7 @@
     Mettre un !profileForm.valid-->
     <div class="rowMenu">
       <button class="button" type="submit" [disabled]="!playersData.valid">Jouer</button>
-      <button class="button" (click)="onQuitClicked()">Quitter</button>
+      <button class="button" (click)="this.router.navigate([''])">Quitter</button>
     </div>
 
   </form>

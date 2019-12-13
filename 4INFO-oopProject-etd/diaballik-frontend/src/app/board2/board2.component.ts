@@ -18,8 +18,6 @@ export class Board2Component implements OnInit {
   private toElement: Element;
   private readonly notifier: NotifierService;
 
-  // private possibleTiles: any;
-
   constructor(private http: HttpClient, private router: Router, private data: MyData, notifierService: NotifierService) {
     this.fromElement = null;
     this.toElement = null;

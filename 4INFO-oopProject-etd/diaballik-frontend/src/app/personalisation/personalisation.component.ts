@@ -95,8 +95,4 @@ export class PersonalisationComponent implements OnInit {
     this.router.navigate(['game']);
   }
 
-  onQuitClicked(): void {
-    this.router.navigate(['']);
-  }
-
 }

@@ -1,14 +1,14 @@
 /* Déclaration des constantes*/
 div {
   --color-cell: #E8E6C0;
-  --color-cell-possible: #6F6E5E;
+  --color-cell-possible: #888771;
   --nb-cell : 7;
   --border-cell: 2px;
 }
 
 .board {
-  width: 56vw;
-  height: 56vw;
+  width: 94.5vh;
+  height: 94.5vh;
 }
 
 .line {
@@ -20,8 +20,8 @@ div {
 }
 
 .cell {
-  width: 8vw;
-  height: 8vw;
+  width: 13.5vh;
+  height: 13.5vh;
   border: var(--border-cell) solid black;
   box-sizing: border-box;
   display: flex; /* Pour centrer la pièce dans la cellule */
@@ -31,8 +31,16 @@ div {
   background-color: var(--color-cell);
 }
 
+.cell.classic:hover {
+  background-color: #cfcda8;
+}
+
 .cell.possible {
   background-color: var(--color-cell-possible);
+}
+
+.cell.possible:hover {
+  background-color: #656454;
 }
 
 .piece {

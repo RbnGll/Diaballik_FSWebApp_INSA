@@ -7,10 +7,10 @@ import {VictoryComponent} from './victory/victory.component';
 
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, data: {animation: 'HomePage'}},
-  {path: 'gameSettings', component: PersonalisationComponent, data: { animation: 'PersonalisationPage'}},
-  {path: 'game', component: GameComponent},
-  {path: 'victory', component: VictoryComponent}
+  {path: '', component: HomeComponent, data: {animation: 'Home'}},
+  {path: 'gameSettings', component: PersonalisationComponent, data: {animation: 'Settings'}},
+  {path: 'game', component: GameComponent, data: {animation: 'Game'}},
+  {path: 'victory', component: VictoryComponent, data: {animation: 'Victory'}}
 ];
 
 @NgModule({
