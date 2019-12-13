@@ -28,8 +28,12 @@ export class PersonalisationComponent implements OnInit {
   // Champ à part
   player2Color: string;
 
+  player1ColorButton: boolean;
+
+
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private data: MyData) {
     this.player2Color = 'Blanc';
+    this.player1ColorButton = true; // True = noir
   }
 
   ngOnInit() {
@@ -52,7 +56,9 @@ export class PersonalisationComponent implements OnInit {
     if (this.playersData.value.player2.player2Type === 'IA') {
       // Nouvelle partie Joueur VS AI
       const name: string = this.playersData.value.player1.player1Name;
-      const color: number = this.playersData.value.player1.player1Color === 'Noir' ? 0 : 1;
+      // const color: number = this.playersData.value.player1.player1Color === 'Noir' ? 0 : 1;
+
+      const color: number = this.player1ColorButton ? 0 : 1;
 
       // Déterminer la stratégie
       let strategy: number;
@@ -77,7 +83,8 @@ export class PersonalisationComponent implements OnInit {
     } else {
       // Nouvelle partie Joueur VS Joueur
       const name1: string = this.playersData.value.player1.player1Name;
-      const color1: number = this.playersData.value.player1.player1Color === 'Noir' ? 0 : 1;
+      // const color1: number = this.playersData.value.player1.player1Color === 'Noir' ? 0 : 1;
+      const color1: number = this.player1ColorButton ? 0 : 1;
       let name2: string = this.playersData.value.player2.player2Name;
       const color2: number = 1 - color1;
 

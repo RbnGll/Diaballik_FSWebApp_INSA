@@ -26,6 +26,19 @@
             <option value="Blanc">Blanc</option>
           </select>
 
+          <div class="colorContainer">
+            <div class="colorButtonContainer">
+              <div class="black colorButton"
+                   [ngClass]="{'selected' : player1ColorButton}"
+                   (click)="player1ColorButton = true;"></div>
+            </div>
+            <div class="colorButtonContainer">
+              <div class="white colorButton"
+                   [ngClass]="{'selected' : !player1ColorButton}"
+                   (click)="player1ColorButton = false"></div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -57,14 +70,27 @@
           <div class="component">
             {{player2Color}}
           </div>
+
+          <div class="colorContainer">
+            <div class="colorButtonContainer">
+              <div class="black colorButton"
+                   [ngClass]="{'selected' : !player1ColorButton}"
+                   (click)="player1ColorButton = false"></div>
+            </div>
+            <div class="colorButtonContainer">
+              <div class="white colorButton"
+                   [ngClass]="{'selected' : player1ColorButton}"
+                   (click)="player1ColorButton = true"></div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-    <!-- Vérifier si cases du nom non remplies ??
-    Mettre un !profileForm.valid-->
+
     <div class="rowMenu">
       <button class="button" type="submit" [disabled]="!playersData.valid">Jouer</button>
-      <button class="button" (click)="this.router.navigate([''])">Quitter</button>
+      <button class="button" (click)="router.navigate([''])">Quitter</button>
     </div>
 
   </form>
