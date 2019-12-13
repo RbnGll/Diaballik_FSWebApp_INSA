@@ -2,3 +2,10 @@
   display: flex;
   flex-direction: row;
 }
+
+/* Modal Header */
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}

@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChil
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {MyData} from '../mydata';
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-board2',
@@ -13,17 +14,16 @@ export class Board2Component implements OnInit {
   @ViewChildren('cells')
   private cells: QueryList<ElementRef>;
 
-  @Output()
-  victoryEvent = new EventEmitter();
-
   private fromElement: Element;
   private toElement: Element;
+  private readonly notifier: NotifierService;
 
   // private possibleTiles: any;
 
-  constructor(private http: HttpClient, private router: Router, private data: MyData) {
+  constructor(private http: HttpClient, private router: Router, private data: MyData, notifierService: NotifierService) {
     this.fromElement = null;
     this.toElement = null;
+    this.notifier = notifierService;
   }
 
   ngOnInit() {
@@ -151,16 +151,13 @@ export class Board2Component implements OnInit {
       .subscribe(
         returnedData => {
           this.data.game = returnedData;
-          // Regarder si il y a une victoire !
-          if (this.data.game.player1.victory === true) {
-            this.victoryEvent.emit({player: 1}); // On émet un évènement capté par le gameComponent
-          } else if (this.data.game.player2.victory === true) {
-            this.victoryEvent.emit({player: 2});
+          if (this.data.game.player1.victory === true || this.data.game.player2.victory === true) {
+            this.router.navigate(['victory']);
           }
         },
           errorObject => {
-        // Traiter les erreurs
-        console.log(errorObject.error);
+            // Notifier l'erreur avec angular-notifier
+            this.notifier.notify('custom', errorObject.error);
       });
 
     console.log(request);
