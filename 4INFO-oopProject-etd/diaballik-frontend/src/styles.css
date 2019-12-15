@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Style commun entre les transitions */
+main {
+  position: relative;
+}
+
+/* Pour les notifications (couleur custom) */
+.notifier__notification--custom {
+  background-color: #6F6E5C;
+  color: #E8E6C0;
+}
+
+.notifier__notification--custom .notifier__notification-button-icon {
+  fill: #E8E6C0;
+}

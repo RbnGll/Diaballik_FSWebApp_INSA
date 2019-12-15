@@ -1,9 +1,9 @@
 <div class="menu">
-  <img src="https://image.noelshack.com/fichiers/2019/49/2/1575377708-logo.png"
+  <img src="assets/img/diaballik.png"
        height="10%"
        width="20%"
        alt="[Diaballik]"
-       style="margin: 2% auto;"
+       style="margin: 1% auto;"
   />
   <form [formGroup]="playersData" (ngSubmit)="onSubmit()">
 
@@ -25,6 +25,19 @@
             <option value="Noir">Noir</option>
             <option value="Blanc">Blanc</option>
           </select>
+
+          <div class="colorContainer">
+            <div class="colorButtonContainer">
+              <div class="black colorButton"
+                   [ngClass]="{'selected' : player1ColorButton}"
+                   (click)="player1ColorButton = true;"></div>
+            </div>
+            <div class="colorButtonContainer">
+              <div class="white colorButton"
+                   [ngClass]="{'selected' : !player1ColorButton}"
+                   (click)="player1ColorButton = false"></div>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -57,14 +70,27 @@
           <div class="component">
             {{player2Color}}
           </div>
+
+          <div class="colorContainer">
+            <div class="colorButtonContainer">
+              <div class="black colorButton"
+                   [ngClass]="{'selected' : !player1ColorButton}"
+                   (click)="player1ColorButton = false"></div>
+            </div>
+            <div class="colorButtonContainer">
+              <div class="white colorButton"
+                   [ngClass]="{'selected' : player1ColorButton}"
+                   (click)="player1ColorButton = true"></div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-    <!-- Vérifier si cases du nom non remplies ??
-    Mettre un !profileForm.valid-->
+
     <div class="rowMenu" style="place-content: center">
       <button class="button" type="submit" [disabled]="!playersData.valid">Jouer</button>
-      <button class="button" (click)="onQuitClicked()">Quitter</button>
+      <button class="button" (click)="router.navigate([''])">Quitter</button>
     </div>
 
   </form>

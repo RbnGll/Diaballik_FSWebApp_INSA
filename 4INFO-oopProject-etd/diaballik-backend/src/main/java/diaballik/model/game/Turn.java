@@ -42,7 +42,24 @@ public class Turn {
         c.setCurrentState();
 
         try {
-            if (c.canDo()) {
+            if(!turnEnd) {
+                if(c.canDo()) {
+                    if (c.exe()) {
+                        undoDeque.addFirst(c);
+                        redoDeque.clear();
+                        turnEnd = checkEndTurn();
+                        actionCount++;
+                        redoCount = 0;
+                        return true;
+                    }
+                }
+            } else {
+                throw new TurnException("Tu as déjà effectué tes 3 actions");
+            }
+
+
+
+            /*if (c.canDo()) {
                 if (!turnEnd) {
                     if (c.exe()) {
                         undoDeque.addFirst(c);
@@ -55,7 +72,7 @@ public class Turn {
                 } else {
                     throw new TurnException("Tu as déjà effectué tes 3 actions");
                 }
-            }
+            }*/
         } catch (CommandException | TurnException e) {
             throw e;
         }

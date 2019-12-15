@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
 import {MyData} from '../mydata';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -16,17 +16,8 @@ export class MenuComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-  }
 
-  /*newPvPClicked(): void {
-    this.http.post('/game/newPvP/Robin/0/Ronan/1', {}, {observe : 'response'}).
-    subscribe(response => this.handleResponse(response));
-
-    console.log('/game/newPvP/Robin/0/Ronan/1');
   }
-  startClicked(): void {
-    this.executePutResquest('/game/start');
-  }*/
 
   endTurnClicked(): void {
     this.executePutResquest('/game/action/endTurn');

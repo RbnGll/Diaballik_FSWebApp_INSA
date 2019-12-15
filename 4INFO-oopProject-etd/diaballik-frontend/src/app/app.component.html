@@ -1,7 +1,10 @@
 <main>
 
-  <div [@routeAnimations]="prepareRoute(outlet)" >
+  <div [@customAnimations]="prepareRoute(outlet)">
     <router-outlet #outlet="outlet"></router-outlet>
   </div>
+
+  <!--Notification d'erreurs-->
+  <notifier-container></notifier-container>
 
 </main>

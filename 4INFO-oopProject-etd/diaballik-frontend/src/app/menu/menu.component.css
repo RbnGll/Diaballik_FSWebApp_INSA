@@ -38,6 +38,7 @@ div {
   transition: 0.2s ;
   margin: auto 3%;
 }
+
 .button:hover{
   background-color: #a3a286;
   padding: 2% 8%;

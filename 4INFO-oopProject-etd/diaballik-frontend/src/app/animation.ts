@@ -1,53 +1,21 @@
 import {animate, animateChild, group, query, style, transition, trigger} from "@angular/animations";
 
-export const slideInAnimation =
-  trigger('routeAnimations', [
-    transition('HomePage <=> PersonalisationPage', [
-      style({ position: 'relative' }),
+export const customAnimation =
+  trigger('customAnimations',[
+    transition('Home <=> Settings, Settings <=> Game, Game => Victory, Victory => Settings, Victory => Home', [
+      // Hide the components
       query(':enter, :leave', [
         style({
           position: 'absolute',
-          top: 0,
           left: 0,
-          width: '100%'
+          width: '100%',
+          opacity: 0,
+          transform: 'translateY(100%)',
         })
       ]),
+      // Animate the new page in
       query(':enter', [
-        style({ left: '-100%'})
-      ]),
-      query(':leave', animateChild()),
-      group([
-        query(':leave', [
-          animate('300ms ease-out', style({ left: '100%'}))
-        ]),
-        query(':enter', [
-          animate('300ms ease-out', style({ left: '0%'}))
-        ])
-      ]),
-      query(':enter', animateChild()),
+        animate('600ms ease', style({ opacity: 1, transform: 'translateY(0)' })),
+      ])
     ]),
-    transition('* <=> FilterPage', [
-      style({ position: 'relative' }),
-      query(':enter, :leave', [
-        style({
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%'
-        })
-      ]),
-      query(':enter', [
-        style({ left: '-100%'})
-      ]),
-      query(':leave', animateChild()),
-      group([
-        query(':leave', [
-          animate('200ms ease-out', style({ left: '100%'}))
-        ]),
-        query(':enter', [
-          animate('300ms ease-out', style({ left: '0%'}))
-        ])
-      ]),
-      query(':enter', animateChild()),
-    ])
   ]);

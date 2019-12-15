@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {MyData} from "../mydata";
+import {MenuComponent} from "../menu/menu.component";
 
 @Component({
   selector: 'app-game',
@@ -10,24 +11,12 @@ import {MyData} from "../mydata";
 })
 export class GameComponent implements OnInit {
 
-  constructor(private http: HttpClient, private router: Router, private data: MyData) {
-    /*// Démarrer la game
-    this.http.put(`/game/start`, {}, {}).
-    subscribe(returnedData => this.data.game = returnedData);
+  @ViewChild(MenuComponent, {static: false}) menuComponent: MenuComponent;
 
-    console.log('/game/start');*/
-  }
+  constructor(private http: HttpClient, private router: Router, private data: MyData) { }
 
   ngOnInit() {
 
-  }
-
-  /**
-   * Fonction appellé lorsque le board relève une victoire d'un joueur
-   * @param event.player = 1 ou 2 suivant le joueur gagnant
-   */
-  onVictory(event: any) {
-    console.log(`Victory Player ${event.player}`);
   }
 
 }

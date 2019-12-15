@@ -105,3 +105,49 @@
   letter-spacing: 0;
   margin: auto 3%;
 }
+
+
+/* Boutons de couleur */
+
+.colorContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.colorButtonContainer {
+  height: 45px;
+  width: 45px;
+  display: flex;
+}
+
+.colorButton {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  margin: auto;
+}
+
+.colorButton:hover {
+  cursor: pointer;
+}
+
+.colorButton.black {
+  background-color: black;
+}
+
+.colorButton.white {
+  background-color: white;
+}
+
+.colorButton.black.selected {
+  border: 5px solid #6F6E5C;
+  height: 45px;
+  width: 45px;
+}
+
+.colorButton.white.selected {
+  border: 5px solid #6F6E5C;
+  height: 45px;
+  width: 45px;
+}
