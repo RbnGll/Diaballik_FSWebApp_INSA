@@ -24,6 +24,7 @@
   <button class="button" (click)="undoClicked()" [disabled]="this.data.game.currentTurn.actionCount === 0">Annuler</button>
   <button class="button" (click)="redoClicked()" [disabled]="this.data.game.currentTurn.redoCount === 0">Rétablir</button>
 </div>
-
-<div class="button" (click)="onQuitClicked()">Quitter</div>
+<div class="underMenu">
+  <div class="button" (click)="onQuitClicked()">Quitter</div>
+</div>
 <app-alert-basic></app-alert-basic>

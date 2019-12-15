@@ -3,7 +3,7 @@
        height="10%"
        width="20%"
        alt="[Diaballik]"
-       style="margin: 1% auto;"
+       style="margin: 2% auto;"
   />
   <form [formGroup]="playersData" (ngSubmit)="onSubmit()">
 
@@ -62,7 +62,7 @@
     </div>
     <!-- Vérifier si cases du nom non remplies ??
     Mettre un !profileForm.valid-->
-    <div class="rowMenu">
+    <div class="rowMenu" style="place-content: center">
       <button class="button" type="submit" [disabled]="!playersData.valid">Jouer</button>
       <button class="button" (click)="onQuitClicked()">Quitter</button>
     </div>
