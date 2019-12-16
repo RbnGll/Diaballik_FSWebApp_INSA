@@ -21,11 +21,10 @@
   font-family: Courier, monospace;
   display: inline-block;
   font-size: 18px;
-  margin: 10px auto;
   cursor: pointer;
   outline: 0;
   transition: 0.2s;
-  margin-bottom: 3%;
+  margin: 1% auto 3%;
 }
 .button:hover{
   background-color: #a3a286;
