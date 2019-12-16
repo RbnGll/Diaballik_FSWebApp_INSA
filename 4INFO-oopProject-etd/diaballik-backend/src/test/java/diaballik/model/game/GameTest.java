@@ -384,4 +384,29 @@ public class GameTest {
         // Le joueur 1 est vainqueur
         assertTrue(g.getPlayer1().isVictory());
     }
+
+    @Test
+    void getMovePieceTilesTest() throws TurnException, CommandException {
+        g.start();
+
+        g.movePiece(2, 0, 2, 1);
+        g.movePiece(2, 1, 2, 2);
+
+        final List<Tile> tiles = g.getMovePieceTiles(2, 2);
+        assertEquals(4, tiles.size());
+
+        tiles.stream().allMatch(t -> t.getX() == 1 && t.getY() == 2 || t.getX() == 3 && t.getY() == 2 || t.getX() == 2 && t.getY() == 1 || t.getX() == 2 && t.getY() == 3);
+    }
+
+    @Test
+    void getPassBallTilesTest() throws TurnException, CommandException {
+        g.start();
+
+        g.movePiece(4, 0, 4, 1);
+        g.movePiece(4, 1, 3, 1);
+
+        final List<Tile> tiles = g.getPassBallTiles(3, 0);
+
+        tiles.stream().allMatch(t -> t.getX() == 2 && t.getY() == 0 || t.getX() == 5 && t.getY() == 0 || t.getX() == 3 && t.getY() == 1);
+    }
 }

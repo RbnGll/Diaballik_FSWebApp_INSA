@@ -102,7 +102,7 @@ public class PassBall extends Command {
     }
 
     public boolean ifPiecesExists() throws CommandException {
-        if(fromPiece.isPresent() && toPiece.isPresent()) {
+        if (fromPiece.isPresent() && toPiece.isPresent()) {
             return true;
         } else {
             throw new CommandException("La case d'arrivée ne contient pas une de tes pièces");
@@ -112,7 +112,7 @@ public class PassBall extends Command {
     public boolean ifBelongToCurrentPlayer() throws CommandException {
         final List<Piece> currentPlayerPieces = game.getCurrentPlayer().getPieces();
 
-        if(currentPlayerPieces.contains(fromPiece.get()) && currentPlayerPieces.contains(toPiece.get())) {
+        if (currentPlayerPieces.contains(fromPiece.get()) && currentPlayerPieces.contains(toPiece.get())) {
             return true;
         } else {
             throw new CommandException("L'une des pièces ne t'appartient pas");
@@ -125,7 +125,7 @@ public class PassBall extends Command {
     }
 
     public boolean ifPieceHasBall() throws CommandException {
-        if(fromPiece.get().hasBall()) {
+        if (fromPiece.get().hasBall()) {
             return true;
         } else {
             throw new CommandException("La pièce n'a pas de balle");
@@ -136,7 +136,7 @@ public class PassBall extends Command {
         final int dx = toPiece.get().getTile().getX() - fromPiece.get().getTile().getX();
         final int dy = toPiece.get().getTile().getY() - fromPiece.get().getTile().getY();
 
-        if((dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy) && dx != 0)) {
+        if ((dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy) && dx != 0)) {
             return true;
         } else {
             throw new CommandException("La trajectoire n'est pas valide ! Aide toi des cases mises en valeur");
@@ -146,7 +146,7 @@ public class PassBall extends Command {
     public boolean ifNoPieceOnPath() throws CommandException {
         final List<Tile> path = getPathTiles();
 
-        if(path.stream().noneMatch(tile -> tile.getPiece().isPresent())) {
+        if (path.stream().noneMatch(tile -> tile.getPiece().isPresent())) {
             return true;
         } else {
             throw new CommandException("");

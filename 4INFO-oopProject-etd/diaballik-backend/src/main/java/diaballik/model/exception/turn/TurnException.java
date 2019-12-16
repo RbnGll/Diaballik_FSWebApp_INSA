@@ -6,7 +6,7 @@ public class TurnException extends Exception {
         super();
     }
 
-    public TurnException(String message) {
+    public TurnException(final String message) {
         super(message);
     }
 }

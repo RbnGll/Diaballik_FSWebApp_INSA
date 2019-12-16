@@ -41,40 +41,19 @@ public class Turn {
         // On set l'état des commandes à leur invocation (et non à leur création)
         c.setCurrentState();
 
-        try {
-            if(!turnEnd) {
-                if(c.canDo()) {
-                    if (c.exe()) {
-                        undoDeque.addFirst(c);
-                        redoDeque.clear();
-                        turnEnd = checkEndTurn();
-                        actionCount++;
-                        redoCount = 0;
-                        return true;
-                    }
+        if (!turnEnd) {
+            if (c.canDo()) {
+                if (c.exe()) {
+                    undoDeque.addFirst(c);
+                    redoDeque.clear();
+                    turnEnd = checkEndTurn();
+                    actionCount++;
+                    redoCount = 0;
+                    return true;
                 }
-            } else {
-                throw new TurnException("Tu as déjà effectué tes 3 actions");
             }
-
-
-
-            /*if (c.canDo()) {
-                if (!turnEnd) {
-                    if (c.exe()) {
-                        undoDeque.addFirst(c);
-                        redoDeque.clear();
-                        turnEnd = checkEndTurn();
-                        actionCount++;
-                        redoCount = 0;
-                        return true;
-                    }
-                } else {
-                    throw new TurnException("Tu as déjà effectué tes 3 actions");
-                }
-            }*/
-        } catch (CommandException | TurnException e) {
-            throw e;
+        } else {
+            throw new TurnException("Tu as déjà effectué tes 3 actions");
         }
 
         return false;
@@ -137,5 +116,13 @@ public class Turn {
 
     public void setTurnEnd(final boolean turnEnd) {
         this.turnEnd = turnEnd;
+    }
+
+    public int getActionCount() {
+        return actionCount;
+    }
+
+    public int getRedoCount() {
+        return redoCount;
     }
 }

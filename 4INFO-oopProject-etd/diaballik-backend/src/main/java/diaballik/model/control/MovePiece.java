@@ -59,7 +59,7 @@ public class MovePiece extends Command {
     }
 
     public boolean ifPresentPiece() throws CommandException {
-        if(pieceToMove.isPresent()) {
+        if (pieceToMove.isPresent()) {
             return true;
         } else {
             throw new CommandException("Aucune pièce n'est présente sur cette case");
@@ -67,15 +67,15 @@ public class MovePiece extends Command {
     }
 
     public boolean ifFreePosition() throws CommandException {
-        if(game.getGameboard().getTile(x2, y2).getPiece().isEmpty()) {
+        if (game.getGameboard().getTile(x2, y2).getPiece().isEmpty()) {
             return true;
         } else {
             throw new CommandException("Il y a déjà une pièce sur cette case");
         }
     }
 
-    public boolean ifBelongsToCurrentPlayer() throws CommandException{
-        if(game.getCurrentPlayer().getPieces().contains(pieceToMove.get())) {
+    public boolean ifBelongsToCurrentPlayer() throws CommandException {
+        if (game.getCurrentPlayer().getPieces().contains(pieceToMove.get())) {
             return true;
         } else {
             throw new CommandException("Ce n'est pas votre pièce !");
@@ -87,7 +87,7 @@ public class MovePiece extends Command {
     }
 
     public boolean ifNotContainsBall() throws CommandException {
-        if(!pieceToMove.get().hasBall()) {
+        if (!pieceToMove.get().hasBall()) {
             return true;
         } else {
             throw new CommandException("Cette pièce a une balle et ne peut donc pas être déplacée");
@@ -100,7 +100,7 @@ public class MovePiece extends Command {
 
         // Si la pièce est déplacée de plus de 2 cases ou en diagonale
         // ou si elle n'est pas déplacée du tout
-        if( (dx + dy) < 2 && (dx + dy) != 0) {
+        if ((dx + dy) < 2 && (dx + dy) != 0) {
             return true;
         } else {
             throw new CommandException("Impossible d'atteindre cette case, aidez-vous des cases mises en valeur");

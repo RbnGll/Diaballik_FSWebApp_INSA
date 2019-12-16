@@ -58,11 +58,17 @@ public class TurnTest {
         assertEquals(0, turn.getUndoDeque().size());
         assertEquals(0, turn.getRedoDeque().size());
 
+        assertEquals(0, turn.getActionCount());
+        assertEquals(0, turn.getRedoCount());
+
         assertTrue(turn.invokeCommand(command));
 
         assertEquals(1, turn.getUndoDeque().size());
         assertEquals(0, turn.getRedoDeque().size());
         assertFalse(turn.isTurnEnd());
+
+        assertEquals(1, turn.getActionCount());
+        assertEquals(0, turn.getRedoCount());
     }
 
     @Test
@@ -95,6 +101,7 @@ public class TurnTest {
 
         assertEquals(0, turn.getUndoDeque().size());
         assertEquals(1, turn.getRedoDeque().size());
+        assertEquals(1, turn.getRedoCount());
         assertTrue(game.getGameboard().getTile(0, 0).getPiece().isPresent());
     }
 
@@ -105,6 +112,10 @@ public class TurnTest {
 
         assertEquals(1, turn.getUndoDeque().size());
         assertEquals(0, turn.getRedoDeque().size());
+
+        assertEquals(1, turn.getActionCount());
+        assertEquals(0, turn.getRedoCount());
+
         assertTrue(game.getGameboard().getTile(0, 0).getPiece().isEmpty());
         assertTrue(game.getGameboard().getTile(0, 1).getPiece().isPresent());
         assertTrue(game.getGameboard().getTile(0, 2).getPiece().isEmpty());
@@ -117,6 +128,10 @@ public class TurnTest {
 
         assertEquals(2, turn.getUndoDeque().size());
         assertEquals(0, turn.getRedoDeque().size());
+
+        assertEquals(2, turn.getActionCount());
+        assertEquals(0, turn.getRedoCount());
+
         assertTrue(game.getGameboard().getTile(0, 0).getPiece().isEmpty());
         assertTrue(game.getGameboard().getTile(0, 1).getPiece().isEmpty());
         assertTrue(game.getGameboard().getTile(0, 2).getPiece().isPresent());
@@ -125,6 +140,10 @@ public class TurnTest {
 
         assertEquals(1, turn.getUndoDeque().size());
         assertEquals(1, turn.getRedoDeque().size());
+
+        assertEquals(1, turn.getActionCount());
+        assertEquals(1, turn.getRedoCount());
+
         assertTrue(game.getGameboard().getTile(0, 0).getPiece().isEmpty());
         assertTrue(game.getGameboard().getTile(0, 1).getPiece().isPresent());
         assertTrue(game.getGameboard().getTile(0, 2).getPiece().isEmpty());
@@ -133,6 +152,10 @@ public class TurnTest {
 
         assertEquals(2, turn.getUndoDeque().size());
         assertEquals(0, turn.getRedoDeque().size());
+
+        assertEquals(2, turn.getActionCount());
+        assertEquals(0, turn.getRedoCount());
+
         assertTrue(game.getGameboard().getTile(0, 0).getPiece().isEmpty());
         assertTrue(game.getGameboard().getTile(0, 1).getPiece().isEmpty());
         assertTrue(game.getGameboard().getTile(0, 2).getPiece().isPresent());

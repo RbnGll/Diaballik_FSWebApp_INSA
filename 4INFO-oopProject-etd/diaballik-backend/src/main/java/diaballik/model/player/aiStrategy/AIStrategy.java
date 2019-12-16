@@ -42,7 +42,7 @@ public abstract class AIStrategy {
                             new PassBall(x, y, x + i, y - i, game));
                     return commands.stream()
                             .peek(Command::setCurrentState)
-                            .filter(command ->  {
+                            .filter(command -> {
                                 try {
                                     return command.canDo();
                                 } catch (CommandException e) {
@@ -66,7 +66,7 @@ public abstract class AIStrategy {
                     new MovePiece(x, y, x, y - 1, game)
             );
         }).flatMap(List::stream).peek(Command::setCurrentState).collect(Collectors.toList());
-        return commands.stream().filter(command ->  {
+        return commands.stream().filter(command -> {
             try {
                 return command.canDo();
             } catch (CommandException e) {

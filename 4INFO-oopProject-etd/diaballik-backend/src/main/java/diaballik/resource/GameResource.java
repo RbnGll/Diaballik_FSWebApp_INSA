@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public class GameResource {
 
     private Game game;
-    private Logger logger= Logger.getLogger(GameResource.class.getName());
+    private Logger logger = Logger.getLogger(GameResource.class.getName());
 
     public GameResource() {
         super();

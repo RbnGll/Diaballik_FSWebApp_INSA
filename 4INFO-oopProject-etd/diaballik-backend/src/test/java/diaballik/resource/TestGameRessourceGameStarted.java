@@ -58,15 +58,6 @@ public class TestGameRessourceGameStarted {
                 .path("game/newPvP/Robin/0/Ronan/1")
                 .request()
                 .post(Entity.text(""));
-
-        // Start du game sur le serveur
-        Response response = client
-                .target(baseUri)
-                .path("game/start")
-                .request()
-                .put(Entity.text(""));
-
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
@@ -362,12 +353,17 @@ public class TestGameRessourceGameStarted {
     void testGetMovePieceTiles(final Client client, final URI baseUri) {
         final Response response = client
                 .target(baseUri)
-                .path("game/get/movePiece/1/0")
+                .path("game/get/tiles/movePiece/1/0")
                 .request()
                 .get();
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
-        LogJSONAndUnmarshallValue(response, List.class);
+        assertNotNull(response);
+    }
+
+    @Test
+    void testGetPassBall(final Client client, final URI baseUri) {
+        // TODO
     }
 }
