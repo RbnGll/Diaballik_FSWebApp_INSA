@@ -87,11 +87,11 @@
         </div>
       </div>
     </div>
-
-    <div class="rowMenu">
-      <button class="button" type="submit" [disabled]="!playersData.valid">Jouer</button>
-      <button class="button" (click)="router.navigate([''])">Quitter</button>
-    </div>
-
   </form>
+
+  <div class="rowMenu">
+    <button class="button" (click)="onSubmit()" [disabled]="!playersData.valid">Jouer</button>
+    <button class="button" (click)="router.navigate([''])">Quitter</button>
+  </div>
+
 </div>
