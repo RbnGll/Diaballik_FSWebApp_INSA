@@ -72,22 +72,23 @@
   border-radius: 20px;
   border: 2px solid #E8E6C0;
   color: #E8E6C0;
-  padding: 1% 3%;
+  padding: 15% 30%;
   text-align: center;
   font-family: Courier, monospace;
   display: inline-block;
   font-size: 18px;
   cursor: pointer;
   outline: 0;
-  transition: 0.2s;
+  transition: 0.2s ;
   margin: auto 3%;
 }
+
 .button:hover{
   background-color: #a3a286;
-  padding:1% 4%;
+  padding: 15% 35%;
   letter-spacing: 1px;
   color: #535243;
-  margin: auto 1.8%;
+  margin: auto 1%;
 }
 .button:active{
   background-color: #E8E6C0;
@@ -100,7 +101,7 @@
 }
 .button:disabled:hover {
   background: #ccc;
-  padding: 1% 3%;
+  padding: 15% 30%;
   color: #E8E6C0;
   letter-spacing: 0;
   margin: auto 3%;
@@ -126,10 +127,17 @@
   height: 40px;
   width: 40px;
   margin: auto;
+  transition:0.2s;
+  margin-top:5%;
 }
 
 .colorButton:hover {
   cursor: pointer;
+  transform: scale(1.1,1.1);
+}
+
+.colorButton:active {
+  transform: scale(1,1);
 }
 
 .colorButton.black {
