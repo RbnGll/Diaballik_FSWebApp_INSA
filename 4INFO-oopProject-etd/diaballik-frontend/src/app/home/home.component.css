@@ -25,6 +25,7 @@
   outline: 0;
   transition: 0.2s;
   margin: 1% auto 3%;
+  font-size: 150%;
 }
 .button:hover{
   background-color: #a3a286;

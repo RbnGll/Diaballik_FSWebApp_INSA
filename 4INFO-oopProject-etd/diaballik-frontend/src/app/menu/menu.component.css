@@ -4,7 +4,7 @@ div {
 }
 
 .menu {
-  padding: 10%;
+  padding: 5%;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -13,6 +13,8 @@ div {
   border: 3px solid #6F6E5C;
   background-color: #E8E6C0;
   margin: 2%;
+  justify-content: space-around;
+  place-content: center;
 }
 
 .underMenu{
@@ -31,7 +33,6 @@ div {
   padding: 2% 6%;
   text-align: center;
   font-family: Courier, monospace;
-  display: inline-block;
   font-size: 18px;
   cursor: pointer;
   outline: 0;
@@ -41,10 +42,8 @@ div {
 
 .button:hover{
   background-color: #a3a286;
-  padding: 2% 8%;
-  letter-spacing: 1px;
   color: #535243;
-  margin: auto 1%;
+  transform: scale(1.1,1);
 }
 .button:active{
   background-color: #E8E6C0;
@@ -57,14 +56,11 @@ div {
 }
 .button:disabled:hover {
   background: #ccc;
-  padding: 2% 6%;
   color: #E8E6C0;
-  letter-spacing: 0;
-  margin: auto 3%;
+  transform: scale(1,1);
 }
 
 .imageButton {
-  background-color: #E8E6C0;
   outline: 0;
   border-radius: 20px;
   padding: auto;
@@ -74,6 +70,19 @@ div {
 }
 .imageButton:hover{
   transform: scale(1.2,1.2);
+}
+
+.imageButton.disabled{
+  transform: scale(0.5,0.5);
+  filter: grayscale(1) brightness(180%);
+}
+
+.imageButton.disabled:hover{
+  transform: scale(0.5,0.5);
+}
+
+.imageButton.disabled:active{
+  transform: scale(0.5,0.5);
 }
 
 

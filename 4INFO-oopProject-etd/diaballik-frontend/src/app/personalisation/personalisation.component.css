@@ -32,26 +32,29 @@
   padding: 4% 5%;
   border-radius: 20px;
   text-align: left;
+  min-width: 300px;
   display: flex;
+  justify-content: space-around;
   transition: 0.2s;
   flex-direction: column;
   align-content: center;
-  box-sizing: unset;
-  height: 105%;
+  height: 120%;
   width: 120%;
   border: 3px solid #96957c;
-  margin: auto 3%;
+  margin-bottom:3%;
 }
 
 .columnMenu:hover{
   background-color: #f2f0d1;
   border: 3px solid #6f6e5c;
+  transform: scale(1.3,1.3);
 }
 
 .component{
   font-family: Courier, monospace;
   margin : 0.8%;
   outline: 0;
+  font-size: 130%;
 }
 
 .select-style {
@@ -65,6 +68,7 @@
   width: 98%;
   overflow: fragments;
   position: relative;
+  font-size: 130%;
 }
 
 .button {
@@ -72,7 +76,7 @@
   border-radius: 20px;
   border: 2px solid #E8E6C0;
   color: #E8E6C0;
-  padding: 15% 30%;
+  padding: 10% 30%;
   text-align: center;
   font-family: Courier, monospace;
   display: inline-block;
@@ -80,15 +84,13 @@
   cursor: pointer;
   outline: 0;
   transition: 0.2s ;
-  margin: auto 3%;
+  margin: auto 50%;
 }
 
 .button:hover{
   background-color: #a3a286;
-  padding: 15% 35%;
-  letter-spacing: 1px;
   color: #535243;
-  margin: auto 1%;
+  transform: scale(1.15,1);
 }
 .button:active{
   background-color: #E8E6C0;
@@ -101,10 +103,8 @@
 }
 .button:disabled:hover {
   background: #ccc;
-  padding: 15% 30%;
+  transform: scale(1,1);
   color: #E8E6C0;
-  letter-spacing: 0;
-  margin: auto 3%;
 }
 
 
@@ -114,21 +114,21 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-top: 10%;
 }
 
 .colorButtonContainer {
-  height: 45px;
-  width: 45px;
+  height: 65px;
+  width: 65px;
   display: flex;
 }
 
 .colorButton {
   border-radius: 50%;
-  height: 40px;
-  width: 40px;
+  height: 65px;
+  width: 65px;
   margin: auto;
   transition:0.2s;
-  margin-top:5%;
 }
 
 .colorButton:hover {
@@ -150,12 +150,12 @@
 
 .colorButton.black.selected {
   border: 5px solid #6F6E5C;
-  height: 45px;
-  width: 45px;
+  height: 65px;
+  width: 65px;
 }
 
 .colorButton.white.selected {
   border: 5px solid #6F6E5C;
-  height: 45px;
-  width: 45px;
+  height: 65px;
+  width: 65px;
 }

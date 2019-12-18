@@ -16,7 +16,6 @@ export class PersonalisationComponent implements OnInit {
     player1: this.fb.group({
       player1Name: [''],
       player1AILevel: [''],
-      player1Color: ['']
     }),
     player2 : this.fb.group(({
       player2Name: [''],
@@ -37,16 +36,7 @@ export class PersonalisationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.playersData.get('player1').get('player1Color').setValue('Noir');
     this.playersData.get('player2').get('player2Type').setValue('Joueur');
-
-    this.playersData.get('player1').get('player1Color').valueChanges.subscribe(value => {
-      if (value === 'Noir') {
-        this.player2Color = 'Blanc';
-      } else {
-        this.player2Color = 'Noir';
-      }
-    });
   }
 
   onSubmit(): void {

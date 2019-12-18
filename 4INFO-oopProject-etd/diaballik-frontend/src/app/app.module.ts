@@ -12,7 +12,6 @@ import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import { Board2Component } from './board2/board2.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { VictoryComponent } from './victory/victory.component';
 import {NotifierModule} from "angular-notifier";
 
@@ -33,7 +32,6 @@ import {NotifierModule} from "angular-notifier";
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {
