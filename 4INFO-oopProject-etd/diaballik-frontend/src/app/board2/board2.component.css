@@ -25,6 +25,7 @@ div {
   border: var(--border-cell) solid black;
   box-sizing: border-box;
   display: flex; /* Pour centrer la pièce dans la cellule */
+  transition: 0.2s;
 }
 
 .cell.classic {
