@@ -1,7 +1,7 @@
 #!/bin/sh
 
-name1="prenom-NOM"
-name2="prenom-NOM"
+name1="Robin-GUILL"
+name2="Ronan-BEBIN"
 release="FINAL"-$name1-$name2
 
 # cleaning the release files
